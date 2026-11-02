@@ -236,28 +236,28 @@ Chìa khóa để dẫn dắt một LLM thực sự nằm ở <strong>kỹ thu�
 
 ```
 AGENT_SYSTEM_PROMPT = """
-你是一个智能旅行助手。你的任务是分析用户的请求，并使用可用工具一步步地解决问题。
+Bạn là một trợ lý du lịch thông minh. Nhiệm vụ của bạn là phân tích yêu cầu của người dùng và sử dụng các công cụ có sẵn để từng bước giải quyết vấn đề.
 
-# 可用工具:
-- `get_weather(city: str)`: 查询指定城市的实时天气。
-- `get_attraction(city: str, weather: str)`: 根据城市和天气搜索推荐的旅游景点。
+# Các công cụ có sẵn:
+- `get_weather(city: str)`: Tra cứu thời tiết theo thời gian thực của thành phố được chỉ định.
+- `get_attraction(city: str, weather: str)`: Dựa trên thành phố và thời tiết để tìm kiếm các địa điểm du lịch được đề xuất.
 
-# 输出格式要求:
-你的每次回复必须严格遵循以下格式，包含一对Thought和Action：
+# Yêu cầu về định dạng đầu ra:
+Mỗi lần trả lời của bạn phải tuân thủ nghiêm ngặt định dạng dưới đây, bao gồm một cặp Thought và Action:
 
-Thought: [你的思考过程和下一步计划]
-Action: [你要执行的具体行动]
+Thought: [Quá trình suy nghĩ và kế hoạch bước tiếp theo của bạn]
+Action: [Hành động cụ thể mà bạn muốn thực hiện]
 
-Action的格式必须是以下之一：
-1. 调用工具：function_name(arg_name="arg_value")
-2. 结束任务：Finish[最终答案]
+Định dạng của Action bắt buộc phải là một trong các dạng sau:
+1. Gọi công cụ: function_name(arg_name="arg_value")
+2. Kết thúc nhiệm vụ: Finish[Câu trả lời cuối cùng] 
 
-# 重要提示:
-- 每次只输出一对Thought-Action
-- Action必须在同一行，不要换行
-- 当收集到足够信息可以回答用户问题时，必须使用 Action: Finish[最终答案] 格式结束
+# Lưu ý quan trọng:
+- Mỗi lần chỉ được xuất ra một cặp Thought-Action.
+- Action phải nằm trên cùng một dòng, không được xuống dòng.
+- Khi đã thu thập đủ thông tin để có thể trả lời câu hỏi của người dùng, bắt buộc phải sử dụng định dạng `Action: Finish[Đáp án cuối cùng]` để kết thúc.
 
-请开始吧！
+Hãy bắt đầu!
 """
 ```
 
@@ -270,33 +270,33 @@ import requests
 
 def get_weather(city: str) -> str:
     """
-    通过调用 wttr.in API 查询真实的天气信息。
+    Thông qua việc gọi API wttr.in để tra cứu thông tin thời tiết thực tế.
     """
-    # API端点，我们请求JSON格式的数据
+    # Endpoint của API, chúng ta yêu cầu dữ liệu ở định dạng JSON
     url = f"https://wttr.in/{city}?format=j1"
     
     try:
-        # 发起网络请求
+        # Gửi request mạng
         response = requests.get(url)
-        # 检查响应状态码是否为200 (成功)
+        # Kiểm tra mã trạng thái response có phải 200 (thành công) hay không
         response.raise_for_status() 
-        # 解析返回的JSON数据
+        # Phân tích JSON được trả về
         data = response.json()
         
-        # 提取当前天气状况
+        # Trích xuất thông tin thời tiết hiện tại
         current_condition = data['current_condition'][0]
         weather_desc = current_condition['weatherDesc'][0]['value']
         temp_c = current_condition['temp_C']
         
-        # 格式化成自然语言返回
-        return f"{city}当前天气:{weather_desc}，气温{temp_c}摄氏度"
+        # Format thành ngôn ngữ tự nhiên để trả về
+        return f"{city} thời tiết hiện tại: {weather_desc}, nhiệt độ {temp_c} độ C"
         
     except requests.exceptions.RequestException as e:
-        # 处理网络错误
-        return f"错误:查询天气时遇到网络问题 - {e}"
+        # Xử lý lỗi mạng
+        return f"Lỗi: Gặp vấn đề mạng khi tra cứu thời tiết - {e}"
     except (KeyError, IndexError) as e:
-        # 处理数据解析错误
-        return f"错误:解析天气数据失败，可能是城市名称无效 - {e}"
+        # Xử lý lỗi phân tích dữ liệu
+        return f"Lỗi: Phân tích dữ liệu thời tiết thất bại, có thể do tên thành phố không hợp lệ - {e}"
 ```
 
 (3) Công cụ 2: Tìm kiếm và gợi ý địa điểm du lịch
@@ -309,46 +309,54 @@ from tavily import TavilyClient
 
 def get_attraction(city: str, weather: str) -> str:
     """
-    根据城市和天气，使用Tavily Search API搜索并返回优化后的景点推荐。
+    Dựa trên thành phố và thời tiết, sử dụng Tavily Search API để tìm kiếm
+    và trả về các đề xuất địa điểm du lịch đã được tối ưu hóa.
     """
-    # 1. 从环境变量中读取API密钥
+    # 1. Đọc API key từ biến môi trường
     api_key = os.environ.get("TAVILY_API_KEY")
     if not api_key:
-        return "错误:未配置TAVILY_API_KEY环境变量。"
+        return "Lỗi: Chưa cấu hình biến môi trường TAVILY_API_KEY."
 
-    # 2. 初始化Tavily客户端
+    # 2. Khởi tạo Tavily client
     tavily = TavilyClient(api_key=api_key)
     
-    # 3. 构造一个精确的查询
-    query = f"'{city}' 在'{weather}'天气下最值得去的旅游景点推荐及理由"
+    # 3. Xây dựng một truy vấn chính xác
+    query = f"Các địa điểm du lịch đáng đi nhất ở {city} trong điều kiện thời tiết {weather}, kèm theo lý do đề xuất"
     
     try:
-        # 4. 调用API，include_answer=True会返回一个综合性的回答
-        response = tavily.search(query=query, search_depth="basic", include_answer=True)
+        # 4. Gọi API, include_answer=True sẽ trả về một câu trả lời tổng hợp
+        response = tavily.search(
+            query=query,
+            search_depth="basic",
+            include_answer=True
+        )
         
-        # 5. Tavily返回的结果已经非常干净，可以直接使用
-        # response['answer'] 是一个基于所有搜索结果的总结性回答
+        # 5. Kết quả Tavily trả về đã khá sạch, có thể sử dụng trực tiếp
+        # response['answer'] là câu trả lời tổng hợp dựa trên tất cả kết quả tìm kiếm
         if response.get("answer"):
             return response["answer"]
         
-        # 如果没有综合性回答，则格式化原始结果
+        # Nếu không có câu trả lời tổng hợp thì format các kết quả gốc
         formatted_results = []
         for result in response.get("results", []):
-            formatted_results.append(f"- {result['title']}: {result['content']}")
+            formatted_results.append(
+                f"- {result['title']}: {result['content']}"
+            )
         
         if not formatted_results:
-             return "抱歉，没有找到相关的旅游景点推荐。"
+            return "Xin lỗi, không tìm thấy đề xuất địa điểm du lịch liên quan."
 
-        return "根据搜索，为您找到以下信息:\n" + "\n".join(formatted_results)
+        return "Dựa trên kết quả tìm kiếm, chúng tôi tìm thấy các thông tin sau:\n" \
+               + "\n".join(formatted_results)
 
     except Exception as e:
-        return f"错误:执行Tavily搜索时出现问题 - {e}"
+        return f"Lỗi: Đã xảy ra vấn đề khi thực hiện tìm kiếm Tavily - {e}"
 ```
 
 Cuối cùng, chúng ta đặt tất cả các hàm công cụ vào một dictionary để vòng lặp chính gọi:
 
 ```python
-# 将所有工具函数放入一个字典，方便后续调用
+# Đưa tất cả các hàm công cụ vào một dictionary, thuận tiện cho việc gọi sau này
 available_tools = {
     "get_weather": get_weather,
     "get_attraction": get_attraction,
@@ -366,15 +374,15 @@ from openai import OpenAI
 
 class OpenAICompatibleClient:
     """
-    一个用于调用任何兼容OpenAI接口的LLM服务的客户端。
+    Một client dùng để gọi bất kỳ dịch vụ LLM nào tương thích với interface của OpenAI.
     """
     def __init__(self, model: str, api_key: str, base_url: str):
         self.model = model
         self.client = OpenAI(api_key=api_key, base_url=base_url)
 
     def generate(self, prompt: str, system_prompt: str) -> str:
-        """调用LLM API来生成回应。"""
-        print("正在调用大语言模型...")
+        """Gọi LLM API để tạo câu trả lời."""
+        print("Đang gọi mô hình ngôn ngữ lớn...")
         try:
             messages = [
                 {'role': 'system', 'content': system_prompt},
@@ -386,11 +394,11 @@ class OpenAICompatibleClient:
                 stream=False
             )
             answer = response.choices[0].message.content
-            print("大语言模型响应成功。")
+            print("LLM phản hồi thành công.")
             return answer
         except Exception as e:
-            print(f"调用LLM API时发生错误: {e}")
-            return "错误:调用语言模型服务时出错。"
+            print(f"Đã xảy ra lỗi khi gọi LLM API: {e}")
+            return "Lỗi: Đã xảy ra lỗi khi gọi dịch vụ mô hình ngôn ngữ."
 ```
 
 Để khởi tạo lớp này, bạn cần cung cấp ba thông tin: `API_KEY`, `BASE_URL` và `MODEL_ID`, giá trị cụ thể phụ thuộc vào nhà cung cấp dịch vụ mà bạn sử dụng (như OpenAI chính thức, Azure, hoặc mô hình cục bộ Ollama, v.v.), nếu tạm thời chưa có cách lấy được, bạn có thể tham khảo [Cấu hình môi trường](https://github.com/datawhalechina/hello-agents/blob/main/Extra-Chapter/Extra07-环境配置_vi.md).
@@ -402,12 +410,12 @@ Vòng lặp chính dưới đây sẽ tích hợp tất cả các thành phần,
 ```python
 import re
 
-# --- 1. 配置LLM客户端 ---
-# 请根据您使用的服务，将这里替换成对应的凭证和地址
+# --- 1. Cấu hình LLM client ---
+# Hãy thay thế bằng thông tin xác thực và địa chỉ tương ứng với dịch vụ bạn sử dụng
 API_KEY = "YOUR_API_KEY"
 BASE_URL = "YOUR_BASE_URL"
 MODEL_ID = "YOUR_MODEL_ID"
-TAVILY_API_KEY="YOUR_Tavily_KEY"
+TAVILY_API_KEY = "YOUR_TAVILY_KEY"
 os.environ['TAVILY_API_KEY'] = "YOUR_TAVILY_API_KEY"
 
 llm = OpenAICompatibleClient(
@@ -416,46 +424,59 @@ llm = OpenAICompatibleClient(
     base_url=BASE_URL
 )
 
-# --- 2. 初始化 ---
-user_prompt = "你好，请帮我查询一下今天北京的天气，然后根据天气推荐一个合适的旅游景点。"
-prompt_history = [f"用户请求: {user_prompt}"]
+# --- 2. Khởi tạo ---
+user_prompt = "Xin chào, hãy giúp tôi tra cứu thời tiết hôm nay tại Bắc Kinh, sau đó dựa vào thời tiết để đề xuất một địa điểm du lịch phù hợp."
 
-print(f"用户输入: {user_prompt}\n" + "="*40)
+prompt_history = [f"Yêu cầu của người dùng: {user_prompt}"]
 
-# --- 3. 运行主循环 ---
-for i in range(5): # 设置最大循环次数
-    print(f"--- 循环 {i+1} ---\n")
-    
-    # 3.1. 构建Prompt
+print(f"Người dùng nhập: {user_prompt}\n" + "=" * 40)
+
+# --- 3. Chạy vòng lặp chính ---
+for i in range(5):  # Thiết lập số lần lặp tối đa
+    print(f"--- Vòng lặp {i+1} ---\n")
+
+    # 3.1. Xây dựng Prompt
     full_prompt = "\n".join(prompt_history)
-    
-    # 3.2. 调用LLM进行思考
-    llm_output = llm.generate(full_prompt, system_prompt=AGENT_SYSTEM_PROMPT)
-    # 模型可能会输出多余的Thought-Action，需要截断
-    match = re.search(r'(Thought:.*?Action:.*?)(?=\n\s*(?:Thought:|Action:|Observation:)|\Z)', llm_output, re.DOTALL)
+
+    # 3.2. Gọi LLM để suy nghĩ
+    llm_output = llm.generate(
+        full_prompt,
+        system_prompt=AGENT_SYSTEM_PROMPT
+    )
+
+    # Model có thể xuất ra nhiều cặp Thought-Action dư thừa, cần cắt bỏ
+    match = re.search(
+        r'(Thought:.*?Action:.*?)(?=\n\s*(?:Thought:|Action:|Observation:)|\Z)',
+        llm_output,
+        re.DOTALL
+    )
+
     if match:
         truncated = match.group(1).strip()
         if truncated != llm_output.strip():
             llm_output = truncated
-            print("已截断多余的 Thought-Action 对")
-    print(f"模型输出:\n{llm_output}\n")
+            print("Đã cắt bỏ các cặp Thought-Action dư thừa")
+
+    print(f"Đầu ra của model:\n{llm_output}\n")
     prompt_history.append(llm_output)
-    
-    # 3.3. 解析并执行行动
+
+    # 3.3. Phân tích và thực thi hành động
     action_match = re.search(r"Action: (.*)", llm_output, re.DOTALL)
+
     if not action_match:
-        observation = "错误: 未能解析到 Action 字段。请确保你的回复严格遵循 'Thought: ... Action: ...' 的格式。"
+        observation = "Lỗi: Không thể phân tích trường Action. Hãy đảm bảo câu trả lời tuân thủ nghiêm ngặt định dạng 'Thought: ... Action: ...'."
         observation_str = f"Observation: {observation}"
-        print(f"{observation_str}\n" + "="*40)
+        print(f"{observation_str}\n" + "=" * 40)
         prompt_history.append(observation_str)
         continue
+
     action_str = action_match.group(1).strip()
 
     if action_str.startswith("Finish"):
         final_answer = re.match(r"Finish\[(.*)\]", action_str).group(1)
-        print(f"任务完成，最终答案: {final_answer}")
+        print(f"Nhiệm vụ hoàn thành, câu trả lời cuối cùng: {final_answer}")
         break
-    
+
     tool_name = re.search(r"(\w+)\(", action_str).group(1)
     args_str = re.search(r"\((.*)\)", action_str).group(1)
     kwargs = dict(re.findall(r'(\w+)="([^"]*)"', args_str))
@@ -463,11 +484,11 @@ for i in range(5): # 设置最大循环次数
     if tool_name in available_tools:
         observation = available_tools[tool_name](**kwargs)
     else:
-        observation = f"错误:未定义的工具 '{tool_name}'"
+        observation = f"Lỗi: Công cụ '{tool_name}' chưa được định nghĩa"
 
-    # 3.4. 记录观察结果
+    # 3.4. Ghi lại kết quả quan sát
     observation_str = f"Observation: {observation}"
-    print(f"{observation_str}\n" + "="*40)
+    print(f"{observation_str}\n" + "=" * 40)
     prompt_history.append(observation_str)
 ```
 
@@ -478,37 +499,41 @@ Thông qua các bước trên, chúng ta đã xây dựng được một Agent h
 Đầu ra dưới đây thể hiện đầy đủ một quy trình thực thi Agent thành công. Thông qua phân tích ba vòng lặp này, chúng ta có thể thấy rõ ràng các năng lực cốt lõi mà Agent sử dụng để giải quyết vấn đề.
 
 ```bash
-用户输入: 你好，请帮我查询一下今天北京的天气，然后根据天气推荐一个合适的旅游景点。
+Người dùng nhập: Xin chào, hãy giúp tôi tra cứu thời tiết hôm nay tại Bắc Kinh, sau đó dựa vào thời tiết để đề xuất một địa điểm du lịch phù hợp.
 ========================================
---- 循环 1 ---
+--- Vòng lặp 1 ---
 
-正在调用大语言模型...
-大语言模型响应成功。
-模型输出:
-Thought: 首先需要获取北京今天的天气情况，之后再根据天气情况来推荐旅游景点。
-Action: get_weather(city="北京")
+Đang gọi mô hình ngôn ngữ lớn...
+Mô hình ngôn ngữ lớn phản hồi thành công.
+Đầu ra của mô hình:
+Thought: Đầu tiên, cần lấy thông tin thời tiết hôm nay tại Bắc Kinh, sau đó dựa vào tình hình thời tiết để đề xuất địa điểm du lịch.
+Action: get_weather(city="Bắc Kinh")
 
-Observation: 北京当前天气:Sunny，气温26摄氏度
-========================================      
---- 循环 2 ---
-
-正在调用大语言模型...
-大语言模型响应成功。
-模型输出:
-Thought: 现在已经知道了北京今天的天气是晴朗且温度适中，接下来可以基于这个信息来推荐一个适合的旅游景点了。
-Action: get_attraction(city="北京", weather="Sunny")
-
-Observation: 北京在晴天最值得去的旅游景点是颐和园，因其美丽的湖景和古建筑。另一个推荐是长城，因其壮观的景观和历史意义。
+Observation: Thời tiết hiện tại tại Bắc Kinh: Trời nắng, nhiệt độ 26 độ C.
 ========================================
---- 循环 3 ---
 
-正在调用大语言模型...
-大语言模型响应成功。
-模型输出:
-Thought: 已经获得了两个适合晴天游览的景点建议，现在可以根据这些信息给用户提供满意的答复。
-Action: Finish[今天北京的天气是晴朗的，气温26摄氏度，非常适合外出游玩。我推荐您去颐和园欣赏美丽的湖景和古建筑，或者前往长城体验其壮观的景观和深厚的历史意义。希望您有一个愉快的旅行！]
+--- Vòng lặp 2 ---
 
-任务完成，最终答案: 今天北京的天气是晴朗的，气温26摄氏度，非常适合外出游玩。我推荐您去颐和园欣赏美丽的湖景和古建筑，或者前往长城体验其壮观的景观和深厚的历史意义。希望您有一个愉快的旅行！
+Đang gọi mô hình ngôn ngữ lớn...
+Mô hình ngôn ngữ lớn phản hồi thành công.
+Đầu ra của mô hình:
+Thought: Hiện tại đã biết thời tiết hôm nay tại Bắc Kinh là trời nắng và nhiệt độ khá ôn hòa. Tiếp theo có thể dựa trên thông tin này để đề xuất một địa điểm du lịch phù hợp.
+Action: get_attraction(city="Bắc Kinh", weather="Sunny")
+
+Observation: Những địa điểm du lịch đáng đến nhất tại Bắc Kinh khi trời nắng là Di Hòa Viên, nhờ cảnh hồ tuyệt đẹp và các công trình kiến trúc cổ. Một địa điểm khác được đề xuất là Vạn Lý Trường Thành, nhờ cảnh quan hùng vĩ và giá trị lịch sử.
+
+========================================
+
+--- Vòng lặp 3 ---
+
+Đang gọi mô hình ngôn ngữ lớn...
+Mô hình ngôn ngữ lớn phản hồi thành công.
+Đầu ra của mô hình:
+Thought: Hiện tại đã thu thập được hai đề xuất địa điểm phù hợp để tham quan khi trời nắng. Bây giờ có thể sử dụng những thông tin này để đưa ra câu trả lời thỏa đáng cho người dùng.
+Action: Finish[Thời tiết hôm nay tại Bắc Kinh có nắng, nhiệt độ 26 độ C, rất thích hợp để ra ngoài vui chơi. Tôi đề xuất bạn đến Di Hòa Viên để thưởng ngoạn cảnh hồ tuyệt đẹp và các công trình kiến trúc cổ, hoặc đến Vạn Lý Trường Thành để trải nghiệm cảnh quan hùng vĩ cùng giá trị lịch sử sâu sắc. Chúc bạn có một chuyến đi vui vẻ!]
+
+Nhiệm vụ hoàn thành, câu trả lời cuối cùng:
+Thời tiết hôm nay tại Bắc Kinh có nắng, nhiệt độ 26 độ C, rất thích hợp để ra ngoài vui chơi. Tôi đề xuất bạn đến Di Hòa Viên để thưởng ngoạn cảnh hồ tuyệt đẹp và các công trình kiến trúc cổ, hoặc đến Vạn Lý Trường Thành để trải nghiệm cảnh quan hùng vĩ cùng giá trị lịch sử sâu sắc. Chúc bạn có một chuyến đi vui vẻ!
 ```
 
 Ví dụ trợ lý du lịch đơn giản này đã tập trung minh họa bốn năng lực cơ bản mà Agent dựa trên mô hình `Thought-Action-Observation` sở hữu: phân rã nhiệm vụ, gọi công cụ, hiểu ngữ cảnh và tổng hợp kết quả. Chính nhờ sự lặp lại liên tục của vòng lặp này mà Agent có thể chuyển hóa một ý định mơ hồ của người dùng thành một chuỗi các bước cụ thể, có thể thực thi, và cuối cùng đạt được mục tiêu.
