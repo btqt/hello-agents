@@ -3,7 +3,8 @@
 Để hiểu sâu sắc vì sao các Agent hiện đại lại có hình thái như ngày nay, cũng như nguồn gốc của các tư tưởng thiết kế cốt lõi của chúng, chương này sẽ hồi cố lại lịch sử: xuất phát từ thời kỳ cổ điển của lĩnh vực trí tuệ nhân tạo, khám phá xem "trí tuệ" sớm nhất đã được định nghĩa như thế nào trong hệ thống quy tắc logic và ký hiệu; tiếp đó chứng kiến bước ngoặt quan trọng từ mô hình trí tuệ đơn nhất, tập trung sang tư tưởng trí tuệ phân tán, hợp tác; cuối cùng là hiểu rõ cách mà paradigm "học" (learning) đã thay đổi triệt để phương thức Agent có được năng lực, và từ đó tạo ra các Agent hiện đại mà chúng ta thấy ngày nay.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-00.png" alt="Mô tả hình ảnh" width="90%"/>
+  <img src="../images/2-figures/1757246501849-00_en.png" alt="Mô tả hình ảnh" width="50%"/>
+  <img src="../images/2-figures/1757246501849-00_vi.png" alt="Mô tả hình ảnh" width="50%"/>
   <p>Hình 2.1 Bậc thang tiến hóa của AI Agent</p>
 </div>
 
