@@ -71,15 +71,15 @@ class HelloAgentsLLM:
         timeout = timeout or int(os.getenv("LLM_TIMEOUT", 60))
         
         if not all([self.model, apiKey, baseUrl]):
-            raise ValueError("模型ID、API密钥和服务地址必须被提供或在.env文件中定义。")
+            raise ValueError("Model ID, API key và địa chỉ dịch vụ phải được cung cấp hoặc được định nghĩa trong file .env.")
 
         self.client = OpenAI(api_key=apiKey, base_url=baseUrl, timeout=timeout)
 
     def think(self, messages: List[Dict[str, str]], temperature: float = 0) -> str:
         """
-        调用大语言模型进行思考，并返回其响应。
+        Gọi Large Language Model để suy nghĩ và trả về phản hồi của nó.
         """
-        print(f"🧠 正在调用 {self.model} 模型...")
+        print(f"🧠 Đang gọi model {self.model}...")
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
@@ -88,8 +88,8 @@ class HelloAgentsLLM:
                 stream=True,
             )
             
-            # 处理流式响应
-            print("✅ 大语言模型响应成功:")
+            # Xử lý streaming response
+            print("✅ Large Language Model phản hồi thành công:")
             collected_content = []
             for chunk in response:
                 if not chunk.choices:
@@ -97,27 +97,27 @@ class HelloAgentsLLM:
                 content = chunk.choices[0].delta.content or ""
                 print(content, end="", flush=True)
                 collected_content.append(content)
-            print()  # 在流式输出结束后换行
+            print()  # Xuống dòng sau khi streaming output kết thúc
             return "".join(collected_content)
 
         except Exception as e:
-            print(f"❌ 调用LLM API时发生错误: {e}")
+            print(f"❌ Đã xảy ra lỗi khi gọi LLM API: {e}")
             return None
 
-# --- 客户端使用示例 ---
+# --- Ví dụ sử dụng client ---
 if __name__ == '__main__':
     try:
         llmClient = HelloAgentsLLM()
         
         exampleMessages = [
             {"role": "system", "content": "You are a helpful assistant that writes Python code."},
-            {"role": "user", "content": "写一个快速排序算法"}
+            {"role": "user", "content": "Viết một thuật toán QuickSort"}
         ]
         
-        print("--- 调用LLM ---")
+        print("--- Gọi LLM ---")
         responseText = llmClient.think(exampleMessages)
         if responseText:
-            print("\n\n--- 完整模型响应 ---")
+            print("\n\n--- Toàn bộ phản hồi của model ---")
             print(responseText)
 
     except ValueError as e:
@@ -125,10 +125,10 @@ if __name__ == '__main__':
 
 
 >>>
---- 调用LLM ---
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功:
-快速排序是一种非常高效的排序算法...
+--- Gọi LLM ---
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
+QuickSort là một thuật toán sắp xếp rất hiệu quả...
 ```
 
 
@@ -144,7 +144,7 @@ Trước khi ReAct ra đời, các phương pháp chủ đạo có thể chia th
 Sự khéo léo của ReAct nằm ở chỗ, nó nhận ra rằng <strong>suy nghĩ và hành động bổ trợ lẫn nhau</strong>. Suy nghĩ chỉ đạo hành động, còn kết quả của hành động lại quay ngược lại điều chỉnh suy nghĩ. Vì vậy, paradigm ReAct dẫn dắt model thông qua một kiểu prompt engineering đặc biệt, khiến output ở mỗi bước đều tuân theo một quỹ đạo cố định:
 
 - <strong>Thought (Suy nghĩ):</strong> Đây là "độc thoại nội tâm" của Agent. Nó sẽ phân tích tình huống hiện tại, phân rã nhiệm vụ, lập kế hoạch cho bước tiếp theo, hoặc phản tư về kết quả bước trước.
-- <strong>Action (Hành động):</strong> Đây là hành động cụ thể mà Agent quyết định thực hiện, thường là gọi một công cụ bên ngoài (Tool), ví dụ `Search['华为最新款手机']`.
+- <strong>Action (Hành động):</strong> Đây là hành động cụ thể mà Agent quyết định thực hiện, thường là gọi một công cụ bên ngoài (Tool), ví dụ `Search['Mẫu điện thoại mới nhất của Huawei']`.
 - <strong>Observation (Quan sát):</strong> Đây là kết quả trả về từ công cụ bên ngoài sau khi thực thi `Action`, ví dụ bản tóm tắt kết quả tìm kiếm hoặc giá trị trả về của API.
 
 Agent sẽ liên tục lặp lại vòng lặp <strong>Thought -> Action -> Observation</strong>, thêm kết quả quan sát mới vào lịch sử, tạo thành một context không ngừng tăng trưởng, cho đến khi nó nhận định trong `Thought` rằng đã tìm ra câu trả lời cuối cùng, rồi output kết quả. Quá trình này tạo nên một hiệu ứng cộng hưởng mạnh mẽ: <strong>suy luận khiến hành động có mục đích hơn, còn hành động thì cung cấp căn cứ thực tế cho suy luận.</strong>
@@ -160,7 +160,7 @@ $$o_t = T(a_t)$$
 Vòng lặp này diễn ra liên tục, thêm cặp $(a_t,o_t)$ mới vào lịch sử, cho đến khi model trong suy nghĩ $th_t$ nhận định rằng nhiệm vụ đã hoàn thành.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/4-figures/4-1.png" alt="ReAct范式中的“思考-行动-观察”协同循环" width="90%"/>
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/4-figures/4-1.png" alt="Vòng lặp cộng hưởng 'suy nghĩ - hành động - quan sát' trong paradigm ReAct" width="90%"/>
   <p>Hình 4.1 Vòng lặp cộng hưởng "suy nghĩ - hành động - quan sát" trong paradigm ReAct</p>
 </div>
 
@@ -188,7 +188,7 @@ pip install google-search-results
 
 ```bash
 # .env file
-# ... (保留之前的LLM配置)
+# ... (Giữ nguyên cấu hình LLM trước đó)
 SERPAPI_API_KEY="YOUR_SERPAPI_API_KEY"
 ```
 
@@ -209,27 +209,27 @@ from serpapi import SerpApiClient
 
 def search(query: str) -> str:
     """
-    一个基于SerpApi的实战网页搜索引擎工具。
-    它会智能地解析搜索结果，优先返回直接答案或知识图谱信息。
+    Một công cụ tìm kiếm web thực chiến dựa trên SerpApi.
+    Nó sẽ phân tích kết quả tìm kiếm một cách thông minh, ưu tiên trả về câu trả lời trực tiếp hoặc thông tin knowledge graph.
     """
-    print(f"🔍 正在执行 [SerpApi] 网页搜索: {query}")
+    print(f"🔍 Đang thực hiện tìm kiếm web [SerpApi]: {query}")
     try:
         api_key = os.getenv("SERPAPI_API_KEY")
         if not api_key:
-            return "错误:SERPAPI_API_KEY 未在 .env 文件中配置。"
+            return "Lỗi: SERPAPI_API_KEY chưa được cấu hình trong file .env."
 
         params = {
             "engine": "google",
             "q": query,
             "api_key": api_key,
-            "gl": "cn",  # 国家代码
-            "hl": "zh-cn", # 语言代码
+            "gl": "cn",  # Mã quốc gia
+            "hl": "zh-cn", # Mã ngôn ngữ
         }
         
         client = SerpApiClient(params)
         results = client.get_dict()
         
-        # 智能解析:优先寻找最直接的答案
+        # Phân tích thông minh: ưu tiên tìm câu trả lời trực tiếp nhất
         if "answer_box_list" in results:
             return "\n".join(results["answer_box_list"])
         if "answer_box" in results and "answer" in results["answer_box"]:
@@ -237,17 +237,17 @@ def search(query: str) -> str:
         if "knowledge_graph" in results and "description" in results["knowledge_graph"]:
             return results["knowledge_graph"]["description"]
         if "organic_results" in results and results["organic_results"]:
-            # 如果没有直接答案，则返回前三个有机结果的摘要
+            # Nếu không có câu trả lời trực tiếp, trả về tóm tắt của 3 kết quả organic đầu tiên
             snippets = [
                 f"[{i+1}] {res.get('title', '')}\n{res.get('snippet', '')}"
                 for i, res in enumerate(results["organic_results"][:3])
             ]
             return "\n\n".join(snippets)
         
-        return f"对不起，没有找到关于 '{query}' 的信息。"
+        return f"Rất tiếc, không tìm thấy thông tin về '{query}'."
 
     except Exception as e:
-        return f"搜索时发生错误: {e}"
+        return f"Đã xảy ra lỗi khi tìm kiếm: {e}"
 ```
 
 Trong đoạn code trên, trước tiên sẽ kiểm tra xem có tồn tại `answer_box` (answer box tóm tắt của Google) hoặc `knowledge_graph` (knowledge graph) hay không, nếu có thì trực tiếp trả về những câu trả lời chính xác nhất này. Nếu không tồn tại, nó mới quay sang phương án thứ hai, trả về tóm tắt của ba kết quả tìm kiếm thông thường đầu tiên. Cách "phân tích thông minh" này có thể cung cấp input chất lượng cao hơn cho LLM.
@@ -261,29 +261,29 @@ from typing import Dict, Any
 
 class ToolExecutor:
     """
-    一个工具执行器，负责管理和执行工具。
+    Một tool executor, chịu trách nhiệm quản lý và thực thi các tool.
     """
     def __init__(self):
         self.tools: Dict[str, Dict[str, Any]] = {}
 
     def registerTool(self, name: str, description: str, func: callable):
         """
-        向工具箱中注册一个新工具。
+        Đăng ký một tool mới vào hộp công cụ.
         """
         if name in self.tools:
-            print(f"警告:工具 '{name}' 已存在，将被覆盖。")
+            print(f"Cảnh báo: Tool '{name}' đã tồn tại, sẽ bị ghi đè.")
         self.tools[name] = {"description": description, "func": func}
-        print(f"工具 '{name}' 已注册。")
+        print(f"Tool '{name}' đã được đăng ký.")
 
     def getTool(self, name: str) -> callable:
         """
-        根据名称获取一个工具的执行函数。
+        Lấy hàm thực thi của một tool dựa trên tên.
         """
         return self.tools.get(name, {}).get("func")
 
     def getAvailableTools(self) -> str:
         """
-        获取所有可用工具的格式化描述字符串。
+        Lấy chuỗi mô tả đã được định dạng của tất cả các tool khả dụng.
         """
         return "\n".join([
             f"- {name}: {info['description']}" 
@@ -297,49 +297,49 @@ class ToolExecutor:
 Bây giờ, chúng ta sẽ đăng ký tool `search` vào `ToolExecutor`, và mô phỏng một lần gọi, để xác minh toàn bộ quy trình hoạt động bình thường hay không.
 
 ```python
-# --- 工具初始化与使用示例 ---
+# --- Ví dụ khởi tạo và sử dụng tool ---
 if __name__ == '__main__':
-    # 1. 初始化工具执行器
+    # 1. Khởi tạo tool executor
     toolExecutor = ToolExecutor()
 
-    # 2. 注册我们的实战搜索工具
-    search_description = "一个网页搜索引擎。当你需要回答关于时事、事实以及在你的知识库中找不到的信息时，应使用此工具。"
+    # 2. Đăng ký search tool thực chiến của chúng ta
+    search_description = "Một công cụ tìm kiếm web. Bạn nên sử dụng công cụ này khi cần trả lời về các sự kiện thời sự, sự thật thực tế cũng như thông tin không tìm thấy trong cơ sở tri thức của mình."
     toolExecutor.registerTool("Search", search_description, search)
     
-    # 3. 打印可用的工具
-    print("\n--- 可用的工具 ---")
+    # 3. In ra các tool khả dụng
+    print("\n--- Các tool khả dụng ---")
     print(toolExecutor.getAvailableTools())
 
-    # 4. 智能体的Action调用，这次我们问一个实时性的问题
-    print("\n--- 执行 Action: Search['英伟达最新的GPU型号是什么'] ---")
+    # 4. Action call của Agent, lần này chúng ta hỏi một câu hỏi mang tính thời gian thực
+    print("\n--- Thực thi Action: Search['Model GPU mới nhất của NVIDIA là gì'] ---")
     tool_name = "Search"
-    tool_input = "英伟达最新的GPU型号是什么"
+    tool_input = "Model GPU mới nhất của NVIDIA là gì"
 
     tool_function = toolExecutor.getTool(tool_name)
     if tool_function:
         observation = tool_function(tool_input)
-        print("--- 观察 (Observation) ---")
+        print("--- Quan sát (Observation) ---")
         print(observation)
     else:
-        print(f"错误:未找到名为 '{tool_name}' 的工具。")
+        print(f"Lỗi: Không tìm thấy tool có tên '{tool_name}'.")
         
 >>>
-工具 'Search' 已注册。
+Tool 'Search' đã được đăng ký.
 
---- 可用的工具 ---
-- Search: 一个网页搜索引擎。当你需要回答关于时事、事实以及在你的知识库中找不到的信息时，应使用此工具。
+--- Các tool khả dụng ---
+- Search: Một công cụ tìm kiếm web. Bạn nên sử dụng công cụ này khi cần trả lời về các sự kiện thời sự, sự thật thực tế cũng như thông tin không tìm thấy trong cơ sở tri thức của mình.
 
---- 执行 Action: Search['英伟达最新的GPU型号是什么'] ---
-🔍 正在执行 [SerpApi] 网页搜索: 英伟达最新的GPU型号是什么
---- 观察 (Observation) ---
-[1] GeForce RTX 50 系列显卡
-GeForce RTX™ 50 系列GPU 搭载NVIDIA Blackwell 架构，为游戏玩家和创作者带来全新玩法。RTX 50 系列具备强大的AI 算力，带来升级体验和更逼真的画面。
+--- Thực thi Action: Search['Model GPU mới nhất của NVIDIA là gì'] ---
+🔍 Đang thực hiện tìm kiếm web [SerpApi]: Model GPU mới nhất của NVIDIA là gì
+--- Quan sát (Observation) ---
+[1] Card đồ họa dòng GeForce RTX 50
+GPU GeForce RTX™ 50 Series trang bị kiến trúc NVIDIA Blackwell, mang đến lối chơi hoàn toàn mới cho game thủ và nhà sáng tạo nội dung. Dòng RTX 50 sở hữu năng lực tính toán AI mạnh mẽ, mang lại trải nghiệm nâng cấp và hình ảnh chân thực hơn.
 
-[2] 比较GeForce 系列最新一代显卡和前代显卡
-比较最新一代RTX 30 系列显卡和前代的RTX 20 系列、GTX 10 和900 系列显卡。查看规格、功能、技术支持等内容。
+[2] So sánh card đồ họa thế hệ mới nhất của dòng GeForce với thế hệ trước
+So sánh card đồ họa thế hệ mới nhất RTX 30 Series với các thế hệ trước RTX 20 Series, GTX 10 và 900 Series. Xem thông số kỹ thuật, tính năng, hỗ trợ kỹ thuật và nhiều nội dung khác.
 
-[3] GeForce 显卡| NVIDIA
-DRIVE AGX. 强大的车载计算能力，适用于AI 驱动的智能汽车系统 · Clara AGX. 适用于创新型医疗设备和成像的AI 计算. 游戏和创作. GeForce. 探索显卡、游戏解决方案、AI ...
+[3] Card đồ họa GeForce | NVIDIA
+DRIVE AGX. Năng lực tính toán trên xe mạnh mẽ, phù hợp cho hệ thống xe thông minh vận hành bởi AI · Clara AGX. Tính toán AI áp dụng cho thiết bị y tế đổi mới và chẩn đoán hình ảnh. Gaming và sáng tạo. GeForce. Khám phá card đồ họa, giải pháp gaming, AI ...
 ```
 
 Đến đây, chúng ta đã trang bị cho Agent tool `Search` kết nối với internet thực, cung cấp nền tảng vững chắc cho vòng lặp ReAct ở phần sau.
@@ -355,22 +355,22 @@ Bây giờ, chúng ta sẽ lắp ráp tất cả các thành phần độc lập
 Prompt là nền tảng của toàn bộ cơ chế ReAct, nó cung cấp chỉ thị thao tác cho Large Language Model. Chúng ta cần thiết kế tỉ mỉ một template, nó sẽ chèn động các tool khả dụng, câu hỏi của người dùng cũng như lịch sử tương tác của các bước trung gian.
 
 ```bash
-# ReAct 提示词模板
+# ReAct Prompt Template
 REACT_PROMPT_TEMPLATE = """
-请注意，你是一个有能力调用外部工具的智能助手。
+Xin lưu ý, bạn là một trợ lý thông minh có khả năng gọi các công cụ bên ngoài.
 
-可用工具如下:
+Các công cụ khả dụng như sau:
 {tools}
 
-请严格按照以下格式进行回应:
+Vui lòng phản hồi nghiêm ngặt theo định dạng sau:
 
-Thought: 你的思考过程，用于分析问题、拆解任务和规划下一步行动。
-Action: 你决定采取的行动，必须是以下格式之一:
-- `{{tool_name}}[{{tool_input}}]`:调用一个可用工具。
-- `Finish[最终答案]`:当你认为已经获得最终答案时。
-- 当你收集到足够的信息，能够回答用户的最终问题时，你必须在Action:字段后使用 Finish[最终答案] 来输出最终答案。
+Thought: Quá trình suy nghĩ của bạn, dùng để phân tích vấn đề, phân rã nhiệm vụ và lập kế hoạch cho hành động tiếp theo.
+Action: Hành động bạn quyết định thực hiện, bắt buộc phải là một trong các định dạng sau:
+- `{{tool_name}}[{{tool_input}}]`: Gọi một công cụ khả dụng.
+- `Finish[câu trả lời cuối cùng]`: Khi bạn cho rằng đã có được câu trả lời cuối cùng.
+- Khi bạn đã thu thập đủ thông tin, có thể trả lời câu hỏi cuối cùng của người dùng, bạn bắt buộc phải sử dụng Finish[câu trả lời cuối cùng] sau trường Action: để xuất câu trả lời cuối cùng.
 
-现在，请开始解决以下问题:
+Bây giờ, vui lòng bắt đầu giải quyết câu hỏi sau:
 Question: {question}
 History: {history}
 """
@@ -397,16 +397,16 @@ class ReActAgent:
 
     def run(self, question: str):
         """
-        运行ReAct智能体来回答一个问题。
+        Chạy ReAct Agent để trả lời một câu hỏi.
         """
-        self.history = [] # 每次运行时重置历史记录
+        self.history = [] # Reset lịch sử mỗi lần chạy
         current_step = 0
 
         while current_step < self.max_steps:
             current_step += 1
-            print(f"--- 第 {current_step} 步 ---")
+            print(f"--- Bước {current_step} ---")
 
-            # 1. 格式化提示词
+            # 1. Định dạng prompt
             tools_desc = self.tool_executor.getAvailableTools()
             history_str = "\n".join(self.history)
             prompt = REACT_PROMPT_TEMPLATE.format(
@@ -415,15 +415,15 @@ class ReActAgent:
                 history=history_str
             )
 
-            # 2. 调用LLM进行思考
+            # 2. Gọi LLM để suy nghĩ
             messages = [{"role": "user", "content": prompt}]
             response_text = self.llm_client.think(messages=messages)
             
             if not response_text:
-                print("错误:LLM未能返回有效响应。")
+                print("Lỗi: LLM không thể trả về phản hồi hợp lệ.")
                 break
 
-            # ... (后续的解析、执行、整合步骤)
+            # ... (Các bước parse, thực thi, tích hợp tiếp theo)
 
 ```
 
@@ -434,20 +434,20 @@ Phương thức `run` là điểm vào (entry point) của Agent. Vòng lặp `w
 Thứ LLM trả về là văn bản thuần (plain text), chúng ta cần trích xuất chính xác `Thought` và `Action` từ đó. Việc này được thực hiện thông qua một vài hàm hỗ trợ parse, chúng thường sử dụng regular expression (regex) để hiện thực hóa.
 
 ```python
-# (这些方法是 ReActAgent 类的一部分)
+# (Các phương thức này là một phần của class ReActAgent)
     def _parse_output(self, text: str):
-        """解析LLM的输出，提取Thought和Action。
+        """Parse output của LLM, trích xuất Thought và Action.
         """
-        # Thought: 匹配到 Action: 或文本末尾
+        # Thought: Match tới Action: hoặc cuối văn bản
         thought_match = re.search(r"Thought:\s*(.*?)(?=\nAction:|$)", text, re.DOTALL)
-        # Action: 匹配到文本末尾
+        # Action: Match tới cuối văn bản
         action_match = re.search(r"Action:\s*(.*?)$", text, re.DOTALL)
         thought = thought_match.group(1).strip() if thought_match else None
         action = action_match.group(1).strip() if action_match else None
         return thought, action
 
     def _parse_action(self, action_text: str):
-        """解析Action字符串，提取工具名称和输入。
+        """Parse chuỗi Action, trích xuất tên tool và input.
         """
         match = re.match(r"(\w+)\[(.*)\]", action_text, re.DOTALL)
         if match:
@@ -456,41 +456,41 @@ Thứ LLM trả về là văn bản thuần (plain text), chúng ta cần trích
 ```
 
 - `_parse_output`： Phụ trách tách `Thought` và `Action`, hai phần chính, từ response hoàn chỉnh của LLM.
-- `_parse_action`： Phụ trách parse tiếp chuỗi `Action`, ví dụ từ `Search[华为最新手机]` trích xuất ra tên tool `Search` và input của tool `华为最新手机`.
+- `_parse_action`： Phụ trách parse tiếp chuỗi `Action`, ví dụ từ `Search[Mẫu điện thoại mới nhất của Huawei]` trích xuất ra tên tool `Search` và input của tool `Mẫu điện thoại mới nhất của Huawei`.
 
 (4) Gọi và thực thi Tool
 
 ```python
-# (这段逻辑在 run 方法的 while 循环内)
-            # 3. 解析LLM的输出
+# (Logic này nằm trong vòng lặp while của phương thức run)
+            # 3. Parse output của LLM
             thought, action = self._parse_output(response_text)
             
             if thought:
-                print(f"思考: {thought}")
+                print(f"🤔 Suy nghĩ: {thought}")
 
             if not action:
-                print("警告:未能解析出有效的Action，流程终止。")
+                print("Cảnh báo: Không thể parse ra Action hợp lệ, tiến trình chấm dứt.")
                 break
 
-            # 4. 执行Action
+            # 4. Thực thi Action
             if action.startswith("Finish"):
-                # 如果是Finish指令，提取最终答案并结束
+                # Nếu là chỉ thị Finish, trích xuất câu trả lời cuối cùng và kết thúc
                 final_answer = re.match(r"Finish\[(.*)\]", action).group(1)
-                print(f"🎉 最终答案: {final_answer}")
+                print(f"🎉 Câu trả lời cuối cùng: {final_answer}")
                 return final_answer
             
             tool_name, tool_input = self._parse_action(action)
             if not tool_name or not tool_input:
-                # ... 处理无效Action格式 ...
+                # ... Xử lý định dạng Action không hợp lệ ...
                 continue
 
-            print(f"🎬 行动: {tool_name}[{tool_input}]")
+            print(f"🎬 Hành động: {tool_name}[{tool_input}]")
             
             tool_function = self.tool_executor.getTool(tool_name)
             if not tool_function:
-                observation = f"错误:未找到名为 '{tool_name}' 的工具。"
+                observation = f"Lỗi: Không tìm thấy tool có tên '{tool_name}'."
             else:
-                observation = tool_function(tool_input) # 调用真实工具
+                observation = tool_function(tool_input) # Gọi tool thực tế
 
 ```
 
@@ -501,15 +501,15 @@ Thứ LLM trả về là văn bản thuần (plain text), chúng ta cần trích
 Bước cuối cùng, cũng là chìa khóa tạo thành vòng kín (closed loop), là thêm `Action` bản thân nó và `Observation` sau khi tool thực thi vào lịch sử, cung cấp context mới cho vòng lặp tiếp theo.
 
 ```python
-# (这段逻辑紧随工具调用之后，在 while 循环的末尾)
-            print(f"👀 观察: {observation}")
+# (Logic này tiếp nối ngay sau khi gọi tool, ở cuối vòng lặp while)
+            print(f"👀 Quan sát: {observation}")
             
-            # 将本轮的Action和Observation添加到历史记录中
+            # Thêm Action và Observation của vòng này vào lịch sử
             self.history.append(f"Action: {action}")
             self.history.append(f"Observation: {observation}")
 
-        # 循环结束
-        print("已达到最大步数，流程终止。")
+        # Kết thúc vòng lặp
+        print("Đã đạt số bước tối đa, tiến trình chấm dứt.")
         return None
 ```
 
@@ -522,34 +522,32 @@ Kết hợp tất cả các phần trên lại, chúng ta có được class `Re
 Dưới đây là một bản ghi chạy thực tế:
 
 ```
-工具 'Search' 已注册。
+Tool 'Search' đã được đăng ký.
 
---- 第 1 步 ---
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功:
-Thought: 要回答这个问题，我需要查找华为最新发布的手机型号及其主要特点。这些信息可能在我的现有知识库之外，因此需要使用搜索引擎来获取最新数据。
-Action: Search[华为最新手机型号及主要卖点]
-🤔 思考: 要回答这个问题，我需要查找华为最新发布的手机型号及其主要特点。这些信息可能在我的现有知识库之外，因此需要使用搜索引擎来获取最新数据。
-🎬 行动: Search[华为最新手机型号及主要卖点]
-🔍 正在执行 [SerpApi] 网页搜索: 华为最新手机型号及主要卖点
-👀 观察: [1] 华为手机- 华为官网
-智能手机 ; Mate 系列. 非凡旗舰 · HUAWEI Mate XTs. 非凡大师 ; Pura 系列. 先锋影像 · HUAWEI Pura 80 Pro+ ; Pocket 系列. 美学新篇. HUAWEI Pocket 2 ; nova 系列. 专业人像.
+--- Bước 1 ---
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
+Thought: Để trả lời câu hỏi này, tôi cần tìm kiếm mẫu điện thoại mới phát hành gần đây nhất của Huawei cùng các đặc điểm chính của nó. Thông tin này có thể nằm ngoài cơ sở tri thức hiện tại của tôi, do đó cần sử dụng công cụ tìm kiếm để lấy dữ liệu mới nhất.
+Action: Search[Mẫu điện thoại mới nhất của Huawei và điểm bán hàng chủ đạo]
+🤔 Suy nghĩ: Để trả lời câu hỏi này, tôi cần tìm kiếm mẫu điện thoại mới phát hành gần đây nhất của Huawei cùng các đặc điểm chính của nó. Thông tin này có thể nằm ngoài cơ sở tri thức hiện tại của tôi, do đó cần sử dụng công cụ tìm kiếm để lấy dữ liệu mới nhất.
+🎬 Hành động: Search[Mẫu điện thoại mới nhất của Huawei và điểm bán hàng chủ đạo]
+🔍 Đang thực hiện tìm kiếm web [SerpApi]: Mẫu điện thoại mới nhất của Huawei và điểm bán hàng chủ đạo
+👀 Quan sát: [1] Điện thoại Huawei - Trang chủ chính thức của Huawei
+Điện thoại thông minh ; Mate Series. Siêu phẩm flagship · HUAWEI Mate XTs. Bậc thầy phi phàm ; Pura Series. Tiên phong nhiếp ảnh · HUAWEI Pura 80 Pro+ ; Pocket Series. Chương mới thẩm mỹ. HUAWEI Pocket 2 ; nova Series. Chân dung chuyên nghiệp.
 
-[2] 2025年华为手机哪一款性价比高？华为手机推荐与市场分析 ...
-现在华为手机最大的卖点只剩下鸿蒙HarmonyOS系统，以及饱受争议的品牌信仰。 这里推荐目前值得入手的几款华为系列手机，根据不同预算自行选择:. 华为目前最受欢迎，也是搭载 ...
+[2] Năm 2025 điện thoại Huawei nào có tỷ lệ p/p cao? Gợi ý và phân tích thị trường điện thoại Huawei ...
+Hiện nay điểm bán hàng lớn nhất của điện thoại Huawei là hệ điều hành HarmonyOS cùng niềm tin thương hiệu. Dưới đây là gợi ý các mẫu điện thoại Huawei đáng mua hiện nay tùy theo ngân sách:...
 
-[3] 2025年华为新款手机哪个性价比高？10款华为新款手机推荐
-选华为主要还是要推荐高端手机，Mate 70和Pura 70系列是最新发布的旗舰机型。 HUAWEI Mate 70. 优点是，拍照配置依旧顶级，全焦段覆盖，适合专业摄影，做工出色，户外抗摔 ...
+[3] Năm 2025 điện thoại mới của Huawei loại nào đáng mua? Gợi ý 10 mẫu điện thoại Huawei mới
+Chọn Huawei chủ yếu vẫn nên ưu tiên các dòng flagship cao cấp, Mate 70 và Pura 70 series là các dòng máy mới ra mắt. HUAWEI Mate 70. Ưu điểm là cấu hình chụp ảnh vẫn thuộc hàng đỉnh cao, phủ đủ mọi tiêu cự, phù hợp nhiếp ảnh chuyên nghiệp, độ hoàn thiện tinh xảo, chống rơi vỡ ngoài trời tốt ...
 
---- 第 2 步 ---
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功:
-Thought: 根据搜索结果，华为最新发布的旗舰机型包括Mate 70和Pura 80 Pro+。为了确定最新型号及其主要卖点，我将重点放在这些信息上。从提供的链接来看，Mate 70系列和Pura 80 Pro+都是近期发布的产品，但具体哪一个是“最新”还需要进一步确认。同时，我可以从这些信息中提取出它们的主要
-卖点。
-Action: Finish[根据最新信息，华为的最新手机可能是HUAWEI Pura 80 Pro+或HUAWEI Mate 70。其中，HUAWEI Mate 70的主要卖点包括顶级的拍照配置，全焦段覆盖，适合专业摄影，做工出色，并且具有良好的户外抗摔性能。而HUAWEI Pura 80 Pro+则强调了先锋影像技术。]
-🤔 思考: 根据搜索结果，华为最新发布的旗舰机型包括Mate 70和Pura 80 Pro+。为了确定最新型号及其主要卖点，我将重点放在这些信息上。从提供的链接来看，Mate 70系列和Pura 80 Pro+都是近期发布的产品，但具体哪一个是“最新”还需要进一步确认。同时，我可以从这些信息中提取出它们的主要 
-卖点。
-🎉 最终答案: 根据最新信息，华为的最新手机可能是HUAWEI Pura 80 Pro+或HUAWEI Mate 70。其中，HUAWEI Mate 70的主要卖点包括顶级的拍照配置，全焦段覆盖，适合专业摄影，做工出色，并且具有良好的户外抗摔性能。而HUAWEI Pura 80 Pro+则强调了先锋影像技术。
+--- Bước 2 ---
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
+Thought: Theo kết quả tìm kiếm, các dòng máy flagship mới ra mắt gần đây của Huawei bao gồm Mate 70 và Pura 80 Pro+. Để xác định mẫu mới nhất cùng các điểm bán hàng chính, tôi sẽ tập trung vào những thông tin này. Từ các liên kết được cung cấp, Mate 70 series và Pura 80 Pro+ đều là các sản phẩm phát hành gần đây, nhưng cụ thể mẫu nào là "mới nhất" cần được xác nhận thêm. Đồng thời, tôi có thể trích xuất ra các điểm bán hàng chủ đạo từ những thông tin này.
+Action: Finish[Theo thông tin mới nhất, dòng điện thoại mới nhất của Huawei có thể là HUAWEI Pura 80 Pro+ hoặc HUAWEI Mate 70. Trong đó, các điểm bán hàng chính của HUAWEI Mate 70 bao gồm cấu hình camera đỉnh cao, bao phủ toàn bộ dải tiêu cự, phù hợp chụp ảnh chuyên nghiệp, độ hoàn thiện xuất sắc và khả năng chống va đập ngoài trời tốt. Trong khi đó, HUAWEI Pura 80 Pro+ nhấn mạnh vào công nghệ hình ảnh tiên phong.]
+🤔 Suy nghĩ: Theo kết quả tìm kiếm, các dòng máy flagship mới ra mắt gần đây của Huawei bao gồm Mate 70 và Pura 80 Pro+. Để xác định mẫu mới nhất cùng các điểm bán hàng chính, tôi sẽ tập trung vào những thông tin này. Từ các liên kết được cung cấp, Mate 70 series và Pura 80 Pro+ đều là các sản phẩm phát hành gần đây, nhưng cụ thể mẫu nào là "mới nhất" cần được xác nhận thêm. Đồng thời, tôi có thể trích xuất ra các điểm bán hàng chủ đạo từ những thông tin này.
+🎉 Câu trả lời cuối cùng: Theo thông tin mới nhất, dòng điện thoại mới nhất của Huawei có thể là HUAWEI Pura 80 Pro+ hoặc HUAWEI Mate 70. Trong đó, các điểm bán hàng chính của HUAWEI Mate 70 bao gồm cấu hình camera đỉnh cao, bao phủ toàn bộ dải tiêu cự, phù hợp chụp ảnh chuyên nghiệp, độ hoàn thiện xuất sắc và khả năng chống va đập ngoài trời tốt. Trong khi đó, HUAWEI Pura 80 Pro+ nhấn mạnh vào công nghệ hình ảnh tiên phong.
 ```
 
 Từ output ở trên có thể thấy, Agent đã trình bày rõ ràng chuỗi suy nghĩ của nó: trước tiên nó nhận ra kiến thức bản thân không đủ, cần sử dụng search tool; sau đó, nó suy luận và tổng hợp dựa trên kết quả tìm kiếm, và đưa ra câu trả lời cuối cùng chỉ trong hai bước.
@@ -615,7 +613,7 @@ $$
 Câu trả lời cuối cùng chính là kết quả thực thi của bước cuối cùng $s_n$.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/4-figures/4-2.png" alt="Plan-and-Solve范式的两阶段工作流" width="90%"/>
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/4-figures/4-2.png" alt="Quy trình làm việc hai giai đoạn của paradigm Plan-and-Solve" width="90%"/>
   <p>Hình 4.2 Quy trình làm việc hai giai đoạn của paradigm Plan-and-Solve</p>
 </div>
 
@@ -642,15 +640,15 @@ Mục tiêu của giai đoạn lập kế hoạch là để Large Language Model
 
 ````python
 PLANNER_PROMPT_TEMPLATE = """
-你是一个顶级的AI规划专家。你的任务是将用户提出的复杂问题分解成一个由多个简单步骤组成的行动计划。
-请确保计划中的每个步骤都是一个独立的、可执行的子任务，并且严格按照逻辑顺序排列。
-你的输出必须是一个Python列表，其中每个元素都是一个描述子任务的字符串。
+Bạn là một chuyên gia lập kế hoạch AI hàng đầu. Nhiệm vụ của bạn là phân rã vấn đề phức tạp do người dùng đưa ra thành một kế hoạch hành động bao gồm nhiều bước đơn giản.
+Hãy đảm bảo rằng mỗi bước trong kế hoạch đều là một tác vụ con độc lập, có thể thực thi được, và được sắp xếp nghiêm ngặt theo thứ tự logic.
+Đầu ra của bạn bắt buộc phải là một Python list, trong đó mỗi phần tử là một chuỗi ký tự mô tả tác vụ con.
 
-问题: {question}
+Vấn đề: {question}
 
-请严格按照以下格式输出你的计划,```python与```作为前后缀是必要的:
+Vui lòng xuất kế hoạch của bạn nghiêm ngặt theo định dạng sau, tiền tố ```python và hậu tố ``` là bắt buộc:
 ```python
-["步骤1", "步骤2", "步骤3", ...]
+["Bước 1", "Bước 2", "Bước 3", ...]
 ```
 """
 ````
@@ -663,7 +661,7 @@ Prompt này đảm bảo chất lượng và tính ổn định của output th�
 Tiếp theo, chúng ta sẽ đóng gói logic prompt này thành một class `Planner`, class này cũng chính là bộ lập kế hoạch (planner) của chúng ta.
 
 ```python
-# 假定 llm_client.py 中的 HelloAgentsLLM 类已经定义好
+# Giả định class HelloAgentsLLM trong llm_client.py đã được định nghĩa
 # from llm_client import HelloAgentsLLM
 
 class Planner:
@@ -672,32 +670,32 @@ class Planner:
 
     def plan(self, question: str) -> list[str]:
         """
-        根据用户问题生成一个行动计划。
+        Tạo một kế hoạch hành động dựa trên câu hỏi của người dùng.
         """
         prompt = PLANNER_PROMPT_TEMPLATE.format(question=question)
         
-        # 为了生成计划，我们构建一个简单的消息列表
+        # Để tạo kế hoạch, chúng ta xây dựng một danh sách message đơn giản
         messages = [{"role": "user", "content": prompt}]
         
-        print("--- 正在生成计划 ---")
-        # 使用流式输出来获取完整的计划
+        print("--- Đang tạo kế hoạch ---")
+        # Sử dụng streaming output để lấy toàn bộ kế hoạch
         response_text = self.llm_client.think(messages=messages) or ""
         
-        print(f"✅ 计划已生成:\n{response_text}")
+        print(f"✅ Kế hoạch đã được tạo:\n{response_text}")
         
-        # 解析LLM输出的列表字符串
+        # Parse chuỗi danh sách output của LLM
         try:
-            # 找到```python和```之间的内容
+            # Tìm nội dung giữa ```python và ```
             plan_str = response_text.split("```python")[1].split("```")[0].strip()
-            # 使用ast.literal_eval来安全地执行字符串，将其转换为Python列表
+            # Sử dụng ast.literal_eval để thực thi chuỗi an toàn, chuyển đổi thành Python list
             plan = ast.literal_eval(plan_str)
             return plan if isinstance(plan, list) else []
         except (ValueError, SyntaxError, IndexError) as e:
-            print(f"❌ 解析计划时出错: {e}")
-            print(f"原始响应: {response_text}")
+            print(f"❌ Lỗi khi parse kế hoạch: {e}")
+            print(f"Phản hồi gốc: {response_text}")
             return []
         except Exception as e:
-            print(f"❌ 解析计划时发生未知错误: {e}")
+            print(f"❌ Xảy ra lỗi không xác định khi parse kế hoạch: {e}")
             return []
 ```
 
@@ -714,23 +712,23 @@ Prompt của Executor khác với Planner. Mục tiêu của nó không phải l
 
 ```python
 EXECUTOR_PROMPT_TEMPLATE = """
-你是一位顶级的AI执行专家。你的任务是严格按照给定的计划，一步步地解决问题。
-你将收到原始问题、完整的计划、以及到目前为止已经完成的步骤和结果。
-请你专注于解决“当前步骤”，并仅输出该步骤的最终答案，不要输出任何额外的解释或对话。
+Bạn là một chuyên gia thực thi AI hàng đầu. Nhiệm vụ của bạn là giải quyết vấn đề từng bước một theo kế hoạch đã cho một cách nghiêm ngặt.
+Bạn sẽ nhận được câu hỏi ban đầu, toàn bộ kế hoạch, cũng như các bước và kết quả đã hoàn thành tính đến thời điểm hiện tại.
+Vui lòng tập trung vào việc giải quyết "Bước hiện tại", và chỉ xuất ra câu trả lời cuối cùng của bước đó, không xuất thêm bất kỳ lời giải thích hay đối thoại thừa thãi nào.
 
-# 原始问题:
+# Câu hỏi ban đầu:
 {question}
 
-# 完整计划:
+# Kế hoạch đầy đủ:
 {plan}
 
-# 历史步骤与结果:
+# Các bước lịch sử và kết quả:
 {history}
 
-# 当前步骤:
+# Bước hiện tại:
 {current_step}
 
-请仅输出针对“当前步骤”的回答:
+Vui lòng chỉ xuất câu trả lời cho "Bước hiện tại":
 """
 ```
 
@@ -743,19 +741,19 @@ class Executor:
 
     def execute(self, question: str, plan: list[str]) -> str:
         """
-        根据计划，逐步执行并解决问题。
+        Thực hiện từng bước và giải quyết vấn đề dựa theo kế hoạch.
         """
-        history = "" # 用于存储历史步骤和结果的字符串
+        history = "" # Chuỗi dùng để lưu trữ các bước lịch sử và kết quả
         
-        print("\n--- 正在执行计划 ---")
+        print("\n--- Đang thực thi kế hoạch ---")
         
         for i, step in enumerate(plan):
-            print(f"\n-> 正在执行步骤 {i+1}/{len(plan)}: {step}")
+            print(f"\n-> Đang thực hiện bước {i+1}/{len(plan)}: {step}")
             
             prompt = EXECUTOR_PROMPT_TEMPLATE.format(
                 question=question,
                 plan=plan,
-                history=history if history else "无", # 如果是第一步，则历史为空
+                history=history if history else "Không có", # Nếu là bước đầu tiên thì lịch sử là rỗng
                 current_step=step
             )
             
@@ -763,12 +761,12 @@ class Executor:
             
             response_text = self.llm_client.think(messages=messages) or ""
             
-            # 更新历史记录，为下一步做准备
-            history += f"步骤 {i+1}: {step}\n结果: {response_text}\n\n"
+            # Cập nhật lịch sử, chuẩn bị cho bước tiếp theo
+            history += f"Bước {i+1}: {step}\nKết quả: {response_text}\n\n"
             
-            print(f"✅ 步骤 {i+1} 已完成，结果: {response_text}")
+            print(f"✅ Bước {i+1} đã hoàn thành, kết quả: {response_text}")
 
-        # 循环结束后，最后一步的响应就是最终答案
+        # Sau khi vòng lặp kết thúc, phản hồi của bước cuối cùng chính là câu trả lời cuối cùng
         final_answer = response_text
         return final_answer
 ```
@@ -779,7 +777,7 @@ Bây giờ chúng ta đã xây dựng xong `Planner` phụ trách "lập kế ho
 class PlanAndSolveAgent:
     def __init__(self, llm_client):
         """
-        初始化智能体，同时创建规划器和执行器实例。
+        Khởi tạo Agent, đồng thời tạo instance cho planner và executor.
         """
         self.llm_client = llm_client
         self.planner = Planner(self.llm_client)
@@ -787,22 +785,22 @@ class PlanAndSolveAgent:
 
     def run(self, question: str):
         """
-        运行智能体的完整流程:先规划，后执行。
+        Chạy quy trình hoàn chỉnh của Agent: lập kế hoạch trước, thực thi sau.
         """
-        print(f"\n--- 开始处理问题 ---\n问题: {question}")
+        print(f"\n--- Bắt đầu xử lý câu hỏi ---\nCâu hỏi: {question}")
         
-        # 1. 调用规划器生成计划
+        # 1. Gọi planner để tạo kế hoạch
         plan = self.planner.plan(question)
         
-        # 检查计划是否成功生成
+        # Kiểm tra xem kế hoạch có được tạo thành công không
         if not plan:
-            print("\n--- 任务终止 --- \n无法生成有效的行动计划。")
+            print("\n--- Tác vụ chấm dứt --- \nKhông thể tạo kế hoạch hành động hợp lệ.")
             return
 
-        # 2. 调用执行器执行计划
+        # 2. Gọi executor để thực thi kế hoạch
         final_answer = self.executor.execute(question, plan)
         
-        print(f"\n--- 任务完成 ---\n最终答案: {final_answer}")
+        print(f"\n--- Tác vụ hoàn thành ---\nCâu trả lời cuối cùng: {final_answer}")
 ```
 
 Thiết kế class `PlanAndSolveAgent` này thể hiện nguyên tắc "composition over inheritance" (ưu tiên kết hợp hơn kế thừa). Bản thân nó không chứa logic phức tạp, mà đóng vai trò là một người điều phối (Orchestrator), gọi các thành phần nội bộ của nó một cách rõ ràng để hoàn thành nhiệm vụ.
@@ -812,47 +810,47 @@ Thiết kế class `PlanAndSolveAgent` này thể hiện nguyên tắc "composit
 Code hoàn chỉnh cũng tham khảo thư mục `code` trong repository code đi kèm cuốn sách này, ở đây chỉ trình diễn kết quả cuối cùng.
 
 ````bash
---- 开始处理问题 ---
-问题: 一个水果店周一卖出了15个苹果。周二卖出的苹果数量是周一的两倍。周三卖出的数量比周二少了5个。请问这三天总共卖出了多少个苹果？
---- 正在生成计划 ---
-🧠 正在调用 xxxx 模型...
-✅ 大语言模型响应成功:
+--- Bắt đầu xử lý câu hỏi ---
+Câu hỏi: Một cửa hàng hoa quả vào thứ Hai bán được 15 quả táo. Số táo bán được vào thứ Ba gấp đôi thứ Hai. Số lượng bán được vào thứ Tư ít hơn thứ Ba 5 quả. Hỏi cả ba ngày bán được tổng cộng bao nhiêu quả táo?
+--- Đang tạo kế hoạch ---
+🧠 Đang gọi model xxxx...
+✅ Large Language Model phản hồi thành công:
 ```python
-["计算周一卖出的苹果数量： 15个", "计算周二卖出的苹果数量： 周一数量 × 2 = 15 × 2 = 30个", "计算周三卖出的苹果数量： 周二数量 - 5 = 30 - 5 = 25个", "计算三天总销量： 周一 + 周二 + 周三 = 15 + 30 + 25 = 70个"]
+["Tính số lượng táo bán vào thứ Hai: 15 quả", "Tính số lượng táo bán vào thứ Ba: Số lượng thứ Hai × 2 = 15 × 2 = 30 quả", "Tính số lượng táo bán vào thứ Tư: Số lượng thứ Ba - 5 = 30 - 5 = 25 quả", "Tính tổng doanh số ba ngày: Thứ Hai + Thứ Ba + Thứ Tư = 15 + 30 + 25 = 70 quả"]
 ```
-✅ 计划已生成:
+✅ Kế hoạch đã được tạo:
 ```python
-["计算周一卖出的苹果数量： 15个", "计算周二卖出的苹果数量： 周一数量 × 2 = 15 × 2 = 30个", "计算周三卖出的苹果数量： 周二数量 - 5 = 30 - 5 = 25个", "计算三天总销量： 周一 + 周二 + 周三 = 15 + 30 + 25 = 70个"]
+["Tính số lượng táo bán vào thứ Hai: 15 quả", "Tính số lượng táo bán vào thứ Ba: Số lượng thứ Hai × 2 = 15 × 2 = 30 quả", "Tính số lượng táo bán vào thứ Tư: Số lượng thứ Ba - 5 = 30 - 5 = 25 quả", "Tính tổng doanh số ba ngày: Thứ Hai + Thứ Ba + Thứ Tư = 15 + 30 + 25 = 70 quả"]
 ```
 
---- 正在执行计划 ---
+--- Đang thực thi kế hoạch ---
 
--> 正在执行步骤 1/4: 计算周一卖出的苹果数量: 15个
-🧠 正在调用 xxxx 模型...
-✅ 大语言模型响应成功:
+-> Đang thực hiện bước 1/4: Tính số lượng táo bán được vào thứ Hai: 15 quả
+🧠 Đang gọi model xxxx...
+✅ Large Language Model phản hồi thành công:
 15
-✅ 步骤 1 已完成，结果: 15
+✅ Bước 1 đã hoàn thành, kết quả: 15
 
--> 正在执行步骤 2/4: 计算周二卖出的苹果数量: 周一数量 × 2 = 15 × 2 = 30个
-🧠 正在调用 xxxx 模型...
-✅ 大语言模型响应成功:
+-> Đang thực hiện bước 2/4: Tính số lượng táo bán được vào thứ Ba: Số lượng thứ Hai × 2 = 15 × 2 = 30 quả
+🧠 Đang gọi model xxxx...
+✅ Large Language Model phản hồi thành công:
 30
-✅ 步骤 2 已完成，结果: 30
+✅ Bước 2 đã hoàn thành, kết quả: 30
 
--> 正在执行步骤 3/4: 计算周三卖出的苹果数量: 周二数量 - 5 = 30 - 5 = 25个
-🧠 正在调用 xxxx 模型...
-✅ 大语言模型响应成功:
+-> Đang thực hiện bước 3/4: Tính số lượng táo bán được vào thứ Tư: Số lượng thứ Ba - 5 = 30 - 5 = 25 quả
+🧠 Đang gọi model xxxx...
+✅ Large Language Model phản hồi thành công:
 25
-✅ 步骤 3 已完成，结果: 25
+✅ Bước 3 đã hoàn thành, kết quả: 25
 
--> 正在执行步骤 4/4: 计算三天总销量: 周一 + 周二 + 周三 = 15 + 30 + 25 = 70个
-🧠 正在调用 xxxx 模型...
-✅ 大语言模型响应成功:
+-> Đang thực hiện bước 4/4: Tính tổng doanh số ba ngày: Thứ Hai + Thứ Ba + Thứ Tư = 15 + 30 + 25 = 70 quả
+🧠 Đang gọi model xxxx...
+✅ Large Language Model phản hồi thành công:
 70
-✅ 步骤 4 已完成，结果: 70
+✅ Bước 4 đã hoàn thành, kết quả: 70
 
---- 任务完成 ---
-最终答案: 70
+--- Tác vụ hoàn thành ---
+Câu trả lời cuối cùng: 70
 ````
 
 Từ log output ở trên, chúng ta có thể thấy rõ ràng quy trình làm việc của paradigm Plan-and-Solve:
@@ -871,7 +869,7 @@ Cơ chế Reflection lấy cảm hứng từ quá trình học tập của con n
 
 1. <strong>Thực thi (Execution)</strong>：Trước tiên, Agent sử dụng các phương pháp mà chúng ta đã quen thuộc (như ReAct hoặc Plan-and-Solve) để cố gắng hoàn thành nhiệm vụ, sinh ra một giải pháp hoặc quỹ đạo hành động sơ bộ. Đây có thể coi là "bản nháp".
 2. <strong>Phản tư (Reflection)</strong>：Tiếp theo, Agent bước vào giai đoạn phản tư. Nó sẽ gọi một instance Large Language Model độc lập, hoặc mang prompt đặc biệt, để đóng vai một "người đánh giá" (reviewer). "Người đánh giá" này sẽ xem xét "bản nháp" được sinh ra ở bước một, và đánh giá từ nhiều khía cạnh, ví dụ:
-   - <strong>Lỗi sự thật (Factual error)</strong>：Có tồn tại nội dung trái ngược với常识 (common sense) hoặc sự thật đã biết không?
+   - <strong>Lỗi sự thật (Factual error)</strong>：Có tồn tại nội dung trái ngược với thường thức (common sense) hoặc sự thật đã biết không?
    - <strong>Lỗ hổng logic (Logical gap)</strong>：Quá trình suy luận có chỗ nào không mạch lạc hoặc mâu thuẫn không?
    - <strong>Vấn đề hiệu quả (Efficiency issue)</strong>：Có con đường trực tiếp hơn, ngắn gọn hơn để hoàn thành nhiệm vụ không?
    - <strong>Thông tin bị bỏ sót (Missing information)</strong>：Có bỏ qua một số ràng buộc hoặc khía cạnh quan trọng nào của vấn đề không？ Dựa trên đánh giá, nó sẽ sinh ra một đoạn <strong>phản hồi (Feedback)</strong> có cấu trúc, chỉ ra vấn đề cụ thể nằm ở đâu và đề xuất cải thiện.
@@ -889,7 +887,7 @@ $$
 
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/4-figures/4-3.png" alt="Reflection机制中的“执行-反思-优化”迭代循环" width="70%"/>
+<img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/4-figures/4-3.png" alt="Vòng lặp lặp lại 'thực thi - phản tư - tối ưu' trong cơ chế Reflection" width="70%"/>
 <p>Hình 4.3 Vòng lặp lặp lại "thực thi - phản tư - tối ưu hóa" trong cơ chế Reflection</p>
 </div>
 
@@ -920,44 +918,44 @@ from typing import List, Dict, Any, Optional
 
 class Memory:
     """
-    一个简单的短期记忆模块，用于存储智能体的行动与反思轨迹。
+    Một module bộ nhớ ngắn hạn đơn giản, dùng để lưu trữ quỹ đạo hành động và phản tư của Agent.
     """
 
     def __init__(self):
         """
-        初始化一个空列表来存储所有记录。
+        Khởi tạo một list rỗng để lưu trữ tất cả các bản ghi.
         """
         self.records: List[Dict[str, Any]] = []
 
     def add_record(self, record_type: str, content: str):
         """
-        向记忆中添加一条新记录。
+        Thêm một bản ghi mới vào bộ nhớ.
 
-        参数:
-        - record_type (str): 记录的类型 ('execution' 或 'reflection')。
-        - content (str): 记录的具体内容 (例如，生成的代码或反思的反馈)。
+        Tham số:
+        - record_type (str): Loại bản ghi ('execution' hoặc 'reflection').
+        - content (str): Nội dung cụ thể của bản ghi (ví dụ: code được tạo hoặc feedback phản tư).
         """
         record = {"type": record_type, "content": content}
         self.records.append(record)
-        print(f"📝 记忆已更新，新增一条 '{record_type}' 记录。")
+        print(f"📝 Bộ nhớ đã được cập nhật, thêm mới một bản ghi '{record_type}'.")
 
     def get_trajectory(self) -> str:
         """
-        将所有记忆记录格式化为一个连贯的字符串文本，用于构建提示词。
+        Định dạng tất cả các bản ghi trong bộ nhớ thành một chuỗi văn bản liền mạch, dùng để xây dựng prompt.
         """
         trajectory_parts = []
         for record in self.records:
             if record['type'] == 'execution':
-                trajectory_parts.append(f"--- 上一轮尝试 (代码) ---\n{record['content']}")
+                trajectory_parts.append(f"--- Lần thử trước (Code) ---\n{record['content']}")
             elif record['type'] == 'reflection':
-                trajectory_parts.append(f"--- 评审员反馈 ---\n{record['content']}")
+                trajectory_parts.append(f"--- Đánh giá của reviewer ---\n{record['content']}")
         
         return "\n\n".join(trajectory_parts)
 
     def get_last_execution(self) -> Optional[str]:
         """
-        获取最近一次的执行结果 (例如，最新生成的代码)。
-        如果不存在，则返回 None。
+        Lấy kết quả thực thi gần đây nhất (ví dụ: code được tạo mới nhất).
+        Nếu không tồn tại, trả về None.
         """
         for record in reversed(self.records):
             if record['type'] == 'execution':
@@ -986,12 +984,12 @@ Khác với các paradigm trước, cơ chế Reflection cần nhiều prompt v�
 
 ```bash
 INITIAL_PROMPT_TEMPLATE = """
-你是一位资深的Python程序员。请根据以下要求，编写一个Python函数。
-你的代码必须包含完整的函数签名、文档字符串，并遵循PEP 8编码规范。
+Bạn là một lập trình viên Python kỳ cựu. Vui lòng viết một hàm Python theo yêu cầu dưới đây.
+Code của bạn bắt buộc phải bao gồm đầy đủ signature của hàm, docstring và tuân thủ quy chuẩn viết code PEP 8.
 
-要求: {task}
+Yêu cầu: {task}
 
-请直接输出代码，不要包含任何额外的解释。
+Vui lòng xuất trực tiếp code, không bao gồm bất kỳ lời giải thích thừa thãi nào.
 """
 ```
 
@@ -999,22 +997,22 @@ INITIAL_PROMPT_TEMPLATE = """
 
 ````bash
 REFLECT_PROMPT_TEMPLATE = """
-你是一位极其严格的代码评审专家和资深算法工程师，对代码的性能有极致的要求。
-你的任务是审查以下Python代码，并专注于找出其在<strong>算法效率</strong>上的主要瓶颈。
+Bạn là một chuyên gia đánh giá code (code reviewer) cực kỳ nghiêm khắc và là một kỹ sư thuật toán kỳ cựu, có yêu cầu khắt khe tuyệt đối về hiệu năng của code.
+Nhiệm vụ của bạn là xem xét code Python dưới đây, và tập trung vào việc tìm ra điểm nghẽn chính về <strong>hiệu quả thuật toán</strong> của nó.
 
-# 原始任务:
+# Tác vụ ban đầu:
 {task}
 
-# 待审查的代码:
+# Code cần xem xét:
 ```python
 {code}
 ```
 
-请分析该代码的时间复杂度，并思考是否存在一种<strong>算法上更优</strong>的解决方案来显著提升性能。
-如果存在，请清晰地指出当前算法的不足，并提出具体的、可行的改进算法建议（例如，使用筛法替代试除法）。
-如果代码在算法层面已经达到最优，才能回答“无需改进”。
+Vui lòng phân tích độ phức tạp thời gian của code này, và suy nghĩ xem liệu có giải pháp nào <strong>tối ưu hơn về mặt thuật toán</strong> để cải thiện đáng kể hiệu năng hay không.
+Nếu có, hãy chỉ rõ những điểm chưa hoàn thiện của thuật toán hiện tại, và đề xuất các phương án cải tiến thuật toán cụ thể, khả thi (ví dụ: sử dụng phương pháp sàng thay vì kiểm tra chia thử).
+Nếu code ở cấp độ thuật toán đã đạt mức tối ưu, mới được trả lời "Không cần cải tiến".
 
-请直接输出你的反馈，不要包含任何额外的解释。
+Vui lòng xuất trực tiếp phản hồi của bạn, không bao gồm bất kỳ lời giải thích thừa thãi nào.
 """
 ````
 
@@ -1023,19 +1021,19 @@ REFLECT_PROMPT_TEMPLATE = """
 ````bash
 
 REFINE_PROMPT_TEMPLATE = """
-你是一位资深的Python程序员。你正在根据一位代码评审专家的反馈来优化你的代码。
+Bạn là một lập trình viên Python kỳ cựu. Bạn đang tối ưu hóa code của mình dựa trên phản hồi từ một chuyên gia đánh giá code.
 
-# 原始任务:
+# Tác vụ ban đầu:
 {task}
 
-# 你上一轮尝试的代码:
+# Code bạn đã thử ở vòng trước:
 {last_code_attempt}
-评审员的反馈：
+Phản hồi của reviewer:
 {feedback}
 
-请根据评审员的反馈，生成一个优化后的新版本代码。
-你的代码必须包含完整的函数签名、文档字符串，并遵循PEP 8编码规范。
-请直接输出优化后的代码，不要包含任何额外的解释。
+Vui lòng dựa vào phản hồi của reviewer để tạo ra một phiên bản code mới đã được tối ưu.
+Code của bạn bắt buộc phải bao gồm đầy đủ signature của hàm, docstring và tuân thủ quy chuẩn viết code PEP 8.
+Vui lòng xuất trực tiếp code đã tối ưu, không bao gồm bất kỳ lời giải thích thừa thãi nào.
 """
 ````
 
@@ -1044,7 +1042,7 @@ REFINE_PROMPT_TEMPLATE = """
 Bây giờ, chúng ta sẽ tích hợp bộ prompt này cùng module `Memory` vào class `ReflectionAgent`.
 
 ```python
-# 假设 llm_client.py 和 memory.py 已定义
+# Giả sử llm_client.py và memory.py đã được định nghĩa
 # from llm_client import HelloAgentsLLM
 # from memory import Memory
 
@@ -1055,32 +1053,32 @@ class ReflectionAgent:
         self.max_iterations = max_iterations
 
     def run(self, task: str):
-        print(f"\n--- 开始处理任务 ---\n任务: {task}")
+        print(f"\n--- Bắt đầu xử lý tác vụ ---\nTác vụ: {task}")
 
-        # --- 1. 初始执行 ---
-        print("\n--- 正在进行初始尝试 ---")
+        # --- 1. Thực thi khởi tạo ---
+        print("\n--- Đang tiến hành lần thử khởi tạo ---")
         initial_prompt = INITIAL_PROMPT_TEMPLATE.format(task=task)
         initial_code = self._get_llm_response(initial_prompt)
         self.memory.add_record("execution", initial_code)
 
-        # --- 2. 迭代循环:反思与优化 ---
+        # --- 2. Vòng lặp lặp lại: Phản tư và tối ưu ---
         for i in range(self.max_iterations):
-            print(f"\n--- 第 {i+1}/{self.max_iterations} 轮迭代 ---")
+            print(f"\n--- Vòng lặp thứ {i+1}/{self.max_iterations} ---")
 
-            # a. 反思
-            print("\n-> 正在进行反思...")
+            # a. Phản tư
+            print("\n-> Đang tiến hành phản tư...")
             last_code = self.memory.get_last_execution()
             reflect_prompt = REFLECT_PROMPT_TEMPLATE.format(task=task, code=last_code)
             feedback = self._get_llm_response(reflect_prompt)
             self.memory.add_record("reflection", feedback)
 
-            # b. 检查是否需要停止
-            if "无需改进" in feedback:
-                print("\n✅ 反思认为代码已无需改进，任务完成。")
+            # b. Kiểm tra xem có cần dừng lại không
+            if "không cần cải tiến" in feedback.lower():
+                print("\n✅ Phản tư nhận định code không cần cải tiến nữa, tác vụ hoàn thành.")
                 break
 
-            # c. 优化
-            print("\n-> 正在进行优化...")
+            # c. Tối ưu
+            print("\n-> Đang tiến hành tối ưu...")
             refine_prompt = REFINE_PROMPT_TEMPLATE.format(
                 task=task,
                 last_code_attempt=last_code,
@@ -1090,11 +1088,11 @@ class ReflectionAgent:
             self.memory.add_record("execution", refined_code)
         
         final_code = self.memory.get_last_execution()
-        print(f"\n--- 任务完成 ---\n最终生成的代码:\n```python\n{final_code}\n```")
+        print(f"\n--- Tác vụ hoàn thành ---\nCode cuối cùng được tạo:\n```python\n{final_code}\n```")
         return final_code
 
     def _get_llm_response(self, prompt: str) -> str:
-        """一个辅助方法，用于调用LLM并获取完整的流式响应。"""
+        """Một phương thức phụ trợ dùng để gọi LLM và nhận toàn bộ streaming response."""
         messages = [{"role": "user", "content": prompt}]
         response_text = self.llm_client.think(messages=messages) or ""
         return response_text
@@ -1106,63 +1104,63 @@ class ReflectionAgent:
 Code hoàn chỉnh cũng tham khảo thư mục `code` trong repository code đi kèm cuốn sách này, ở đây cung cấp một ví dụ output.
 
 ````python
---- 开始处理任务 ---
-任务： 编写一个Python函数，找出1到n之间所有的素数 (prime numbers)。
+--- Bắt đầu xử lý tác vụ ---
+Tác vụ: Viết một hàm Python để tìm tất cả các số nguyên tố (prime numbers) trong khoảng từ 1 đến n.
 
---- 正在进行初始尝试 ---
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功：
+--- Đang tiến hành lần thử khởi tạo ---
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
 ```python
 def find_primes(n):
     ...
     return primes
 ```
-📝 记忆已更新，新增一条 'execution' 记录。   
+📝 Bộ nhớ đã được cập nhật, thêm mới một bản ghi 'execution'.   
 
---- 第 1/2 轮迭代 ---
+--- Vòng lặp thứ 1/2 ---
 
--> 正在进行反思...
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功：
-当前代码的时间复杂度为O(n * sqrt(n))。虽然对于较小的n值，这种实现是可以接受的，但当n非常大时，性能会显著下降。主要瓶颈在于每个数都需要进行试除法检查，这导致了较高的时间开销。
+-> Đang tiến hành phản tư...
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
+Độ phức tạp thời gian của code hiện tại là O(n * sqrt(n)). Mặc dù với giá trị n nhỏ, cách triển khai này có thể chấp nhận được, nhưng khi n rất lớn, hiệu năng sẽ giảm sút rõ rệt. Điểm nghẽn chính nằm ở chỗ mỗi số đều cần thực hiện kiểm tra chia thử, dẫn đến chi phí thời gian cao.
 
-建议使用埃拉托斯特尼筛法（Sieve of Eratosthenes），该算法的时间复杂度为O(n log(log n))，能够显著提高查找素数的效率。
+Khuyến nghị sử dụng Sàng Eratosthenes (Sieve of Eratosthenes), thuật toán này có độ phức tạp thời gian là O(n log(log n)), có thể nâng cao đáng kể hiệu quả tìm số nguyên tố.
 
-改进后的代码如下：
+Code sau khi cải tiến như sau:
 ```python
 def find_primes(n):
     ...
     return primes
 ```
-📝 记忆已更新，新增一条 'reflection' 记录。
+📝 Bộ nhớ đã được cập nhật, thêm mới một bản ghi 'reflection'.
 
--> 正在进行优化...
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功：
+-> Đang tiến hành tối ưu...
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
 ```python
 def find_primes(n):
     ...
     return primes
 ```
-📝 记忆已更新，新增一条 'execution' 记录。
+📝 Bộ nhớ đã được cập nhật, thêm mới một bản ghi 'execution'.
 
---- 第 2/2 轮迭代 ---
+--- Vòng lặp thứ 2/2 ---
 
--> 正在进行反思...
-🧠 正在调用 xxxxxx 模型...
-✅ 大语言模型响应成功：
-当前代码使用了Eratosthenes筛法，时间复杂度为O(n log log n)，空间复杂度为O(n)。此算法在寻找1到n之间的所有素数时已经非常高效，通常情况下无需进一步优化。但在某些特定场景下，可以考虑以下改进：
+-> Đang tiến hành phản tư...
+🧠 Đang gọi model xxxxxx...
+✅ Large Language Model phản hồi thành công:
+Code hiện tại sử dụng thuật toán Sàng Eratosthenes, độ phức tạp thời gian là O(n log log n), độ phức tạp không gian là O(n). Thuật toán này đã rất hiệu quả khi tìm tất cả các số nguyên tố từ 1 đến n, thông thường không cần tối ưu thêm. Tuy nhiên trong một số ngữ cảnh cụ thể, có thể cân nhắc các cải tiến sau:
 
-1. <strong>分段筛法（Segmented Sieve）</strong>：适用于n非常大但内存有限的情况。将区间分成多个小段，每段分别用筛法处理，减少内存使用。
-2. <strong>奇数筛法（Odd Number Sieve）</strong>：除了2以外，所有素数都是奇数。可以在初始化`is_prime`数组时只标记奇数，这样可以将空间复杂度降低一半，同时减少一些不必要的计算。
+1. <strong>Sàng phân đoạn (Segmented Sieve)</strong>：Thích hợp cho trường hợp n rất lớn nhưng bộ nhớ bị giới hạn. Chia khoảng thành nhiều đoạn nhỏ, xử lý từng đoạn bằng thuật toán sàng để giảm sử dụng bộ nhớ.
+2. <strong>Sàng số lẻ (Odd Number Sieve)</strong>：Ngoại trừ số 2, tất cả các số nguyên tố đều là số lẻ. Có thể chỉ đánh dấu các số lẻ khi khởi tạo mảng `is_prime`, giúp giảm một nửa độ phức tạp không gian, đồng thời bớt một số phép tính không cần thiết.
 
-然而，这些改进对于大多数应用场景来说并不是必需的，因为标准的Eratosthenes筛法已经足够高效。因此，在一般情况下，<strong>无需改进</strong>。
-📝 记忆已更新，新增一条 'reflection' 记录。
+Tuy nhiên, các cải tiến này không thực sự cần thiết đối với đa số các kịch bản ứng dụng, bởi vì Sàng Eratosthenes chuẩn đã đủ hiệu quả. Do đó, trong trường hợp thông thường, <strong>không cần cải tiến</strong>.
+📝 Bộ nhớ đã được cập nhật, thêm mới một bản ghi 'reflection'.
 
-✅ 反思认为代码已无需改进，任务完成。
+✅ Phản tư nhận định code không cần cải tiến nữa, tác vụ hoàn thành.
 
---- 任务完成 ---
-最终生成的代码：
+--- Tác vụ hoàn thành ---
+Code cuối cùng được tạo:
 ```python
 def find_primes(n):
     """
