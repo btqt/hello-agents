@@ -8,7 +8,7 @@ Mục tiêu của chương này là khám phá cách sử dụng một số <str
 
 Từ việc viết các script dùng một lần đến việc sử dụng một framework trưởng thành, đó là một bước nhảy vọt quan trọng trong tư duy của lĩnh vực kỹ thuật phần mềm. Code chúng ta viết ở Chương 4 chủ yếu nhằm mục đích giảng dạy và giúp hiểu rõ bản chất. Chúng có thể hoàn thành tốt các nhiệm vụ cụ thể, nhưng nếu dùng chúng để xây dựng nhiều ứng dụng Agent khác loại và có logic phức tạp, chúng ta sẽ nhanh chóng gặp phải điểm nghẽn (bottleneck).
 
-Bản chất của một framework là cung cấp một bộ "quy chuẩn" đã được kiểm chứng. Nó trừu tượng hóa (abstract) và đóng gói (encapsulate) những công việc chung, lặp đi lặp lại của tất cả các Agent (như vòng lặp chính, quản lý trạng thái, gọi tool, ghi log, v.v.), giúp chúng ta khi xây dựng một Agent mới có thể tập trung vào logic nghiệp vụ đặc thù của nó, thay vì phần triển khai nền tảng (底层实现) mang tính thông dụng.
+Bản chất của một framework là cung cấp một bộ "quy chuẩn" đã được kiểm chứng. Nó trừu tượng hóa (abstract) và đóng gói (encapsulate) những công việc chung, lặp đi lặp lại của tất cả các Agent (như vòng lặp chính, quản lý trạng thái, gọi tool, ghi log, v.v.), giúp chúng ta khi xây dựng một Agent mới có thể tập trung vào logic nghiệp vụ đặc thù của nó, thay vì phần triển khai nền tảng (underlying implementation) mang tính thông dụng.
 
 ### 6.1.1 Vì sao cần đến Agent Framework
 
@@ -49,7 +49,7 @@ Như đã đề cập ở trên, triết lý thiết kế của AutoGen bắt ng
 
 ### 6.2.1 Cơ chế cốt lõi của AutoGen
 
-Việc phát hành phiên bản `0.7.4` là một cột mốc quan trọng trong sự phát triển của AutoGen, nó đánh dấu một cuộc cách tân căn bản trong thiết kế nền tảng (底层设计) của framework. Lần cập nhật này không đơn thuần là chồng thêm tính năng, mà là một sự suy nghĩ lại toàn diện về kiến trúc tổng thể, nhằm nâng cao tính module hóa, hiệu năng xử lý đồng thời (concurrency) và trải nghiệm của nhà phát triển.
+Việc phát hành phiên bản `0.7.4` là một cột mốc quan trọng trong sự phát triển của AutoGen, nó đánh dấu một cuộc cách tân căn bản trong thiết kế nền tảng (underlying design) của framework. Lần cập nhật này không đơn thuần là chồng thêm tính năng, mà là một sự suy nghĩ lại toàn diện về kiến trúc tổng thể, nhằm nâng cao tính module hóa, hiệu năng xử lý đồng thời (concurrency) và trải nghiệm của nhà phát triển.
 
 <div align="center">
   <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/6-figures/02.png" alt="" width="90%"/>
@@ -140,22 +140,22 @@ Product Manager chịu trách nhiệm khởi động toàn bộ quy trình. Syst
 ```python
 def create_product_manager(model_client):
     """Tạo Agent Product Manager"""
-    system_message = """你是一位经验丰富的产品经理，专门负责软件产品的需求分析和项目规划。
+    system_message = """Bạn là một Product Manager giàu kinh nghiệm, chuyên phụ trách phân tích yêu cầu và lập kế hoạch dự án cho các sản phẩm phần mềm.
 
-你的核心职责包括：
-1. **需求分析**：深入理解用户需求，识别核心功能和边界条件
-2. **技术规划**：基于需求制定清晰的技术实现路径
-3. **风险评估**：识别潜在的技术风险和用户体验问题
-4. **协调沟通**：与工程师和其他团队成员进行有效沟通
+Trách nhiệm cốt lõi của bạn bao gồm:
+1. **Phân tích yêu cầu**: Hiểu sâu sắc nhu cầu người dùng, xác định các tính năng cốt lõi và điều kiện biên
+2. **Lập kế hoạch kỹ thuật**: Xây dựng lộ trình triển khai kỹ thuật rõ ràng dựa trên yêu cầu
+3. **Đánh giá rủi ro**: Nhận diện các rủi ro kỹ thuật tiềm ẩn và vấn đề về trải nghiệm người dùng
+4. **Điều phối và giao tiếp**: Giao tiếp hiệu quả với các kỹ sư và thành viên khác trong nhóm
 
-当接到开发任务时，请按以下结构进行分析：
-1. 需求理解与分析
-2. 功能模块划分
-3. 技术选型建议
-4. 实现优先级排序
-5. 验收标准定义
+Khi nhận được nhiệm vụ phát triển, hãy phân tích theo cấu trúc sau:
+1. Hiểu và phân tích yêu cầu
+2. Phân chia module chức năng
+3. Đề xuất lựa chọn công nghệ
+4. Sắp xếp thứ tự ưu tiên triển khai
+5. Định nghĩa tiêu chí nghiệm thu
 
-请简洁明了地回应，并在分析完成后说"请工程师开始实现"。"""
+Vui lòng phản hồi ngắn gọn, rõ ràng và sau khi hoàn tất phân tích hãy nói "Mời Engineer bắt đầu triển khai"."""
 
     return AssistantAgent(
         name="ProductManager",
@@ -170,23 +170,23 @@ System Message của Engineer tập trung vào việc triển khai kỹ thuật.
 
 ```python
 def create_engineer(model_client):
-    """创建软件工程师智能体"""
-    system_message = """你是一位资深的软件工程师，擅长 Python 开发和 Web 应用构建。
+    """Tạo Agent kỹ sư phần mềm"""
+    system_message = """Bạn là một kỹ sư phần mềm cấp cao, thành thạo phát triển Python và xây dựng ứng dụng Web.
 
-你的技术专长包括：
-1. **Python 编程**：熟练掌握 Python 语法和最佳实践
-2. **Web 开发**：精通 Streamlit、Flask、Django 等框架
-3. **API 集成**：有丰富的第三方 API 集成经验
-4. **错误处理**：注重代码的健壮性和异常处理
+Chuyên môn kỹ thuật của bạn bao gồm:
+1. **Lập trình Python**: Thành thạo cú pháp Python và các best practice
+2. **Phát triển Web**: Tinh thông các framework như Streamlit, Flask, Django
+3. **Tích hợp API**: Có nhiều kinh nghiệm tích hợp API bên thứ ba
+4. **Xử lý lỗi**: Chú trọng tính vững chắc (robustness) của code và xử lý ngoại lệ
 
-当收到开发任务时，请：
-1. 仔细分析技术需求
-2. 选择合适的技术方案
-3. 编写完整的代码实现
-4. 添加必要的注释和说明
-5. 考虑边界情况和异常处理
+Khi nhận được nhiệm vụ phát triển, vui lòng:
+1. Phân tích kỹ các yêu cầu kỹ thuật
+2. Lựa chọn giải pháp kỹ thuật phù hợp
+3. Viết mã nguồn triển khai hoàn chỉnh
+4. Thêm các chú thích (comment) và giải thích cần thiết
+5. Xem xét các trường hợp biên (edge case) và xử lý ngoại lệ
 
-请提供完整的可运行代码，并在完成后说"请代码审查员检查"。"""
+Vui lòng cung cấp code hoàn chỉnh có thể chạy được, và sau khi hoàn thành hãy nói "Mời Code Reviewer kiểm tra"."""
 
     return AssistantAgent(
         name="Engineer",
@@ -201,23 +201,23 @@ def create_engineer(model_client):
 
 ```python
 def create_code_reviewer(model_client):
-    """创建代码审查员智能体"""
-    system_message = """你是一位经验丰富的代码审查专家，专注于代码质量和最佳实践。
+    """Tạo Agent Code Reviewer"""
+    system_message = """Bạn là một chuyên gia review code giàu kinh nghiệm, tập trung vào chất lượng code và các best practice.
 
-你的审查重点包括：
-1. **代码质量**：检查代码的可读性、可维护性和性能
-2. **安全性**：识别潜在的安全漏洞和风险点
-3. **最佳实践**：确保代码遵循行业标准和最佳实践
-4. **错误处理**：验证异常处理的完整性和合理性
+Trọng tâm kiểm tra của bạn bao gồm:
+1. **Chất lượng code**: Kiểm tra khả năng đọc hiểu, khả năng bảo trì và hiệu năng của code
+2. **Bảo mật**: Nhận diện các lỗ hổng bảo mật và điểm rủi ro tiềm ẩn
+3. **Best Practice**: Đảm bảo code tuân thủ các tiêu chuẩn ngành và best practice
+4. **Xử lý lỗi**: Xác minh tính đầy đủ và hợp lý của việc xử lý ngoại lệ
 
-审查流程：
-1. 仔细阅读和理解代码逻辑
-2. 检查代码规范和最佳实践
-3. 识别潜在问题和改进点
-4. 提供具体的修改建议
-5. 评估代码的整体质量
+Quy trình review:
+1. Đọc kỹ và hiểu logic của code
+2. Kiểm tra quy chuẩn code và các best practice
+3. Nhận diện các vấn đề tiềm ẩn và điểm cần cải thiện
+4. Đưa ra các đề xuất chỉnh sửa cụ thể
+5. Đánh giá chất lượng tổng thể của code
 
-请提供具体的审查意见，完成后说"代码审查完成，请用户代理测试"。"""
+Vui lòng đưa ra ý kiến review cụ thể, sau khi hoàn tất hãy nói "Review code hoàn tất, mời User Proxy kiểm thử"."""
 
     return AssistantAgent(
         name="CodeReviewer",
@@ -232,16 +232,16 @@ def create_code_reviewer(model_client):
 
 ```python
 def create_user_proxy():
-    """创建用户代理智能体"""
+    """Tạo Agent đại diện người dùng (UserProxy)"""
     return UserProxyAgent(
         name="UserProxy",
-        description="""用户代理，负责以下职责：
-1. 代表用户提出开发需求
-2. 执行最终的代码实现
-3. 验证功能是否符合预期
-4. 提供用户反馈和建议
+        description="""Đại diện người dùng (User Proxy), đảm nhận các trách nhiệm sau:
+1. Thay mặt người dùng đưa ra yêu cầu phát triển
+2. Thực thi mã nguồn triển khai cuối cùng
+3. Xác minh xem tính năng có đáp ứng kỳ vọng hay không
+4. Cung cấp phản hồi và đề xuất từ phía người dùng
 
-完成测试后请回复 TERMINATE。""",
+Sau khi hoàn tất kiểm thử vui lòng phản hồi TERMINATE.""",
     )
 ```
 
@@ -255,7 +255,7 @@ Trong case này, quy trình phát triển phần mềm tương đối cố đị
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.conditions import TextMentionTermination
 
-# 定义团队聊天和协作规则
+# Định nghĩa quy tắc chat nhóm và hợp tác của đội ngũ
 team_chat = RoundRobinGroupChat(
     participants=[
         product_manager,
@@ -278,27 +278,27 @@ Do AutoGen `0.7.4` áp dụng kiến trúc bất đồng bộ, toàn bộ việc
 
 ```python
 async def run_software_development_team():
-    # ... 初始化客户端和智能体 ...
+    # ... Khởi tạo client và các Agent ...
     
-    # 定义任务描述
-    task = """我们需要开发一个比特币价格显示应用，具体要求如下：
-            核心功能：
-            - 实时显示比特币当前价格（USD）
-            - 显示24小时价格变化趋势（涨跌幅和涨跌额）
-            - 提供价格刷新功能
+    # Định nghĩa mô tả nhiệm vụ
+    task = """Chúng ta cần phát triển một ứng dụng hiển thị giá Bitcoin với các yêu cầu cụ thể sau:
+            Chức năng cốt lõi:
+            - Hiển thị giá Bitcoin hiện tại theo thời gian thực (USD)
+            - Hiển thị xu hướng biến động giá trong 24 giờ (tỷ lệ phần trăm và mức tăng/giảm)
+            - Cung cấp tính năng làm mới (refresh) giá
 
-            技术要求：
-            - 使用 Streamlit 框架创建 Web 应用
-            - 界面简洁美观，用户友好
-            - 添加适当的错误处理和加载状态
+            Yêu cầu kỹ thuật:
+            - Sử dụng framework Streamlit để tạo ứng dụng Web
+            - Giao diện đơn giản, đẹp mắt, thân thiện với người dùng
+            - Bổ sung xử lý lỗi và trạng thái đang tải (loading) phù hợp
 
-            请团队协作完成这个任务，从需求分析到最终实现。"""
+            Vui lòng phối hợp cùng nhau để hoàn thành nhiệm vụ này, từ bước phân tích yêu cầu cho đến triển khai cuối cùng."""
     
-    # 异步执行团队协作，并流式输出对话过程
+    # Thực thi bất đồng bộ quá trình hợp tác của đội ngũ và xuất luồng (stream) hội thoại
     result = await Console(team_chat.run_stream(task=task))
     return result
 
-# 主程序入口
+# Điểm vào (entry point) chương trình chính
 if __name__ == "__main__":
     result = asyncio.run(run_software_development_team())
 ```
@@ -310,45 +310,42 @@ Khi chương trình được chạy, `task` được truyền vào `team_chat` n
 Khi chúng ta chạy đội ngũ phát triển phần mềm này, có thể quan sát được một luồng hợp tác hoàn chỉnh:
 
 ```bash
-🔧 正在初始化模型客户端...
-👥 正在创建智能体团队...
-🚀 启动 AutoGen 软件开发团队协作...
+🔧 Đang khởi tạo model client...
+👥 Đang tạo đội ngũ Agent...
+🚀 Khởi động hợp tác đội ngũ phát triển phần mềm AutoGen...
 ============================================================
 ---------- TextMessage (user) ----------
-我们需要开发一个比特币价格显示应用，具体要求如下：
+Chúng ta cần phát triển một ứng dụng hiển thị giá Bitcoin với các yêu cầu cụ thể sau:
 ...
-请团队协作完成这个任务，从需求分析到最终实现。
+Vui lòng phối hợp cùng nhau để hoàn thành nhiệm vụ này, từ bước phân tích yêu cầu cho đến triển khai cuối cùng.
 ---------- TextMessage (ProductManager) ----------
-### 1. 需求理解与分析
+### 1. Hiểu và phân tích yêu cầu
 ...
-请工程师开始实现。
+Mời Engineer bắt đầu triển khai.
 ---------- TextMessage (Engineer) ----------
-### 技术方案实施
+### Triển khai giải pháp kỹ thuật
 ...
-请代码审查员检查。
+Mời Code Reviewer kiểm tra.
 ---------- TextMessage (CodeReviewer) ----------
-### 代码审查
+### Review code
 ...
-代码审查完成，请用户代理测试。    
+Review code hoàn tất, mời User Proxy kiểm thử.
 ---------- TextMessage (UserProxy) ----------
-已经完成需求
+Đã hoàn thành yêu cầu
 ---------- TextMessage (ProductManager) ----------
-太好了，感谢您的反馈！如果在使用过程中有任何问题，或者有其他功能需求和改进建议，请随时告知我们。我们会持续提供支持和改进。期待您对我们的应用
-有愉快的使用体验！
+Tuyệt vời, cảm ơn phản hồi của bạn! Nếu có bất kỳ vấn đề nào trong quá trình sử dụng, hoặc có các yêu cầu tính năng và đề xuất cải tiến khác, xin vui lòng cho chúng tôi biết bất cứ lúc nào. Chúng tôi sẽ tiếp tục hỗ trợ và cải thiện. Chúc bạn có trải nghiệm thú vị với ứng dụng của chúng tôi!
 ---------- TextMessage (Engineer) ----------
-很高兴听到项目顺利完成。如果您或用户有任何问题或者需要帮助，请随时联系我们。感谢您对我们工作的支持，让我们一起确保应用稳定运行并不断优化用户
-体验！
+Rất vui khi nghe dự án đã hoàn thành thuận lợi. Nếu bạn hoặc người dùng có bất kỳ câu hỏi nào hoặc cần hỗ trợ, xin vui lòng liên hệ với chúng tôi bất cứ lúc nào. Cảm ơn sự ủng hộ của bạn đối với công việc của chúng tôi, hãy cùng nhau đảm bảo ứng dụng vận hành ổn định và không ngừng tối ưu hóa trải nghiệm người dùng!
 ---------- TextMessage (CodeReviewer) ----------
-非常感谢大家的努力与协作，使得项目能够顺利完成。未来若有更多技术支持的需求或者需要改进的地方，我们愿意为项目的持续优化贡
-献力量。期待用户能够享受到流畅的体验，同时也欢迎提出更多的反馈与建议。再次感谢团队的合作！
+Cảm ơn rất nhiều vì sự nỗ lực và hợp tác của mọi người để dự án có thể hoàn thành thuận lợi. Trong tương lai, nếu có thêm nhu cầu hỗ trợ kỹ thuật hoặc điểm nào cần cải thiện, chúng tôi sẵn sàng đóng góp để tiếp tục tối ưu hóa dự án. Mong rằng người dùng sẽ có trải nghiệm mượt mà, đồng thời rất hoan nghênh các phản hồi và góp ý thêm. Một lần nữa cảm ơn sự hợp tác của cả đội ngũ!
 ---------- TextMessage (UserProxy) ----------
 Enter your response: TERMINATE
 ============================================================
-✅ 团队协作完成！
+✅ Hợp tác đội ngũ hoàn tất!
 
-📋 协作结果摘要：
-- 参与智能体数量：4个
-- 任务完成状态：成功
+📋 Tóm tắt kết quả hợp tác:
+- Số lượng Agent tham gia: 4
+- Trạng thái hoàn thành nhiệm vụ: Thành công
 ```
 
 Toàn bộ quá trình hợp tác thể hiện rõ ưu điểm của framework AutoGen: <strong>hợp tác tự nhiên được thúc đẩy bởi hội thoại</strong>, <strong>phân công chuyên môn hóa vai trò</strong>, <strong>quản lý tự động hóa quy trình</strong> và <strong>vòng khép kín phát triển hoàn chỉnh</strong>.
@@ -427,12 +424,12 @@ Sự sáng tạo cốt lõi của AgentScope nằm ở <strong>kiến trúc hư�
 ```python
 from agentscope.message import Msg
 
-# 消息的标准结构
+# Cấu trúc chuẩn của tin nhắn
 message = Msg(
-    name="Alice",           # 发送者名称
-    content="Hello, Bob!",  # 消息内容
-    role="user",           # 角色类型
-    metadata={             # 元数据信息
+    name="Alice",           # Tên người gửi
+    content="Hello, Bob!",  # Nội dung tin nhắn
+    role="user",            # Loại vai trò
+    metadata={              # Thông tin metadata
         "timestamp": "2024-01-15T10:30:00Z",
         "message_type": "text",
         "priority": "normal"
@@ -457,15 +454,15 @@ from agentscope.agents import AgentBase
 class CustomAgent(AgentBase):
     def __init__(self, name: str, **kwargs):
         super().__init__(name=name, **kwargs)
-        # 智能体初始化逻辑
+        # Logic khởi tạo Agent
     
     def reply(self, x: Msg) -> Msg:
-        # 智能体的核心响应逻辑
+        # Logic phản hồi cốt lõi của Agent
         response = self.model(x.content)
         return Msg(name=self.name, content=response, role="assistant")
     
     def observe(self, x: Msg) -> None:
-        # 智能体的观察逻辑（可选）
+        # Logic quan sát của Agent (tùy chọn)
         self.memory.add(x)
 ```
 
@@ -485,7 +482,7 @@ Trong mục tiếp theo, chúng ta sẽ thông qua một case thực hành cụ 
 
 ### 6.3.2 Trò chơi Ma sói Tam Quốc
 
-Để hiểu sâu sắc kiến trúc hướng tin nhắn và năng lực hợp tác đa Agent của AgentScope, chúng ta sẽ xây dựng trò chơi "Ma sói Tam Quốc" (三国狼人杀) kết hợp yếu tố văn hóa cổ điển Trung Hoa. Case này không chỉ thể hiện ưu thế của AgentScope trong việc xử lý tương tác đa Agent phức tạp, mà quan trọng hơn, nó minh họa cách phát huy sức mạnh của kiến trúc hướng tin nhắn trong một kịch bản cần <strong>hợp tác thời gian thực</strong>, <strong>đóng vai (role-playing)</strong> và <strong>đấu trí chiến lược (strategic game)</strong>. Khác với Ma sói truyền thống, "Ma sói Tam Quốc" của chúng ta đưa các nhân vật kinh điển như Lưu Bị, Quan Vũ, Gia Cát Lượng vào trò chơi, mỗi Agent không chỉ cần hoàn thành nhiệm vụ cơ bản của Ma sói (như sói giết người, tiên tri kiểm tra, dân làng suy luận), mà còn phải thể hiện được đặc điểm tính cách và mô thức hành vi của nhân vật Tam Quốc tương ứng. Thiết kế này cho phép chúng ta quan sát được cách AgentScope xử lý <strong>việc mô hình hóa vai trò đa tầng</strong>.
+Để hiểu sâu sắc kiến trúc hướng tin nhắn và năng lực hợp tác đa Agent của AgentScope, chúng ta sẽ xây dựng trò chơi "Ma sói Tam Quốc" kết hợp yếu tố văn hóa cổ điển Trung Hoa. Case này không chỉ thể hiện ưu thế của AgentScope trong việc xử lý tương tác đa Agent phức tạp, mà quan trọng hơn, nó minh họa cách phát huy sức mạnh của kiến trúc hướng tin nhắn trong một kịch bản cần <strong>hợp tác thời gian thực</strong>, <strong>đóng vai (role-playing)</strong> và <strong>đấu trí chiến lược (strategic game)</strong>. Khác với Ma sói truyền thống, "Ma sói Tam Quốc" của chúng ta đưa các nhân vật kinh điển như Lưu Bị, Quan Vũ, Gia Cát Lượng vào trò chơi, mỗi Agent không chỉ cần hoàn thành nhiệm vụ cơ bản của Ma sói (như sói giết người, tiên tri kiểm tra, dân làng suy luận), mà còn phải thể hiện được đặc điểm tính cách và mô thức hành vi của nhân vật Tam Quốc tương ứng. Thiết kế này cho phép chúng ta quan sát được cách AgentScope xử lý <strong>việc mô hình hóa vai trò đa tầng</strong>.
 
 （1）Thiết kế kiến trúc và các thành phần cốt lõi
 
@@ -503,28 +500,28 @@ Ví dụ, việc hiện thực hóa giai đoạn sói không phải là một l�
 
 ```python
 async def werewolf_phase(self, round_num: int):
-    """狼人阶段 - 展示消息驱动的协作模式"""
+    """Giai đoạn Ma sói - minh họa mô hình hợp tác hướng tin nhắn"""
     if not self.werewolves:
         return None
         
-    # 通过消息中心建立狼人专属通信频道
+    # Thiết lập kênh giao tiếp dành riêng cho Ma sói thông qua trung tâm tin nhắn
     async with MsgHub(
         self.werewolves,
         enable_auto_broadcast=True,
         announcement=await self.moderator.announce(
-            f"狼人们，请讨论今晚的击杀目标。存活玩家：{format_player_list(self.alive_players)}"
+            f"Các Ma sói, hãy thảo luận mục tiêu giết tối nay. Người chơi còn sống: {format_player_list(self.alive_players)}"
         ),
     ) as werewolves_hub:
-        # 讨论阶段：狼人通过消息交换策略
+        # Giai đoạn thảo luận: Ma sói trao đổi chiến lược thông qua tin nhắn
         for _ in range(MAX_DISCUSSION_ROUND):
             for wolf in self.werewolves:
                 await wolf(structured_model=DiscussionModelCN)
         
-        # 投票阶段：收集并统计狼人的击杀决策
+        # Giai đoạn bỏ phiếu: thu thập và thống kê quyết định giết của Ma sói
         werewolves_hub.set_auto_broadcast(False)
         kill_votes = await fanout_pipeline(
             self.werewolves,
-            msg=await self.moderator.announce("请选择击杀目标"),
+            msg=await self.moderator.announce("Vui lòng chọn mục tiêu cần giết"),
             structured_model=WerewolfKillModelCN,
             enable_gather=False,
         )
@@ -538,26 +535,26 @@ Một thách thức then chốt của trò chơi Ma sói là làm sao đảm b�
 
 ```python
 class DiscussionModelCN(BaseModel):
-    """讨论阶段的输出格式"""
+    """Định dạng đầu ra của giai đoạn thảo luận"""
     reach_agreement: bool = Field(
-        description="是否已达成一致意见",
+        description="Đã đạt được sự thống nhất ý kiến hay chưa",
         default=False
     )
     confidence_level: int = Field(
-        description="对当前推理的信心程度(1-10)",
+        description="Mức độ tự tin vào suy luận hiện tại (1-10)",
         ge=1, le=10,
         default=5
     )
     key_evidence: Optional[str] = Field(
-        description="支持你观点的关键证据",
+        description="Bằng chứng then chốt ủng hộ quan điểm của bạn",
         default=None
     )
 
 class WitchActionModelCN(BaseModel):
-    """女巫行动的输出格式"""
-    use_antidote: bool = Field(description="是否使用解药")
-    use_poison: bool = Field(description="是否使用毒药")
-    target_name: Optional[str] = Field(description="毒药目标玩家姓名")
+    """Định dạng đầu ra cho hành động của Phù thủy"""
+    use_antidote: bool = Field(description="Có sử dụng thuốc giải hay không")
+    use_poison: bool = Field(description="Có sử dụng thuốc độc hay không")
+    target_name: Optional[str] = Field(description="Tên người chơi mục tiêu của thuốc độc")
 ```
 
 Thông qua cách này, chúng ta không chỉ đảm bảo được <strong>tính nhất quán về định dạng (format consistency)</strong> trong đầu ra của Agent, mà quan trọng hơn là hiện thực hóa được <strong>việc ràng buộc tự động hóa luật chơi</strong>. Ví dụ, Agent phù thủy không thể vừa dùng thuốc giải vừa dùng thuốc độc cho cùng một mục tiêu trong cùng lúc, tiên tri mỗi đêm chỉ có thể kiểm tra một người chơi, những ràng buộc này đều được tự động thực thi thông qua định nghĩa trường (field) của data model và logic kiểm chứng (validation).
@@ -568,23 +565,23 @@ Trong case này, thách thức kỹ thuật thú vị nhất là làm sao để 
 
 ```python
 def get_role_prompt(role: str, character: str) -> str:
-    """获取角色提示词 - 融合游戏规则与人物性格"""
-    base_prompt = f"""你是{character}，在这场三国狼人杀游戏中扮演{role}。
+    """Lấy prompt vai trò - kết hợp luật chơi và tính cách nhân vật"""
+    base_prompt = f"""Bạn là {character}, đóng vai {role} trong trò chơi Ma sói Tam Quốc này.
 
-重要规则：
-1. 你只能通过对话和推理参与游戏
-2. 不要尝试调用任何外部工具或函数
-3. 严格按照要求的JSON格式回复
+Quy tắc quan trọng:
+1. Bạn chỉ có thể tham gia trò chơi thông qua hội thoại và suy luận
+2. Không cố gắng gọi bất kỳ công cụ hay hàm bên ngoài nào
+3. Trả lời nghiêm ngặt theo đúng định dạng JSON được yêu cầu
 
-角色特点：
+Đặc điểm vai trò:
 """
     
-    if role == "狼人":
+    if role == "Ma sói":
         return base_prompt + f"""
-- 你是狼人阵营，目标是消灭所有好人
-- 夜晚可以与其他狼人协商击杀目标
-- 白天要隐藏身份，误导好人
-- 以{character}的性格说话和行动
+- Bạn thuộc phe Ma sói, mục tiêu là tiêu diệt toàn bộ người tốt
+- Ban đêm có thể thương lượng với các Ma sói khác về mục tiêu giết
+- Ban ngày phải che giấu thân phận, đánh lạc hướng người tốt
+- Nói chuyện và hành động theo đúng tính cách của {character}
 """
 ```
 
@@ -595,10 +592,10 @@ Thiết kế này giúp chúng ta quan sát được một hiện tượng thú 
 Kiến trúc bất đồng bộ của AgentScope đóng vai trò quan trọng trong trò chơi đa Agent này. Trò chơi thường xuyên xuất hiện các kịch bản cần <strong>thu thập quyết định của nhiều Agent cùng lúc</strong>, ví dụ như giai đoạn bỏ phiếu:
 
 ```python
-# 并行收集所有玩家的投票决策
+# Thu thập song song quyết định bỏ phiếu của tất cả người chơi
 vote_msgs = await fanout_pipeline(
     self.alive_players,
-    await self.moderator.announce("请投票选择要淘汰的玩家"),
+    await self.moderator.announce("Vui lòng bỏ phiếu chọn người chơi muốn loại"),
     structured_model=get_vote_model_cn(self.alive_players),
     enable_gather=False,
 )
@@ -609,16 +606,16 @@ vote_msgs = await fanout_pipeline(
 ```python
 try:
     response = await wolf(
-        "请分析当前局势并表达你的观点。",
+        "Vui lòng phân tích tình hình hiện tại và bày tỏ quan điểm của bạn.",
         structured_model=DiscussionModelCN
     )
 except Exception as e:
-    print(f"⚠️ {wolf.name} 讨论时出错: {e}")
-    # 创建默认响应，确保游戏继续进行
+    print(f"⚠️ Lỗi khi {wolf.name} thảo luận: {e}")
+    # Tạo phản hồi mặc định, đảm bảo trò chơi tiếp tục diễn ra
     default_response = DiscussionModelCN(
         reach_agreement=False,
         confidence_level=5,
-        key_evidence="暂时无法分析"
+        key_evidence="Tạm thời không thể phân tích"
     )
 ```
 
@@ -629,68 +626,68 @@ Thiết kế này đảm bảo rằng ngay cả khi một Agent nào đó xảy 
 Để cảm nhận trực quan hơn về cơ chế vận hành của AgentScope, dưới đây là một đoạn log vận hành thực tế trích từ giai đoạn ban đêm của trò chơi, thể hiện quá trình hai Agent sói đóng vai "Tôn Quyền" và "Chu Du" thương lượng bí mật và thực hiện việc giết người.
 
 ```
-🎮 欢迎来到三国狼人杀！
+🎮 Chào mừng đến với Ma sói Tam Quốc!
 
-=== 游戏初始化 ===
-游戏主持人: 📢 【孙权】你在这场三国狼人杀中扮演狼人，你的角色是孙权。夜晚可以击杀一名玩家
-游戏主持人: 📢 【周瑜】你在这场三国狼人杀中扮演狼人，你的角色是周瑜。夜晚可以击杀一名玩家
+=== Khởi tạo trò chơi ===
+Quản trò: 📢 [Tôn Quyền] Bạn đóng vai Ma sói trong trò chơi Ma sói Tam Quốc này, nhân vật của bạn là Tôn Quyền. Ban đêm có thể giết một người chơi
+Quản trò: 📢 [Chu Du] Bạn đóng vai Ma sói trong trò chơi Ma sói Tam Quốc này, nhân vật của bạn là Chu Du. Ban đêm có thể giết một người chơi
 ...
 
-游戏主持人: 📢 三国狼人杀游戏开始！参与者：孙权、周瑜、曹操、张飞、司马懿、赵云
-✅ 游戏设置完成，共6名玩家
+Quản trò: 📢 Trò chơi Ma sói Tam Quốc bắt đầu! Người tham gia: Tôn Quyền, Chu Du, Tào Tháo, Trương Phi, Tư Mã Ý, Triệu Vân
+✅ Thiết lập trò chơi hoàn tất, tổng cộng 6 người chơi
 
-=== 第1轮游戏 ===
-🌙 第1夜降临，天黑请闭眼...
+=== Vòng 1 ===
+🌙 Đêm thứ 1 buông xuống, trời tối xin mời nhắm mắt...
 
-【狼人阶段】
-游戏主持人: 📢 🐺 狼人请睁眼，选择今晚要击杀的目标...
-游戏主持人: 📢 狼人们，请讨论今晚的击杀目标。存活玩家：孙权、周瑜、曹操、张飞、司马懿、赵云
+[Giai đoạn Ma sói]
+Quản trò: 📢 🐺 Ma sói xin mời mở mắt, chọn mục tiêu sẽ giết tối nay...
+Quản trò: 📢 Các Ma sói, hãy thảo luận mục tiêu giết tối nay. Người chơi còn sống: Tôn Quyền, Chu Du, Tào Tháo, Trương Phi, Tư Mã Ý, Triệu Vân
 
-孙权: 今晚我们应该除掉周瑜，此人智谋过人，对我们威胁很大。
-周瑜: 孙权，你言之有理。但周瑜虽智，却未必是今晚的最大威胁。曹操势力庞大，若不尽早除去，恐对我们不利。
-孙权: 曹操的确是个威胁，但周瑜若活着，他能够识破我们的计谋。不如先解决眼前的隐患。
-周瑜: 孙权，你的顾虑不无道理。但曹操若与我们为敌，他可以联合其他势力对我们构成更大的威胁。
-孙权: 你说的也有道理，曹操的联合确实麻烦。那我们就先对付曹操吧。
-周瑜: 很好，孙权。曹操才是我们今晚首要的目标。
+Tôn Quyền: Tối nay chúng ta nên trừ khử Chu Du, người này mưu trí hơn người, là mối đe dọa rất lớn đối với chúng ta.
+Chu Du: Tôn Quyền, lời ngài nói có lý. Nhưng Chu Du tuy mưu trí, chưa chắc đã là mối đe dọa lớn nhất đêm nay. Thế lực của Tào Tháo rất lớn mạnh, nếu không trừ khử sớm, e rằng sẽ bất lợi cho chúng ta.
+Tôn Quyền: Tào Tháo quả thực là một mối đe dọa, nhưng nếu Chu Du còn sống, hắn có thể nhìn thấu mưu kế của chúng ta. Chi bằng giải quyết mối họa trước mắt trước.
+Chu Du: Tôn Quyền, mối lo ngại của ngài không phải không có lý. Nhưng nếu Tào Tháo trở thành kẻ thù của chúng ta, hắn có thể liên kết các thế lực khác để tạo ra mối đe dọa lớn hơn nữa.
+Tôn Quyền: Ngài nói cũng có lý, sự liên kết của Tào Tháo quả thực rất phiền phức. Vậy chúng ta hãy đối phó với Tào Tháo trước đi.
+Chu Du: Rất tốt, Tôn Quyền. Tào Tháo mới chính là mục tiêu hàng đầu của chúng ta đêm nay.
 
-游戏主持人: 📢 请选择击杀目标
-孙权: 我同意，曹操必须被除掉。
-周瑜: 我同意，曹操是我们今晚要解决的目标。
+Quản trò: 📢 Vui lòng chọn mục tiêu cần giết
+Tôn Quyền: Tôi đồng ý, Tào Tháo nhất định phải bị trừ khử.
+Chu Du: Tôi đồng ý, Tào Tháo là mục tiêu chúng ta cần giải quyết đêm nay.
 
-【预言家阶段】
-游戏主持人: 📢 🔮 预言家请睁眼，选择要查验的玩家...
-曹操: 我要查验孙权。
-游戏主持人: 📢 查验结果：孙权是狼人
+[Giai đoạn Tiên tri]
+Quản trò: 📢 🔮 Tiên tri xin mời mở mắt, chọn người chơi muốn kiểm tra...
+Tào Tháo: Tôi muốn kiểm tra Tôn Quyền.
+Quản trò: 📢 Kết quả kiểm tra: Tôn Quyền là Ma sói
 
-【女巫阶段】
-游戏主持人: 📢 🧙‍♀️ 女巫请睁眼...
-游戏主持人: 📢 今晚曹操被狼人击杀
-张飞: 我昨晚使用了解药救了曹操，现在解药已经用掉了。
-游戏主持人: 📢 你使用解药救了曹操
+[Giai đoạn Phù thủy]
+Quản trò: 📢 🧙‍♀️ Phù thủy xin mời mở mắt...
+Quản trò: 📢 Đêm nay Tào Tháo bị Ma sói giết
+Trương Phi: Đêm qua ta đã dùng thuốc giải cứu Tào Tháo, hiện tại thuốc giải đã dùng hết.
+Quản trò: 📢 Bạn đã dùng thuốc giải cứu Tào Tháo
 
-游戏主持人: 📢 昨夜平安无事，无人死亡。
+Quản trò: 📢 Đêm qua bình yên vô sự, không ai chết.
 
-【白天讨论阶段】
-游戏主持人: 📢 ☀️ 第1天天亮了，请大家睁眼...
-游戏主持人: 📢 现在开始自由讨论。存活玩家：孙权、周瑜、曹操、张飞、司马懿、赵云
+[Giai đoạn thảo luận ban ngày]
+Quản trò: 📢 ☀️ Ngày thứ 1 trời sáng rồi, xin mời mọi người mở mắt...
+Quản trò: 📢 Bây giờ bắt đầu thảo luận tự do. Người chơi còn sống: Tôn Quyền, Chu Du, Tào Tháo, Trương Phi, Tư Mã Ý, Triệu Vân
 
-孙权: 诸位，曹操势力庞大，对我们都是潜在的威胁。今晚我建议我们集中力量对付他。
-周瑜: 孙权所言极是，曹操不仅自身强大，还可能与其他玩家结盟，对我们构成更大的威胁。
-曹操: 我昨晚查验了孙权，本以为他是好人，但游戏主持人给出的结果却是狼人。这说明有狼人在说谎。
-张飞: 我昨晚确实救了曹操，说明他是被狼人袭击的。但曹操查验孙权的结果令人怀疑。
-司马懿: 曹操的查验结果和张飞的救人行动似乎存在矛盾，我们需要更多的信息来判断谁是狼人。
-赵云: 情况确实复杂，我们需要仔细分析各方的发言。
+Tôn Quyền: Chư vị, thế lực của Tào Tháo rất lớn, là mối đe dọa tiềm tàng đối với tất cả chúng ta. Tối nay tôi đề nghị chúng ta tập trung lực lượng đối phó với hắn.
+Chu Du: Tôn Quyền nói rất chí lý, Tào Tháo không chỉ bản thân hùng mạnh, mà còn có thể kết minh với những người chơi khác, gây ra mối đe dọa lớn hơn cho chúng ta.
+Tào Tháo: Đêm qua tôi đã kiểm tra Tôn Quyền, vốn tưởng hắn là người tốt, nhưng kết quả quản trò đưa ra lại là Ma sói. Điều này chứng tỏ có Ma sói đang nói dối.
+Trương Phi: Đêm qua ta quả thực đã cứu Tào Tháo, chứng tỏ hắn bị Ma sói tấn công. Nhưng kết quả Tào Tháo kiểm tra Tôn Quyền lại khiến người ta nghi ngờ.
+Tư Mã Ý: Kết quả kiểm tra của Tào Tháo và hành động cứu người của Trương Phi dường như có sự mâu thuẫn, chúng ta cần thêm thông tin để phán đoán xem ai là Ma sói.
+Triệu Vân: Tình hình quả thực phức tạp, chúng ta cần phân tích kỹ phát ngôn của các bên.
 
-【投票阶段】
-游戏主持人: 📢 请投票选择要淘汰的玩家
+[Giai đoạn bỏ phiếu]
+Quản trò: 📢 Vui lòng bỏ phiếu chọn người chơi muốn loại
 
-孙权: 曹操的威胁依然很大，我坚持认为应该投票给他。
-周瑜: 基于昨晚的情况，我认为我们应该先投票给曹操，他的威胁最大。
-曹操: 我选择投票给孙权。根据游戏主持人的反馈，孙权确实是狼人。
-张飞: 我坚持昨晚救了曹操的事实，但孙权被查出是狼人这一点让我感到困惑。
-司马懿: 我们需要更多的信息来判断谁是狼人。
+Tôn Quyền: Mối đe dọa từ Tào Tháo vẫn rất lớn, tôi giữ nguyên quan điểm nên bỏ phiếu cho hắn.
+Chu Du: Dựa trên tình hình đêm qua, tôi cho rằng chúng ta nên bỏ phiếu cho Tào Tháo trước, mối đe dọa từ hắn là lớn nhất.
+Tào Tháo: Tôi chọn bỏ phiếu cho Tôn Quyền. Theo phản hồi từ quản trò, Tôn Quyền quả thực là Ma sói.
+Trương Phi: Tôi giữ vững sự thật là đêm qua ta đã cứu Tào Tháo, nhưng việc Tôn Quyền bị kiểm tra ra là Ma sói khiến ta cảm thấy bối rối.
+Tư Mã Ý: Chúng ta cần thêm thông tin để phán đoán xem ai là Ma sói.
 
-[游戏继续...]
+[Trò chơi tiếp tục...]
 ```
 
 ### 6.3.3 Phân tích ưu điểm và hạn chế của AgentScope
@@ -769,7 +766,7 @@ LLM_API_KEY = os.getenv("LLM_API_KEY")
 LLM_BASE_URL = os.getenv("LLM_BASE_URL")
 LLM_MODEL = os.getenv("LLM_MODEL")
 
-#创建模型,在这里以Qwen为例,调用的百炼大模型平台API
+# Tạo model, ở đây lấy Qwen làm ví dụ, gọi API nền tảng mô hình lớn Bailian (Alibaba Cloud)
 model = ModelFactory.create(
     model_platform=ModelPlatformType.QWEN,
     model_type=LLM_MODEL,
@@ -777,18 +774,18 @@ model = ModelFactory.create(
     api_key=LLM_API_KEY
 )
 
-# 定义协作任务
+# Định nghĩa nhiệm vụ hợp tác
 task_prompt = """
-创作一本关于"拖延症心理学"的短篇电子书，目标读者是对心理学感兴趣的普通大众。
-要求：
-1. 内容科学严谨，基于实证研究
-2. 语言通俗易懂，避免过多专业术语
-3. 包含实用的改善建议和案例分析
-4. 篇幅控制在8000-10000字
-5. 结构清晰，包含引言、核心章节和总结
+Sáng tác một cuốn ebook ngắn về "Tâm lý học của sự trì hoãn", độc giả mục tiêu là đại chúng quan tâm đến tâm lý học.
+Yêu cầu:
+1. Nội dung khoa học, nghiêm ngặt, dựa trên nghiên cứu thực chứng
+2. Ngôn ngữ bình dị dễ hiểu, tránh quá nhiều thuật ngữ chuyên ngành
+3. Bao gồm các lời khuyên cải thiện thiết thực và phân tích case study
+4. Độ dài khống chế trong khoảng 8.000-10.000 từ
+5. Cấu trúc rõ ràng, bao gồm phần mở đầu, các chương cốt lõi và phần tổng kết
 """
 
-print(Fore.YELLOW + f"协作任务:\n{task_prompt}\n")
+print(Fore.YELLOW + f"Nhiệm vụ hợp tác:\n{task_prompt}\n")
 ```
 
 `task_prompt` chính là "bản thuyết minh nhiệm vụ" của toàn bộ sự hợp tác. Nó không chỉ là mục tiêu chúng ta cần hoàn thành, mà còn được CAMEL sử dụng ở phía sau hậu trường để tạo ra "Prompt khơi mào", đảm bảo hội thoại của hai Agent luôn xoay quanh mục tiêu cốt lõi này.
@@ -798,18 +795,18 @@ print(Fore.YELLOW + f"协作任务:\n{task_prompt}\n")
 Tiếp theo, chúng ta tạo một instance phiên `RolePlaying`. Đây là thao tác cốt lõi của CAMEL, nó dựa trên vai trò và nhiệm vụ mà chúng ta cung cấp, nhanh chóng xây dựng một "xã hội" hợp tác song-Agent.
 
 ```python
-# 初始化角色扮演会话
-# AI 作家作为 "user"，负责提出写作结构和要求
-# AI 心理学家作为 "assistant"，负责提供专业知识和内容
+# Khởi tạo phiên đóng vai
+# Nhà văn AI đóng vai "user", chịu trách nhiệm đề xuất cấu trúc viết và các yêu cầu
+# Nhà tâm lý học AI đóng vai "assistant", chịu trách nhiệm cung cấp kiến thức chuyên môn và nội dung
 role_play_session = RolePlaying(
-    assistant_role_name="心理学家",
-    user_role_name="作家",
+    assistant_role_name="Nhà tâm lý học",
+    user_role_name="Nhà văn",
     task_prompt=task_prompt,
     model=model,
-    with_task_specify=False, # 在本例中，我们直接使用给定的task_prompt
+    with_task_specify=False, # Trong ví dụ này, chúng ta sử dụng trực tiếp task_prompt đã cho
 )
 
-print(Fore.CYAN + f"具体任务描述:\n{role_play_session.task_prompt}\n")
+print(Fore.CYAN + f"Mô tả nhiệm vụ cụ thể:\n{role_play_session.task_prompt}\n")
 ```
 
 `RolePlaying` là một API cấp cao mà CAMEL cung cấp, nó đóng gói prompt engineering phức tạp. Chúng ta chỉ cần truyền vào tên của hai vai trò và nhiệm vụ. Trong thiết kế của CAMEL, vai trò `user` là "người thúc đẩy" và "bên có nhu cầu" của hội thoại, còn vai trò `assistant` là "người thực thi" và "bên cung cấp giải pháp". Do đó, chúng ta gán "nhà văn" chịu trách nhiệm lên kế hoạch cấu trúc cho `user_role_name`, gán "nhà tâm lý học" chịu trách nhiệm cung cấp kiến thức chuyên môn cho `assistant_role_name`.
@@ -819,32 +816,32 @@ print(Fore.CYAN + f"具体任务描述:\n{role_play_session.task_prompt}\n")
 Cuối cùng, chúng ta viết một vòng lặp để thúc đẩy toàn bộ quá trình hội thoại, để hai chuyên gia AI bắt đầu quá trình hợp tác tự động hóa của mình.
 
 ```python
-# 开始协作对话
+# Bắt đầu hội thoại hợp tác
 chat_turn_limit, n = 30, 0
-# 调用 init_chat() 来获得由 AI 生成的初始对话消息
+# Gọi init_chat() để nhận tin nhắn hội thoại ban đầu do AI tạo ra
 input_msg = role_play_session.init_chat()
 
 while n < chat_turn_limit:
     n += 1
-    # step() 方法驱动一轮完整的对话，AI 用户和 AI 助理各发言一次
+    # Phương thức step() thúc đẩy một vòng hội thoại hoàn chỉnh, Người dùng AI và Trợ lý AI mỗi bên phát biểu một lần
     assistant_response, user_response = role_play_session.step(input_msg)
     
-    # 检查是否有消息返回，防止对话提前终止
+    # Kiểm tra xem có tin nhắn trả về không, tránh việc hội thoại kết thúc sớm
     if assistant_response.msg is None or user_response.msg is None:
         break
     
-    print_text_animated(Fore.BLUE + f"作家 (AI User):\n\n{user_response.msg.content}\n")
-    print_text_animated(Fore.GREEN + f"心理学家 (AI Assistant):\n\n{assistant_response.msg.content}\n")
+    print_text_animated(Fore.BLUE + f"Nhà văn (AI User):\n\n{user_response.msg.content}\n")
+    print_text_animated(Fore.GREEN + f"Nhà tâm lý học (AI Assistant):\n\n{assistant_response.msg.content}\n")
     
-    # 检查任务完成标志
+    # Kiểm tra cờ hiệu hoàn thành nhiệm vụ
     if "<CAMEL_TASK_DONE>" in user_response.msg.content or "<CAMEL_TASK_DONE>" in assistant_response.msg.content:
-        print(Fore.MAGENTA + "✅ 电子书创作完成！")
+        print(Fore.MAGENTA + "✅ Sáng tác ebook hoàn tất!")
         break
     
-    # 将助理的回复作为下一轮对话的输入
+    # Lấy phản hồi của trợ lý làm đầu vào cho vòng hội thoại tiếp theo
     input_msg = assistant_response.msg
 
-print(Fore.YELLOW + f"总共进行了 {n} 轮协作对话")
+print(Fore.YELLOW + f"Tổng cộng đã thực hiện {n} vòng hội thoại hợp tác")
 ```
 
 Vòng lặp `while` này chính là cốt lõi của sự hợp tác tự động hóa. Hội thoại được tự động khởi động bởi phương thức `init_chat()` dựa trên nhiệm vụ và vai trò, không cần viết tay lời mở đầu. Mỗi bước trong vòng lặp đều thông qua việc gọi `step()` để thúc đẩy một vòng tương tác hoàn chỉnh (nhà văn đề xuất yêu cầu, nhà tâm lý học cung cấp nội dung), và lấy đầu ra của nhà tâm lý học ở vòng trước làm đầu vào cho vòng tiếp theo, hình thành chuỗi sáng tạo liên hoàn. Toàn bộ quá trình sẽ tiếp tục cho đến khi đạt số vòng hội thoại tối đa được thiết lập trước, hoặc khi một trong hai Agent xuất ra cờ hiệu hoàn thành nhiệm vụ `<CAMEL_TASK_DONE>` thì sẽ tự động kết thúc.
@@ -868,32 +865,31 @@ Khi thực thi đoạn code trên, chúng ta không chỉ nhận được một 
 <strong>Giai đoạn bốn (giai đoạn kết thúc): Tổng kết và nâng cao</strong> Trong vài vòng hội thoại cuối cùng, hai bên sẽ hợp tác hoàn thành phần tổng kết các lời khuyên thực tiễn và nhìn lại toàn bộ cuốn sách, đảm bảo ebook có một kết thúc rõ ràng, mạnh mẽ, để lại ấn tượng sâu sắc và cung cấp giá trị thực tiễn cho người đọc.
 
 ```
-协作任务:
-创作一本关于"拖延症心理学"的短篇电子书，目标读者是对心理学感兴趣的普通大众。
-要求：
-1. 内容科学严谨，基于实证研究
-2. 语言通俗易懂，避免过多专业术语
-3. 包含实用的改善建议和案例分析
-4. 篇幅控制在8000-10000字
-5. 结构清晰，包含引言、核心章节和总结
+Nhiệm vụ hợp tác:
+Sáng tác một cuốn ebook ngắn về "Tâm lý học của sự trì hoãn", độc giả mục tiêu là đại chúng quan tâm đến tâm lý học.
+Yêu cầu:
+1. Nội dung khoa học, nghiêm ngặt, dựa trên nghiên cứu thực chứng
+2. Ngôn ngữ bình dị dễ hiểu, tránh quá nhiều thuật ngữ chuyên ngành
+3. Bao gồm các lời khuyên cải thiện thiết thực và phân tích case study
+4. Độ dài khống chế trong khoảng 8.000-10.000 từ
+5. Cấu trúc rõ ràng, bao gồm phần mở đầu, các chương cốt lõi và phần tổng kết
 
-具体任务描述:
-为普通大众撰写8000–10000字短篇电子书《拖延症心理学》：实证为本、通俗易懂。结构：引言、成因（认知/情绪/奖励）、动机与决策、习惯形成与干预、实
-用策略与练习、三则案例分析、总结与资源。每章含研究引用与可操作步骤。
+Mô tả nhiệm vụ cụ thể:
+Viết một cuốn ebook ngắn dài 8.000–10.000 từ với tựa đề "Tâm lý học của sự trì hoãn" cho độc giả phổ thông: dựa trên thực chứng, bình dị dễ hiểu. Cấu trúc: Mở đầu, Nguyên nhân (nhận thức/cảm xúc/phần thưởng), Động lực và ra quyết định, Hình thành thói quen và can thiệp, Chiến lược thực tiễn và bài tập, Ba tình huống phân tích, Tổng kết và tài nguyên. Mỗi chương đều có trích dẫn nghiên cứu và các bước có thể thực hành.
 
-作家:
-Instruction: 请为电子书的"引言"章节撰写一段400–600字的中文草稿...
+Nhà văn:
+Instruction: Hãy viết một bản thảo dài 400–600 từ cho chương "Mở đầu" của cuốn ebook...
 Input: None
 
-心理学家:
+Nhà tâm lý học:
 Solution:
-草稿：拖延，是指明知应当完成某项任务却反复推迟或回避的行为与内在倾向。它既可以是偶发的时间管理问题...
+Bản thảo: Sự trì hoãn là hành vi và khuynh hướng nội tại liên tục chần chừ hoặc né tránh một nhiệm vụ dù biết rõ rằng cần phải hoàn thành nó. Nó có thể là một vấn đề quản lý thời gian thỉnh thoảng xảy ra...
 
 Next request.
 
-作家:
-Instruction: 请把下面的引言草稿修订为一段450–550字的中文文本...
-Input: 草稿：拖延，是指明知应当完成某项任务却反复推迟或回避的行为...
+Nhà văn:
+Instruction: Hãy chỉnh sửa bản thảo mở đầu dưới đây thành một đoạn văn bản dài 450–550 từ...
+Input: Bản thảo: Sự trì hoãn là hành vi và khuynh hướng nội tại liên tục chần chừ hoặc né tránh một nhiệm vụ...
 .....
 ```
 
@@ -903,7 +899,7 @@ Thông qua case sáng tạo ebook ở trên, chúng ta đã trải nghiệm sâu
 
 （1）Ưu điểm
 
-Ưu điểm lớn nhất của CAMEL nằm ở triết lý thiết kế "kiến trúc nhẹ, prompt nặng" (轻架构、重提示). So với việc quản lý hội thoại phức tạp của AutoGen và kiến trúc phân tán của AgentScope, CAMEL chỉ cần thông qua prompt khởi đầu được thiết kế tỉ mỉ đã có thể hiện thực hóa sự hợp tác Agent chất lượng cao. Hành vi hợp tác nảy sinh tự nhiên (emergent) này thường linh hoạt và hiệu quả hơn so với luồng công việc được hard-code.
+Ưu điểm lớn nhất của CAMEL nằm ở triết lý thiết kế "kiến trúc nhẹ, prompt nặng" (light architecture, heavy prompting). So với việc quản lý hội thoại phức tạp của AutoGen và kiến trúc phân tán của AgentScope, CAMEL chỉ cần thông qua prompt khởi đầu được thiết kế tỉ mỉ đã có thể hiện thực hóa sự hợp tác Agent chất lượng cao. Hành vi hợp tác nảy sinh tự nhiên (emergent) này thường linh hoạt và hiệu quả hơn so với luồng công việc được hard-code.
 
 Đáng chú ý là, framework CAMEL đang trải qua sự phát triển và tiến hóa nhanh chóng. Từ [GitHub repository](https://github.com/camel-ai/camel) của nó có thể thấy, CAMEL đã không còn đơn thuần là một framework hợp tác song-Agent đơn giản, mà hiện đã sở hữu:
 
@@ -953,34 +949,34 @@ Là phần mở rộng quan trọng của hệ sinh thái LangChain, LangGraph �
 ```python
 from typing import TypedDict, List
 
-# 定义全局状态的数据结构
+# Định nghĩa cấu trúc dữ liệu của trạng thái toàn cục
 class AgentState(TypedDict):
-    messages: List[str]      # 对话历史
-    current_task: str        # 当前任务
-    final_answer: str        # 最终答案
-    # ... 任何其他需要追踪的状态
+    messages: List[str]      # Lịch sử hội thoại
+    current_task: str        # Nhiệm vụ hiện tại
+    final_answer: str        # Câu trả lời cuối cùng
+    # ... bất kỳ trạng thái nào khác cần theo dõi
 ```
 
 <strong>Thứ hai, là Node</strong>. Mỗi node đều là một hàm Python nhận trạng thái hiện tại làm đầu vào, và trả về một trạng thái đã được cập nhật làm đầu ra. Node là đơn vị thực thi công việc cụ thể.
 
 ```python
-# 定义一个"规划者"节点函数
+# Định nghĩa một hàm node "Planner" (người lập kế hoạch)
 def planner_node(state: AgentState) -> AgentState:
-    """根据当前任务制定计划，并更新状态。"""
+    """Lập kế hoạch dựa trên nhiệm vụ hiện tại và cập nhật trạng thái."""
     current_task = state["current_task"]
-    # ... 调用LLM生成计划 ...
-    plan = f"为任务 '{current_task}' 生成的计划..."
+    # ... Gọi LLM để tạo kế hoạch ...
+    plan = f"Kế hoạch được tạo cho nhiệm vụ '{current_task}'..."
     
-    # 将新消息追加到状态中
+    # Thêm tin nhắn mới vào trạng thái
     state["messages"].append(plan)
     return state
 
-# 定义一个"执行者"节点函数
+# Định nghĩa một hàm node "Executor" (người thực thi)
 def executor_node(state: AgentState) -> AgentState:
-    """执行最新计划，并更新状态。"""
+    """Thực thi kế hoạch mới nhất và cập nhật trạng thái."""
     latest_plan = state["messages"][-1]
-    # ... 执行计划并获得结果 ...
-    result = f"执行计划 '{latest_plan}' 的结果..."
+    # ... Thực thi kế hoạch và nhận kết quả ...
+    result = f"Kết quả thực thi kế hoạch '{latest_plan}'..."
     
     state["messages"].append(result)
     return state
@@ -990,10 +986,10 @@ def executor_node(state: AgentState) -> AgentState:
 
 ```python
 def should_continue(state: AgentState) -> str:
-    """条件函数：根据状态决定下一步路由。"""
-    # 假设如果消息少于3条，则需要继续规划
+    """Hàm điều kiện: quyết định định tuyến bước tiếp theo dựa trên trạng thái."""
+    # Giả sử nếu có ít hơn 3 tin nhắn thì cần tiếp tục lập kế hoạch
     if len(state["messages"]) < 3:
-        # 返回的字符串需要与添加条件边时定义的键匹配
+        # Chuỗi trả về cần khớp với khóa được định nghĩa khi thêm cạnh có điều kiện
         return "continue_to_planner"
     else:
         state["final_answer"] = state["messages"][-1]
@@ -1005,37 +1001,37 @@ Sau khi đã định nghĩa State, Node và Edge, chúng ta có thể lắp ráp
 ```python
 from langgraph.graph import StateGraph, END
 
-# 初始化一个状态图，并绑定我们定义的状态结构
+# Khởi tạo đồ thị trạng thái và gắn cấu trúc trạng thái đã định nghĩa
 workflow = StateGraph(AgentState)
 
-# 将节点函数添加到图中
+# Thêm các hàm node vào đồ thị
 workflow.add_node("planner", planner_node)
 workflow.add_node("executor", executor_node)
 
-# 设置图的入口点
+# Thiết lập điểm vào của đồ thị
 workflow.set_entry_point("planner")
 
-# 添加常规边，连接 planner 和 executor
+# Thêm cạnh thông thường, kết nối planner và executor
 workflow.add_edge("planner", "executor")
 
-# 添加条件边，实现动态路由
+# Thêm cạnh có điều kiện, thực hiện định tuyến động
 workflow.add_conditional_edges(
-    # 起始节点
+    # Node bắt đầu
     "executor",
-    # 判断函数
+    # Hàm phán đoán
     should_continue,
-    # 路由映射：将判断函数的返回值映射到目标节点
+    # Ánh xạ định tuyến: ánh xạ giá trị trả về của hàm phán đoán tới node đích
     {
-        "continue_to_planner": "planner", # 如果返回"continue_to_planner"，则跳回planner节点
-        "end_workflow": END               # 如果返回"end_workflow"，则结束流程
+        "continue_to_planner": "planner", # Nếu trả về "continue_to_planner", nhảy lại node planner
+        "end_workflow": END               # Nếu trả về "end_workflow", kết thúc luồng
     }
 )
 
-# 编译图，生成可执行的应用
+# Biên dịch đồ thị, tạo ứng dụng có thể thực thi
 app = workflow.compile()
 
-# 运行图
-inputs = {"current_task": "分析最近的AI行业新闻", "messages": []}
+# Chạy đồ thị
+inputs = {"current_task": "Phân tích tin tức ngành AI gần đây", "messages": []}
 for event in app.stream(inputs):
     print(event)
 ```
@@ -1059,11 +1055,11 @@ from langgraph.graph.message import add_messages
 
 class SearchState(TypedDict):
     messages: Annotated[list, add_messages]
-    user_query: str      # 经过LLM理解后的用户需求总结
-    search_query: str    # 优化后用于Tavily API的搜索查询
-    search_results: str  # Tavily搜索返回的结果
-    final_answer: str    # 最终生成的答案
-    step: str            # 标记当前步骤
+    user_query: str      # Tóm tắt nhu cầu người dùng sau khi được LLM hiểu
+    search_query: str    # Câu truy vấn tìm kiếm đã tối ưu cho Tavily API
+    search_results: str  # Kết quả trả về từ tìm kiếm Tavily
+    final_answer: str    # Câu trả lời cuối cùng được sinh ra
+    step: str            # Đánh dấu bước hiện tại
 ```
 
 Chúng ta tạo `SearchState` là một `TypedDict`, định nghĩa một schema dữ liệu rõ ràng cho đối tượng trạng thái. Một thiết kế then chốt là việc đồng thời bao gồm hai trường `user_query` và `search_query`. Điều này cho phép Agent trước tiên tối ưu hóa câu hỏi ngôn ngữ tự nhiên của người dùng thành các từ khóa tinh gọn hơn, phù hợp hơn với công cụ tìm kiếm, từ đó nâng cao đáng kể chất lượng kết quả tìm kiếm.
@@ -1081,18 +1077,18 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from tavily import TavilyClient
 
-# 加载 .env 文件中的环境变量
+# Nạp các biến môi trường từ file .env
 load_dotenv()
 
-# 初始化模型
-# 我们将使用这个 llm 实例来驱动所有节点的智能
+# Khởi tạo mô hình
+# Chúng ta sẽ sử dụng instance llm này để điều khiển trí thông minh cho tất cả các node
 llm = ChatOpenAI(
     model=os.getenv("LLM_MODEL_ID", "gpt-4o-mini"),
     api_key=os.getenv("LLM_API_KEY"),
     base_url=os.getenv("LLM_BASE_URL", "https://api.openai.com/v1"),
     temperature=0.7
 )
-# 初始化Tavily客户端
+# Khởi tạo Tavily client
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 ```
 
@@ -1104,31 +1100,31 @@ Node này là bước đầu tiên của luồng công việc, trách nhiệm c�
 
 ```python
 def understand_query_node(state: SearchState) -> dict:
-    """步骤1：理解用户查询并生成搜索关键词"""
+    """Bước 1: Hiểu truy vấn người dùng và tạo từ khóa tìm kiếm"""
     user_message = state["messages"][-1].content
     
-    understand_prompt = f"""分析用户的查询："{user_message}"
-请完成两个任务：
-1. 简洁总结用户想要了解什么
-2. 生成最适合搜索引擎的关键词（中英文均可，要精准）
+    understand_prompt = f"""Phân tích truy vấn của người dùng: "{user_message}"
+Vui lòng hoàn thành hai nhiệm vụ:
+1. Tóm tắt ngắn gọn điều người dùng muốn tìm hiểu
+2. Tạo các từ khóa phù hợp nhất cho công cụ tìm kiếm (tiếng Việt hoặc tiếng Anh đều được, cần chính xác)
 
-格式：
-理解：[用户需求总结]
-搜索词：[最佳搜索关键词]"""
+Định dạng:
+Hiểu ý định: [Tóm tắt nhu cầu người dùng]
+Từ khóa tìm kiếm: [Các từ khóa tìm kiếm tối ưu nhất]"""
 
     response = llm.invoke([SystemMessage(content=understand_prompt)])
     response_text = response.content
     
-    # 解析LLM的输出，提取搜索关键词
-    search_query = user_message # 默认使用原始查询
-    if "搜索词：" in response_text:
-        search_query = response_text.split("搜索词：")[1].strip()
+    # Phân tích đầu ra của LLM, trích xuất từ khóa tìm kiếm
+    search_query = user_message # Mặc định sử dụng truy vấn gốc
+    if "Từ khóa tìm kiếm:" in response_text:
+        search_query = response_text.split("Từ khóa tìm kiếm:")[1].strip()
     
     return {
         "user_query": response_text,
         "search_query": search_query,
         "step": "understood",
-        "messages": [AIMessage(content=f"我将为您搜索：{search_query}")]
+        "messages": [AIMessage(content=f"Tôi sẽ tìm kiếm giúp bạn: {search_query}")]
     }
 ```
 
@@ -1140,27 +1136,27 @@ Node này chịu trách nhiệm thực thi khả năng "sử dụng tool" của 
 
 ```python
 def tavily_search_node(state: SearchState) -> dict:
-    """步骤2：使用Tavily API进行真实搜索"""
+    """Bước 2: Sử dụng Tavily API để tìm kiếm thực tế"""
     search_query = state["search_query"]
     try:
-        print(f"🔍 正在搜索: {search_query}")
+        print(f"🔍 Đang tìm kiếm: {search_query}")
         response = tavily_client.search(
             query=search_query, search_depth="basic", max_results=5, include_answer=True
         )
-        # ... (处理和格式化搜索结果) ...
-        search_results = ... # 格式化后的结果字符串
+        # ... (Xử lý và định dạng kết quả tìm kiếm) ...
+        search_results = ... # Chuỗi kết quả đã được định dạng
         
         return {
             "search_results": search_results,
             "step": "searched",
-            "messages": [AIMessage(content="✅ 搜索完成！正在整理答案...")]
+            "messages": [AIMessage(content="✅ Tìm kiếm hoàn tất! Đang tổng hợp câu trả lời...")]
         }
     except Exception as e:
-        # ... (处理错误) ...
+        # ... (Xử lý lỗi) ...
         return {
-            "search_results": f"搜索失败：{e}",
+            "search_results": f"Tìm kiếm thất bại: {e}",
             "step": "search_failed",
-            "messages": [AIMessage(content="❌ 搜索遇到问题...")]
+            "messages": [AIMessage(content="❌ Tìm kiếm gặp sự cố...")]
         }
 ```
 
@@ -1172,17 +1168,17 @@ Node trả lời cuối cùng có thể lựa chọn chiến lược trả lời
 
 ```python
 def generate_answer_node(state: SearchState) -> dict:
-    """步骤3：基于搜索结果生成最终答案"""
+    """Bước 3: Tạo câu trả lời cuối cùng dựa trên kết quả tìm kiếm"""
     if state["step"] == "search_failed":
-        # 如果搜索失败，执行回退策略，基于LLM自身知识回答
-        fallback_prompt = f"搜索API暂时不可用，请基于您的知识回答用户的问题：\n用户问题：{state['user_query']}"
+        # Nếu tìm kiếm thất bại, thực thi chiến lược dự phòng, trả lời dựa trên kiến thức của chính LLM
+        fallback_prompt = f"Search API tạm thời không khả dụng, vui lòng trả lời câu hỏi của người dùng dựa trên kiến thức của bạn:\nCâu hỏi người dùng: {state['user_query']}"
         response = llm.invoke([SystemMessage(content=fallback_prompt)])
     else:
-        # 搜索成功，基于搜索结果生成答案
-        answer_prompt = f"""基于以下搜索结果为用户提供完整、准确的答案：
-用户问题：{state['user_query']}
-搜索结果：\n{state['search_results']}
-请综合搜索结果，提供准确、有用的回答..."""
+        # Tìm kiếm thành công, tạo câu trả lời dựa trên kết quả tìm kiếm
+        answer_prompt = f"""Dựa trên các kết quả tìm kiếm dưới đây, hãy cung cấp câu trả lời đầy đủ và chính xác cho người dùng:
+Câu hỏi người dùng: {state['user_query']}
+Kết quả tìm kiếm:\n{state['search_results']}
+Vui lòng tổng hợp kết quả tìm kiếm, cung cấp câu trả lời chính xác và hữu ích..."""
         response = llm.invoke([SystemMessage(content=answer_prompt)])
     
     return {
@@ -1205,18 +1201,18 @@ from langgraph.checkpoint.memory import InMemorySaver
 def create_search_assistant():
     workflow = StateGraph(SearchState)
     
-    # 添加节点
+    # Thêm các node
     workflow.add_node("understand", understand_query_node)
     workflow.add_node("search", tavily_search_node)
     workflow.add_node("answer", generate_answer_node)
     
-    # 设置线性流程
+    # Thiết lập quy trình tuyến tính
     workflow.add_edge(START, "understand")
     workflow.add_edge("understand", "search")
     workflow.add_edge("search", "answer")
     workflow.add_edge("answer", END)
     
-    # 编译图
+    # Biên dịch đồ thị
     memory = InMemorySaver()
     app = workflow.compile(checkpointer=memory)
     return app
@@ -1224,47 +1220,47 @@ def create_search_assistant():
 
 （5）Trình bày kết quả chạy case 
 
-Sau khi chạy script này, bạn có thể đặt một vài câu hỏi cần thông tin theo thời gian thực, ví dụ như case trong Chương 1 của chúng ta: `明天我要去北京，天气怎么样？有合适的景点吗`
+Sau khi chạy script này, bạn có thể đặt một vài câu hỏi cần thông tin theo thời gian thực, ví dụ như case trong Chương 1 của chúng ta: `Ngày mai tôi sẽ đi Bắc Kinh, thời tiết thế nào? Có điểm tham quan nào phù hợp không?`
 
 Bạn sẽ thấy terminal hiển thị rõ ràng quá trình "suy nghĩ" của Agent:
 
 ```
-🔍 智能搜索助手启动！
-我会使用Tavily API为您搜索最新、最准确的信息
-支持各种问题：新闻、技术、知识问答等
-(输入 'quit' 退出)
+🔍 Trợ lý tìm kiếm thông minh đã khởi động!
+Tôi sẽ sử dụng Tavily API để tìm kiếm thông tin mới nhất và chính xác nhất cho bạn
+Hỗ trợ nhiều loại câu hỏi: tin tức, công nghệ, hỏi đáp kiến thức, v.v.
+(Nhập 'quit' để thoát)
 
-🤔 您想了解什么: 明天我要去北京，天气怎么样？有合适的景点吗
-
-============================================================
-🧠 理解阶段: 我理解您的需求：理解：用户想了解明天北京的天气情况以及合适的景点推荐。  
-搜索词：北京 明天 天气 景点推荐 Beijing weather tomorrow attractions
-🔍 正在搜索: 北京 明天 天气 景点推荐 Beijing weather tomorrow attractions
-🔍 搜索阶段: ✅ 搜索完成！找到了相关信息，正在为您整理答案...
-
-💡 最终回答:
-明天（2025年9月17日）北京的天气预报显示，预计将是多云，气温范围在17°C（62°F）到25°C（77°F）之间。这种温和的天气非常适合户外活动。
-
-### 合适的景点推荐：
-1. **长城**：作为中国最著名的历史遗址之一，长城是必游之地。你可以选择八达岭或慕田峪这些较为受欢迎的段落进行游览。
-
-2. **故宫**：故宫是明清两代的皇宫，拥有丰富的历史和文化，适合对中国历史感兴趣的游客。
-
-3. **天安门广场**：这是中国的象征之一，广场上有许多重要的建筑和纪念碑，适合拍照留念。
-
-4. **颐和园**：一个非常美丽的皇家园林，适合漫步和欣赏自然风光，尤其是湖泊和古建筑。
-
-5. **798艺术区**：如果你对现代艺术感兴趣，798艺术区是一个集艺术、文化和创意于一体的地方，适合探索和拍摄。
-
-### 小贴士：
-- 由于明天天气良好，建议提前规划出行路线，并准备一些水和小吃，以便在游览时保持充足的体力。
-- 由于天气变化可能会影响游览体验，建议查看实时天气更新。
-
-希望这些信息能帮助你安排一个愉快的北京之旅！如果你需要更多关于景点的信息或者旅行建议，欢迎随时询问。
+🤔 Bạn muốn tìm hiểu điều gì: Ngày mai tôi sẽ đi Bắc Kinh, thời tiết thế nào? Có điểm tham quan nào phù hợp không?
 
 ============================================================
+🧠 Giai đoạn hiểu ý định: Tôi hiểu nhu cầu của bạn: Hiểu ý định: Người dùng muốn biết tình hình thời tiết ngày mai tại Bắc Kinh cũng như gợi ý các điểm tham quan phù hợp.  
+Từ khóa tìm kiếm: Bắc Kinh ngày mai thời tiết gợi ý điểm tham quan Beijing weather tomorrow attractions
+🔍 Đang tìm kiếm: Bắc Kinh ngày mai thời tiết gợi ý điểm tham quan Beijing weather tomorrow attractions
+🔍 Giai đoạn tìm kiếm: ✅ Tìm kiếm hoàn tất! Đã tìm thấy thông tin liên quan, đang tổng hợp câu trả lời cho bạn...
 
-🤔 您想了解什么:
+💡 Câu trả lời cuối cùng:
+Dự báo thời tiết Bắc Kinh ngày mai (ngày 17 tháng 9 năm 2025) cho thấy trời dự kiến sẽ nhiều mây, nhiệt độ dao động từ 17°C (62°F) đến 25°C (77°F). Thời tiết ôn hòa như vậy rất thích hợp cho các hoạt động ngoài trời.
+
+### Gợi ý các điểm tham quan phù hợp:
+1. **Vạn Lý Trường Thành**: Là một trong những di tích lịch sử nổi tiếng nhất của Trung Quốc, Vạn Lý Trường Thành là nơi nhất định phải đến. Bạn có thể chọn tham quan các đoạn phổ biến như Bát Đạt Lĩnh hoặc Mộ Điền Dục.
+
+2. **Cố Cung (Tử Cấm Thành)**: Cố Cung là hoàng cung của hai triều đại Minh và Thanh, sở hữu lịch sử và văn hóa phong phú, phù hợp cho những du khách yêu thích lịch sử Trung Quốc.
+
+3. **Quảng trường Thiên An Môn**: Đây là một trong những biểu tượng của Trung Quốc, trên quảng trường có nhiều công trình kiến trúc và đài tưởng niệm quan trọng, rất thích hợp để chụp ảnh lưu niệm.
+
+4. **Di Hòa Viên**: Một khu vườn hoàng gia vô cùng xinh đẹp, thích hợp để tản bộ và thưởng ngoạn phong cảnh thiên nhiên, đặc biệt là hồ nước và các công trình cổ kính.
+
+5. **Khu nghệ thuật 798**: Nếu bạn quan tâm đến nghệ thuật hiện đại, Khu nghệ thuật 798 là một nơi hội tụ giữa nghệ thuật, văn hóa và sáng tạo, rất thích hợp để khám phá và chụp ảnh.
+
+### Mẹo nhỏ:
+- Vì ngày mai thời tiết tốt, bạn nên lên kế hoạch lộ trình di chuyển trước, đồng thời chuẩn bị một ít nước uống và đồ ăn nhẹ để duy trì đủ thể lực trong suốt chuyến tham quan.
+- Do sự thay đổi của thời tiết có thể ảnh hưởng đến trải nghiệm tham quan, bạn nên theo dõi cập nhật thời tiết theo thời gian thực.
+
+Hy vọng những thông tin này sẽ giúp bạn sắp xếp một chuyến đi Bắc Kinh thật vui vẻ! Nếu bạn cần thêm thông tin về các điểm tham quan hoặc lời khuyên du lịch, xin đừng ngần ngại hỏi bất cứ lúc nào.
+
+============================================================
+
+🤔 Bạn muốn tìm hiểu điều gì:
 ```
 
 Và nó là một trợ lý có thể tương tác liên tục, bạn cũng có thể tiếp tục đặt câu hỏi cho nó.
@@ -1321,7 +1317,7 @@ Trong chương tiếp theo, chúng ta sẽ bước vào nội dung cốt lõi c�
 3. Trong case `AgentScope` ở mục 6.3, chúng ta đã hiện thực hóa trò chơi "Ma sói Tam Quốc". Hãy phân tích sâu:
 
    - Case sử dụng `MsgHub` (trung tâm tin nhắn) để quản lý giao tiếp giữa các Agent. Hãy giải thích ưu thế của kiến trúc hướng tin nhắn so với lời gọi hàm truyền thống là gì? Trong những kịch bản nào thì kiến trúc này đặc biệt có giá trị?
-   - Trò chơi sử dụng Structured Output (như `DiscussionModelCN`, `WitchActionModelCN`) để ràng buộc hành vi của Agent. Hãy thiết kế một vai trò mới trong trò chơi là "Thợ săn" (猎人), và định nghĩa model Structured Output tương ứng cho nó, bao gồm định nghĩa trường và quy tắc kiểm chứng.
+   - Trò chơi sử dụng Structured Output (như `DiscussionModelCN`, `WitchActionModelCN`) để ràng buộc hành vi của Agent. Hãy thiết kế một vai trò mới trong trò chơi là "Thợ săn" (Hunter), và định nghĩa model Structured Output tương ứng cho nó, bao gồm định nghĩa trường và quy tắc kiểm chứng.
    - `AgentScope` hỗ trợ triển khai phân tán, nghĩa là các Agent khác nhau có thể chạy trên các server khác nhau. Hãy suy nghĩ: trong kịch bản trò chơi thời gian thực như "Ma sói Tam Quốc", việc triển khai phân tán sẽ mang lại những thách thức kỹ thuật nào? Làm sao để đảm bảo tính tuần tự và tính nhất quán của tin nhắn?
 
 4. Trong case `CAMEL` ở mục 6.4, chúng ta đã để nhà tâm lý học và nhà văn hợp tác sáng tác ebook.

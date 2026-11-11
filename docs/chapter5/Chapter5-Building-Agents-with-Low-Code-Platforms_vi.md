@@ -13,7 +13,7 @@ Cùng với sự trưởng thành của công nghệ, chúng ta thấy ngày cà
 Giá trị cốt lõi của nó chủ yếu thể hiện ở các khía cạnh sau:
 
 1. <strong>Hạ thấp rào cản kỹ thuật</strong>: Nền tảng low-code đóng gói các chi tiết kỹ thuật phức tạp (như gọi API, quản lý trạng thái, kiểm soát đồng thời) thành từng "node" hoặc "module" dễ hiểu. Người dùng không cần thông thạo lập trình, chỉ cần kéo thả, kết nối các node này là có thể xây dựng nên những workflow mạnh mẽ. Điều này giúp cho product manager, designer, chuyên gia nghiệp vụ và những nhân sự không chuyên về kỹ thuật khác cũng có thể tham gia vào việc thiết kế và sáng tạo Agent, mở rộng đáng kể ranh giới của sự đổi mới.
-2. <strong>Nâng cao hiệu quả phát triển</strong>: Đối với các nhà phát triển chuyên nghiệp, nền tảng cũng mang lại sự cải thiện hiệu quả to lớn. Ở giai đoạn đầu của dự án, khi cần nhanh chóng xác thực một ý tưởng hoặc dựng một Prototype, việc sử dụng nền tảng low-code có thể hoàn thành công việc vốn cần nhiều ngày code chỉ trong vài giờ, thậm chí vài phút. Nhà phát triển có thể dồn nhiều tâm sức hơn vào việc梳理 logic nghiệp vụ và tối ưu hóa prompt engineering, thay vì triển khai kỹ thuật ở tầng thấp.
+2. <strong>Nâng cao hiệu quả phát triển</strong>: Đối với các nhà phát triển chuyên nghiệp, nền tảng cũng mang lại sự cải thiện hiệu quả to lớn. Ở giai đoạn đầu của dự án, khi cần nhanh chóng xác thực một ý tưởng hoặc dựng một Prototype, việc sử dụng nền tảng low-code có thể hoàn thành công việc vốn cần nhiều ngày code chỉ trong vài giờ, thậm chí vài phút. Nhà phát triển có thể dồn nhiều tâm sức hơn vào việc hệ thống hóa logic nghiệp vụ và tối ưu hóa prompt engineering, thay vì triển khai kỹ thuật ở tầng thấp.
 3. <strong>Cung cấp khả năng trực quan hóa và khả năng quan sát (observability) tốt hơn</strong>: So với việc in log ra terminal, nền tảng đồ họa vốn dĩ cung cấp khả năng trực quan hóa end-to-end đối với quỹ đạo vận hành của Agent. Bạn có thể thấy rõ dữ liệu luân chuyển giữa từng node như thế nào, khâu nào tốn thời gian nhất, công cụ nào gọi bị lỗi. Trải nghiệm debug trực quan này là điều mà phát triển thuần code khó có thể sánh kịp.
 4. <strong>Chuẩn hóa và tích lũy best practice</strong>: Các nền tảng low-code tốt thường tích hợp sẵn nhiều best practice trong ngành. Ví dụ, chúng cung cấp sẵn template ReAct, công cụ truy xuất knowledge base được tối ưu hóa, quy chuẩn tích hợp công cụ được chuẩn hóa, v.v. Điều này không chỉ giúp nhà phát triển tránh "dính bẫy", mà còn khiến việc hợp tác nhóm trở nên trôi chảy hơn, vì tất cả mọi người đều phát triển dựa trên cùng một bộ chuẩn và component.
 
@@ -49,7 +49,7 @@ Hiện tại, thị trường nền tảng low-code cho Agent và ứng dụng L
 
 Trong các mục tiếp theo, chúng ta sẽ lần lượt trải nghiệm thực tế các nền tảng này, thông qua thao tác thực tế để cảm nhận trực quan hơn sức hút riêng của từng nền tảng.
 
-## 5.2 Nền tảng một: Coze ([coze.cn](https://www.coze.cn/home))
+## 5.2 Nền tảng một: Coze ([coze.com](https://www.coze.com/home))
 
 Coze (扣子) là một công cụ tạo Agent AI cực kỳ "ngầu"! Đây cũng là nền tảng Agent được sử dụng rộng rãi nhất trên thị trường hiện nay. Nền tảng này với giao diện trực quan và các module tính năng phong phú, giúp người dùng dễ dàng tạo ra các loại ứng dụng Agent khác nhau, ví dụ như chatbot có thể trò chuyện cùng bạn, máy tự động viết truyện, thậm chí trực tiếp giúp bạn biến câu chuyện thành MV phim! Một điểm sáng lớn của nó nằm ở khả năng tích hợp hệ sinh thái mạnh mẽ. Agent sau khi phát triển xong có thể xuất bản một chạm lên WeChat, Feishu, Doubao và các nền tảng chủ lưu khác, thực hiện triển khai liền mạch xuyên nền tảng. Đối với người dùng doanh nghiệp, Coze còn cung cấp API linh hoạt, hỗ trợ tích hợp năng lực Agent vào hệ thống nghiệp vụ hiện có, hiện thực hóa việc xây dựng ứng dụng AI theo kiểu "xếp hình".
 
@@ -60,7 +60,7 @@ Coze (扣子) là một công cụ tạo Agent AI cực kỳ "ngầu"! Đây cũ
 Giới thiệu bố cục tổng thể: Gần đây Coze lại một lần nữa cập nhật giao diện UI của mình, như Hình 5.1. Hiện tại thanh bên ngoài cùng bên trái là khu vực làm việc trang chủ của nền tảng Coze, bao gồm phát triển dự án cốt lõi, kho tài nguyên (resource library), đánh giá hiệu quả (effect evaluation) và cấu hình không gian (space configuration). Khu vực phía dưới là không gian tài liệu đi kèm cho việc phát triển trên Coze, bao gồm sao chép template chính thức bằng một chạm, chợ plugin — ưu thế lớn nhất và phong phú nhất của Coze, cộng đồng Agent lớn nhất với vô vàn lựa chọn, quản lý API dùng để test API, cùng với tài liệu hướng dẫn chi tiết và quản lý chung dành cho doanh nghiệp. Khu vực bên phải có bốn template, trên cùng là thông báo cập nhật mới nhất của Coze, cho bạn biết tiến triển mới nhất của Coze để tiện theo dõi công cụ và tính năng mới. Tiếp theo phía dưới là hướng dẫn cho người mới, click vào là tài liệu hướng dẫn cho người mới, giúp bạn bắt đầu xây dựng Agent trong chớp mắt. Kế đến là mục bạn đang theo dõi và Agent được đề xuất, tại đây bạn cũng có thể theo dõi những nhà phát triển AI yêu thích và lưu lại Agent của họ để sử dụng cho riêng mình.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/5-figures/coze-01.png" alt="Mô tả hình ảnh" width="90%"/>
+  <img src="images/coze-01.png" alt="Mô tả hình ảnh" width="90%"/>
   <p>Hình 5.1 Sơ đồ tổng thể nền tảng Agent thông minh Coze</p>
 </div>
 
@@ -69,18 +69,18 @@ Giới thiệu bố cục tổng thể: Gần đây Coze lại một lần nữa
 Trước tiên, chúng ta click vào dấu cộng ở thanh bên trái là sẽ thấy lối vào để tạo Agent, hiện tại có hai loại ứng dụng AI, một là tạo Agent, hai là gọi là Application. Trong đó Agent lại chia thành chế độ tự lên kế hoạch cho Agent đơn (single-agent autonomous planning mode), chế độ luồng hội thoại cho Agent đơn (single-agent dialogue flow mode) và chế độ đa Agent (multi-agent mode). Ứng dụng AI cũng chia thành hai loại, không chỉ có thể thiết kế giao diện người dùng cho desktop/web, mà còn có thể dễ dàng dựng giao diện cho mini-app và H5, như Hình 5.2.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/5-figures/coze-02.png" alt="Mô tả hình ảnh" width="90%"/>
+  <img src="images/coze-02.png" alt="Mô tả hình ảnh" width="90%"/>
   <p>Hình 5.2 Lối vào tạo Agent của Coze</p>
 </div>
 
 Không gian dự án (project space) là kho Agent của bạn, nơi lưu trữ tất cả các Agent/Application mà bạn đã phát triển hoặc sao chép, cũng là nơi bạn thường xuyên ghé thăm nhất khi phát triển Agent trên Coze, như Hình 5.3.
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/5-figures/coze-03.png" alt="Mô tả hình ảnh" width="90%"/>
+  <img src="images/coze-03.png" alt="Mô tả hình ảnh" width="90%"/>
   <p>Hình 5.3 Không gian dự án Agent của Coze</p>
 </div>
 Kho tài nguyên (resource library) là vũ khí cốt lõi để bạn phát triển Agent trên Coze, kho tài nguyên sẽ lưu trữ workflow, knowledge base, card, kho prompt và một loạt công cụ phát triển Agent khác của bạn. Agent bạn tạo ra mạnh đến đâu trước tiên phụ thuộc vào năng lực của mô hình, nhưng quan trọng nhất vẫn là bạn "trang bị kỹ năng" cho Agent như thế nào. Mô hình quyết định giới hạn dưới của Agent, nhưng kho tài nguyên của Coze mang lại giới hạn trên vô tận cho năng lực của Agent, cho phép bạn phát triển Agent theo ý tưởng, trí tưởng tượng và sự sáng tạo của riêng mình, như Hình 5.4.
 <div align="center">
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/5-figures/coze-04.png" alt="Mô tả hình ảnh" width="90%"/>
+  <img src="images/coze-04.png" alt="Mô tả hình ảnh" width="90%"/>
   <p>Hình 5.4 Kho tài nguyên Agent của Coze</p>
 </div>
 Cấu hình không gian (space configuration) bao gồm kênh quản lý thống nhất cho Agent, plugin, workflow và kênh xuất bản, cùng với quản lý mô hình — nơi bạn có thể xem các mô hình lớn mà mình đang gọi, như Hình 5.5.
@@ -103,7 +103,7 @@ Nếu để tôi tổng kết đơn giản về việc phát triển Agent trên
 
 ### 5.2.2 Xây dựng trợ lý "Bản tin AI hằng ngày"
 
-<strong>Mô tả case study:</strong> Thực hành này nhằm phân tích sâu khả năng tích hợp plugin của nền tảng Coze, hướng dẫn người đọc xây dựng từ đầu một Agent "Bản tin AI hằng ngày" mạnh mẽ. Agent này có thể tự động thu thập tin tức nổi bật nhất trong ngày, các bài báo học thuật và động thái dự án mã nguồn mở trong lĩnh vực AI từ nhiều nguồn thông tin (bao gồm 36Kr, Huxiu, IT之家, InfoQ, GitHub, arXiv), rồi tích hợp chúng thành một bản tin sinh động, súc tích, chuyên nghiệp và có cấu trúc rõ ràng.
+<strong>Mô tả case study:</strong> Thực hành này nhằm phân tích sâu khả năng tích hợp plugin của nền tảng Coze, hướng dẫn người đọc xây dựng từ đầu một Agent "Bản tin AI hằng ngày" mạnh mẽ. Agent này có thể tự động thu thập tin tức nổi bật nhất trong ngày, các bài báo học thuật và động thái dự án mã nguồn mở trong lĩnh vực AI từ nhiều nguồn thông tin (bao gồm 36Kr, Huxiu, ITHome, InfoQ, GitHub, arXiv), rồi tích hợp chúng thành một bản tin sinh động, súc tích, chuyên nghiệp và có cấu trúc rõ ràng.
 
 Thông qua case study này, bạn sẽ nắm được một cách hệ thống các kỹ năng cốt lõi sau:
 
@@ -122,7 +122,7 @@ Khi truy cập [trang chủ Coze trong nước](https://www.coze.cn/home), trang
   <p>Hình 5.6 Lối vào không gian làm việc phiên bản cũ từ trang chủ phiên bản mới của Coze</p>
 </div>
 
-Nếu trang không hiển thị lối vào tương tự, bạn cũng có thể truy cập trực tiếp [https://www.coze.cn/space/](https://www.coze.cn/space/) để vào workspace và tạo Agent.
+Nếu trang không hiển thị lối vào tương tự, bạn cũng có thể truy cập trực tiếp [https://www.coze.com/space/](https://www.coze.com/space/) để vào workspace và tạo Agent.
 
 <strong>Bước 1: Tạo workflow</strong>
 
@@ -158,10 +158,10 @@ Nhiệm vụ hàng đầu để xây dựng Agent "Bản tin AI hằng ngày" l�
 ```
 Cấu hình liên kết RSS
 
-url: 36Kr： https://www.36kr.com/feed
-url: Huxiu： https://rss.huxiu.com/
-url: IT之家： http://www.ithome.com/rss/
-url: InfoQ： https://feed.infoq.com/ai-ml-data-eng/
+url: 36Kr: https://www.36kr.com/feed
+url: Huxiu: https://rss.huxiu.com/
+url: ITHome: http://www.ithome.com/rss/
+url: InfoQ: https://feed.infoq.com/ai-ml-data-eng/
 
 Cấu hình plugin GitHub
 
@@ -171,9 +171,9 @@ sort:updated
 
 Cấu hình plugin Arxiv
 
-count：5
-search_query：AI
-sort_by：2
+count: 5
+search_query: AI
+sort_by: 2
 ```
 
 3. <strong>Sắp xếp kết nối:</strong> Trong giao diện sắp xếp trực quan (visual orchestration) của Agent, đưa các plugin nguồn thông tin đã cấu hình (ví dụ `rss_24Hbj`, `searchRepository`, `arxiv`, v.v.) làm các node đầu vào dữ liệu, và kết nối chúng với các module xử lý logic tiếp theo (ví dụ module <strong>Mô hình lớn</strong>), để xây dựng lộ trình xử lý dữ liệu hoàn chỉnh, như Hình 5.11.
@@ -190,7 +190,7 @@ Thiết lập vai trò (role) và viết prompt là khâu cốt lõi định ngh
 Trong nền tảng Coze, có thể định nghĩa logic hành vi của Agent thông qua cấu hình System Prompt và User Prompt, như Hình 5.12.
 
 <div align="center"> 
-  <img src="ttps://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/5-figures/coze-12.png" alt="Trang cấu hình prompt" width="90%"/> 
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/5-figures/coze-12.png" alt="Trang cấu hình prompt" width="90%"/> 
   <p>Hình 5.12 Trang cấu hình prompt</p> 
 </div>
 
@@ -204,26 +204,26 @@ Prompt là sổ tay hướng dẫn để Agent thực thi nhiệm vụ. Chúng t
 <strong>System Prompt</strong>
 
 ```
-# 角色
-你是一位资深且权威的科技媒体编辑,擅长高效精准地整合并创作极具专业性的科技简报,特别在AI领域的技术动态、前沿学术研究成果及热门开源项目方面拥有深入的分析与整合能力。
-## 工作流
-### 日报输出格式
-1. 日报开头显著标注"AI日报"、"by@jasonhuang"和当天日期，例如："AI日报 | 2025年9月24日 | by@jasonhuang"。
-2. <!!!important!!!> 根据每则AI技术新闻、每篇AI学术论文、每个AI开源项目的不同内容，在其标题开头添加一个独有的Emoji表情符号。
-3. 输出的所有内容必须与AI、LLM、AIGC、大模型等技术主题高度相关，坚决排除任何无关信息、广告及营销类内容。
-4. 必须为每一条目（包括AI技术新闻、AI学术论文、AI开源项目）提供其对应的原始链接。
-5. 对输出的每一条新闻或项目，都进行一个简短、精准的概况描述。
+# Vai trò
+Bạn là một biên tập viên truyền thông công nghệ dày dạn kinh nghiệm và có uy tín, giỏi tổng hợp và sáng tạo một cách hiệu quả, chính xác các bản tin công nghệ có tính chuyên môn cao, đặc biệt có năng lực phân tích và tổng hợp chuyên sâu về các động thái kỹ thuật trong lĩnh vực AI, các kết quả nghiên cứu học thuật tiên phong và các dự án mã nguồn mở nổi bật.
+## Workflow
+### Định dạng đầu ra bản tin hằng ngày
+1. Phần đầu bản tin phải ghi nổi bật "Bản tin AI hằng ngày", "by@jasonhuang" và ngày hôm đó, ví dụ: "Bản tin AI hằng ngày | 24/09/2025 | by@jasonhuang".
+2. <!!!important!!!> Dựa theo nội dung khác nhau của từng tin tức công nghệ AI, từng bài báo học thuật AI, từng dự án mã nguồn mở AI, hãy thêm một biểu tượng Emoji riêng ở đầu tiêu đề của mục đó.
+3. Mọi nội dung đầu ra phải liên quan mật thiết đến các chủ đề kỹ thuật như AI, LLM, AIGC, mô hình lớn, kiên quyết loại bỏ mọi thông tin không liên quan, nội dung quảng cáo và tiếp thị.
+4. Bắt buộc phải cung cấp đường dẫn gốc tương ứng cho từng mục (bao gồm tin tức công nghệ AI, bài báo học thuật AI, dự án mã nguồn mở AI).
+5. Với mỗi tin tức hoặc dự án được xuất ra, hãy viết một mô tả khái quát ngắn gọn và chính xác.
 ```
 System Prompt dùng để định nghĩa quy tắc hành vi dài hạn và chuẩn định dạng output của Agent. User Prompt dùng để định nghĩa chỉ thị nhiệm vụ cụ thể và nguồn dữ liệu.
 <strong>User Prompt</strong>
 
 ```
-- **信息提取与整合：** 从输入源 `{{articles}}`、`{{articles1}}`、`{{articles2}}` 和 `{{articles3}}` 中，筛选并提取关于AI、大模型、AIGC、LLM等相关主题的文章标题及其对应链接，整理为**"AI技术新闻"**模块。
-- **学术论文摘要：** 从输入源 `{{arxiv}}` 中，根据字段 `arxiv_title` 和 `arxiv_link`，总结并整理最新的论文内容，形成**"AI学术论文"**模块。
-- **开源项目筛选：** 从输入源 `{{GitHub}}` 中，筛选出最受瞩目且具影响力的**5个AI开源项目**。提取这些项目的标题和对应链接，整理为**"AI开源项目"**模块。
-# 注意事项（Attention）
-- 严格遵循系统提示中定义的日报输出格式。
-- 输出内容总量应为：**10条AI技术新闻、5篇AI学术论文、5个AI开源项目**。
+- **Trích xuất và tổng hợp thông tin:** Từ các nguồn đầu vào `{{articles}}`, `{{articles1}}`, `{{articles2}}` và `{{articles3}}`, hãy sàng lọc và trích xuất tiêu đề bài viết cùng đường dẫn tương ứng liên quan đến các chủ đề như AI, mô hình lớn, AIGC, LLM, v.v., rồi sắp xếp thành module **"Tin tức công nghệ AI"**.
+- **Tóm tắt bài báo học thuật:** Từ nguồn đầu vào `{{arxiv}}`, dựa theo các trường `arxiv_title` và `arxiv_link`, hãy tóm tắt và sắp xếp nội dung các bài báo mới nhất, tạo thành module **"Bài báo học thuật AI"**.
+- **Sàng lọc dự án mã nguồn mở:** Từ nguồn đầu vào `{{GitHub}}`, hãy sàng lọc **5 dự án mã nguồn mở AI** được chú ý nhất và có tầm ảnh hưởng lớn nhất. Trích xuất tiêu đề cùng đường dẫn tương ứng của các dự án này, sắp xếp thành module **"Dự án mã nguồn mở AI"**.
+# Lưu ý (Attention)
+- Tuân thủ nghiêm ngặt định dạng đầu ra bản tin hằng ngày đã định nghĩa trong System Prompt.
+- Tổng lượng nội dung đầu ra phải là: **10 tin tức công nghệ AI, 5 bài báo học thuật AI, 5 dự án mã nguồn mở AI**.
 ```
 
 <strong>Bước 4: Kiểm thử, debug và xuất bản đa kênh</strong>
@@ -233,39 +233,39 @@ Sau khi hoàn thành việc xây dựng logic cốt lõi của Agent, cần ph�
 <strong>Chạy thử (Preview):</strong> Chạy Agent trong giao diện preview của nền tảng Coze, quan sát nội dung bản tin được sinh ra.
 
 ```
-# AI日报 by@jasonhuang 2025-09-24
+# Bản tin AI hằng ngày by@jasonhuang 2025-09-24
 
-## 🚀 AI技术新闻
+## 🚀 Tin tức công nghệ AI
 
-🤖 **智元机器人GO-1通用具身基座大模型全面开源**
-链接：https://36kr.com/p/3479085489708163?f=rss
-概况：智元机器人宣布其GO-1通用具身基座大模型全面开源，为机器人领域提供强大的AI基础能力。
+🤖 **Zhiyuan Robotics (AgiBot) mã nguồn mở hoàn toàn mô hình nền tảng hiện thân đa dụng GO-1**
+Liên kết: https://36kr.com/p/3479085489708163?f=rss
+Khái quát: Zhiyuan Robotics công bố mã nguồn mở hoàn toàn mô hình nền tảng hiện thân đa dụng GO-1, cung cấp năng lực AI nền tảng mạnh mẽ cho lĩnh vực robot.
 
-🔬 **微软攻克数据中心芯片散热瓶颈：微流体 + AI 精准降温**
-链接：https://www.ithome.com/0/885/391.htm
-概况：微软通过微流体技术与AI算法结合，实现数据中心芯片的精准温度控制，提升能效比。
+🔬 **Microsoft khắc phục nút thắt tản nhiệt chip trung tâm dữ liệu: Vi lưu (Microfluidics) + AI làm mát chính xác**
+Liên kết: https://www.ithome.com/0/885/391.htm
+Khái quát: Microsoft kết hợp công nghệ vi lưu và thuật toán AI để kiểm soát chính xác nhiệt độ chip tại trung tâm dữ liệu, nâng cao hiệu suất năng lượng.
 ......
 
-## 📚 AI学术论文
+## 📚 Bài báo học thuật AI
 
 🧪 **Lyra: Generative 3D Scene Reconstruction via Video Diffusion Model Self-Distillation**
-链接：http://arxiv.org/pdf/2509.19296v1
-概况：提出通过视频扩散模型自蒸馏实现3D场景生成的创新框架，无需多视角训练数据。
+Liên kết: http://arxiv.org/pdf/2509.19296v1
+Khái quát: Đề xuất framework sáng tạo giúp tái tạo cảnh 3D thông qua tự chưng cất (self-distillation) mô hình khuếch tán video, không cần dữ liệu huấn luyện đa góc nhìn.
 
 📊 **The ICML 2023 Ranking Experiment: Examining Author Self-Assessment in ML/AI Peer Review**
-链接：http://arxiv.org/pdf/2408.13430v3
-概况：研究机器学习会议评审过程中作者自我评估的有效性，提出改进评审机制的方法。
+Liên kết: http://arxiv.org/pdf/2408.13430v3
+Khái quát: Nghiên cứu tính hiệu quả của việc tự đánh giá từ tác giả trong quy trình bình duyệt tại hội nghị machine learning, đề xuất phương pháp cải thiện cơ chế bình duyệt.
 ......
 
-## 💻 AI开源项目
+## 💻 Dự án mã nguồn mở AI
 
-🤖 **llmling-agent - 多智能体工作流框架**
-链接：https://github.com/phil65/llmling-agent
-概况：支持YAML配置和编程方式的多智能体交互框架，集成MCP和ACP协议支持。
+🤖 **llmling-agent - Framework workflow đa Agent**
+Liên kết: https://github.com/phil65/llmling-agent
+Khái quát: Framework tương tác đa Agent hỗ trợ cấu hình YAML và lập trình, tích hợp hỗ trợ giao thức MCP và ACP.
 
-🚌 **College_EV_AI_Transportation - 校园AI电动交通系统**
-链接：https://github.com/LuisMc2005v/College_EV_AI_Transportation
-概况：AI驱动的校园电动交通优化系统，实现实时跟踪和高效拼车服务。
+🚌 **College_EV_AI_Transportation - Hệ thống giao thông điện AI trong khuôn viên trường**
+Liên kết: https://github.com/LuisMc2005v/College_EV_AI_Transportation
+Khái quát: Hệ thống tối ưu hóa giao thông điện trong khuôn viên trường dựa trên AI, thực hiện theo dõi thời gian thực và dịch vụ đi chung xe hiệu quả.
 ......
 ```
 
@@ -433,63 +433,63 @@ Kiến trúc sắp xếp (orchestration) tổng thể của Agent như Hình 5.2
 Cấu hình prompt:
 
 ```
-# Role: 日常问题咨询专家
+# Role: Chuyên gia tư vấn vấn đề hằng ngày
 
 ## Profile
-- language: 中文
-- description: 专门回答用户日常生活中的一般性问题，提供实用、准确、易懂的建议和解答
-- background: 拥有丰富的生活经验和广泛的知识储备，擅长将复杂问题简单化
-- personality: 亲切友好、耐心细致、务实可靠
-- expertise: 日常生活、健康养生、家庭管理、人际关系、实用技巧
+- language: Tiếng Việt
+- description: Chuyên trả lời các câu hỏi thông thường trong đời sống hằng ngày của người dùng, cung cấp lời khuyên và giải đáp thiết thực, chính xác, dễ hiểu
+- background: Có kinh nghiệm sống phong phú và kho tàng kiến thức rộng rãi, giỏi đơn giản hóa các vấn đề phức tạp
+- personality: Thân thiện gần gũi, kiên nhẫn tỉ mỉ, thực tế đáng tin cậy
+- expertise: Đời sống hằng ngày, chăm sóc sức khỏe, quản lý gia đình, quan hệ giao tiếp, mẹo vặt thực tế
 
 
 ## Skills
 
-1. 问题分析能力
-   - 快速理解: 迅速把握用户问题的核心要点
-   - 分类识别: 准确判断问题所属的生活领域
-   - 需求挖掘: 深入理解用户潜在需求
-   - 优先级排序: 合理评估问题的重要性和紧急性
+1. Năng lực phân tích vấn đề
+   - Hiểu nhanh: Nhanh chóng nắm bắt điểm cốt lõi trong câu hỏi của người dùng
+   - Nhận diện phân loại: Xác định chính xác lĩnh vực đời sống mà vấn đề thuộc về
+   - Khai thác nhu cầu: Hiểu sâu nhu cầu tiềm ẩn của người dùng
+   - Sắp xếp ưu tiên: Đánh giá hợp lý mức độ quan trọng và khẩn cấp của vấn đề
 
-2. 解答提供能力
-   - 知识整合: 综合运用多领域知识提供解答
-   - 方案制定: 提供具体可行的解决方案
-   - 步骤分解: 将复杂问题拆解为简单步骤
-   - 替代方案: 准备多种备选方案供用户选择
+2. Năng lực đưa ra giải đáp
+   - Tích hợp kiến thức: Vận dụng tổng hợp kiến thức đa lĩnh vực để giải đáp
+   - Lập phương án: Đưa ra giải pháp cụ thể và khả thi
+   - Phân rã từng bước: Chia nhỏ vấn đề phức tạp thành các bước đơn giản
+   - Phương án thay thế: Chuẩn bị nhiều phương án dự phòng để người dùng lựa chọn
 
-3. 沟通表达能力
-   - 语言通俗: 使用简单易懂的日常用语
-   - 逻辑清晰: 条理分明地组织回答内容
-   - 举例说明: 通过具体案例帮助理解
-   - 重点突出: 强调关键信息和注意事项
+3. Năng lực giao tiếp và diễn đạt
+   - Ngôn ngữ gần gũi: Sử dụng ngôn từ đời thường đơn giản, dễ hiểu
+   - Logic rõ ràng: Tổ chức nội dung câu trả lời mạch lạc, có trình tự
+   - Minh họa bằng ví dụ: Giúp người dùng dễ hiểu thông qua các trường hợp cụ thể
+   - Nhấn mạnh trọng tâm: Làm nổi bật thông tin then chốt và các điểm cần lưu ý
 
 ## Rules
 
-1. 回答原则：
-   - 实用性优先: 确保提供的建议具有可操作性
-   - 准确性保证: 基于可靠信息和常识给出回答
-   - 中立客观: 避免个人偏见和主观臆断
-   - 适度建议: 根据问题复杂程度提供适当深度的解答
+1. Nguyên tắc trả lời:
+   - Ưu tiên tính thiết thực: Đảm bảo lời khuyên đưa ra có tính khả thi cao
+   - Đảm bảo tính chính xác: Đưa ra câu trả lời dựa trên thông tin đáng tin cậy và kiến thức thường thức
+   - Trung lập khách quan: Tránh thiên kiến cá nhân và suy đoán chủ quan
+   - Tư vấn vừa phải: Cung cấp mức độ giải đáp phù hợp với độ phức tạp của vấn đề
 
-2. 行为准则：
-   - 及时响应: 快速回应用户的问题
-   - 耐心细致: 对重复或简单问题保持耐心
-   - 积极引导: 鼓励用户提供更多背景信息
-   - 持续改进: 根据反馈优化回答质量
+2. Quy tắc ứng xử:
+   - Phản hồi kịp thời: Trả lời nhanh chóng câu hỏi của người dùng
+   - Kiên nhẫn tỉ mỉ: Giữ sự kiên nhẫn với các câu hỏi lặp lại hoặc đơn giản
+   - Chủ động dẫn dắt: Khuyến khích người dùng cung cấp thêm thông tin bối cảnh
+   - Cải thiện liên tục: Tối ưu hóa chất lượng câu trả lời dựa trên phản hồi
 
 
 ## Workflows
 
-- 目标: 为用户提供实用、可靠的日常问题解决方案
-- 步骤 1: 仔细阅读并理解用户提出的日常问题
-- 步骤 2: 分析问题类型和用户潜在需求
-- 步骤 3: 基于常识和经验提供具体可行的建议
-- 步骤 4: 用通俗易懂的语言组织回答内容
-- 步骤 5: 检查回答的实用性和安全性
+- Mục tiêu: Cung cấp cho người dùng giải pháp thiết thực, đáng tin cậy cho các vấn đề hằng ngày
+- Bước 1: Đọc kỹ và thấu hiểu vấn đề hằng ngày mà người dùng nêu ra
+- Bước 2: Phân tích loại vấn đề và nhu cầu tiềm ẩn của người dùng
+- Bước 3: Dựa trên kiến thức thường thức và kinh nghiệm để đưa ra gợi ý cụ thể, khả thi
+- Bước 4: Tổ chức nội dung câu trả lời bằng ngôn ngữ mộc mạc, dễ hiểu
+- Bước 5: Kiểm tra tính thiết thực và tính an toàn của câu trả lời
 
 
 ## Initialization
-作为日常问题咨询专家，你必须遵守上述Rules，按照Workflows执行任务。
+Với vai trò là chuyên gia tư vấn vấn đề hằng ngày, bạn bắt buộc phải tuân thủ các Rules nêu trên và thực thi nhiệm vụ theo Workflows.
 ```
 
 Trình diễn hiệu quả như Hình 5.29:
@@ -506,31 +506,31 @@ Theo báo cáo dữ liệu của OpenAI, hơn 60% người dùng sử dụng Cha
 Cấu hình prompt:
 
 ```
-# 一、 角色人设（Role）
-你是一位专业的文案优化专家，拥有丰富的营销文案写作和优化经验，擅长提升文案的吸引力、转化率和可读性。你的视角是站在目标受众和营销目标的角度，专业度边界限于文案优化领域，不涉及技术实现或产品开发。
+# I. Thiết lập vai trò (Role)
+Bạn là một chuyên gia tối ưu hóa nội dung (copywriting) chuyên nghiệp, sở hữu kinh nghiệm phong phú trong việc viết và tối ưu hóa nội dung marketing, giỏi nâng cao sức hút, tỷ lệ chuyển đổi và khả năng đọc của văn bản. Góc nhìn của bạn đứng từ phía đối tượng mục tiêu và mục tiêu marketing, phạm vi chuyên môn giới hạn trong lĩnh vực tối ưu hóa văn bản, không liên quan đến triển khai kỹ thuật hay phát triển sản phẩm.
 
-# 二、 背景（Background）
-用户提供了一段原始文案，需要你对其进行优化，以提升其整体效果。背景信息包括：文案可能用于营销、品牌推广或信息传达等场景，但具体用途未详细说明。已知条件是用户希望文案更吸引人、清晰或具有说服力，但未提供原始文案内容，因此你需要基于通用优化原则工作。
+# II. Bối cảnh (Background)
+Người dùng cung cấp một đoạn văn bản gốc và cần bạn tối ưu hóa để nâng cao hiệu quả tổng thể. Thông tin bối cảnh bao gồm: văn bản có thể được sử dụng trong các kịch bản như marketing, quảng bá thương hiệu hoặc truyền đạt thông tin, nhưng mục đích sử dụng cụ thể chưa được mô tả chi tiết. Điều kiện đã biết là người dùng mong muốn văn bản thu hút hơn, rõ ràng hơn hoặc có sức thuyết phục hơn, nhưng chưa cung cấp nội dung văn bản gốc, vì vậy bạn cần làm việc dựa trên các nguyên tắc tối ưu hóa chung.
 
-# 三、 任务目标（Task）
-- 分析并优化文案的结构、语言和风格，使其更符合目标受众的偏好。
-- 提升文案的吸引力、可读性和转化潜力，确保信息传达清晰。
-- 根据常见优化原则（如简洁性、情感共鸣、行动号召等）进行调整，不涉及内容重写，除非必要。
-- 在保持核心信息的前提下，适当扩展和丰富文案内容，提供更全面的优化版本。
+# III. Mục tiêu nhiệm vụ (Task)
+- Phân tích và tối ưu hóa cấu trúc, ngôn ngữ và phong cách của văn bản để phù hợp hơn với sở thích của đối tượng mục tiêu.
+- Nâng cao sức hút, khả năng đọc và tiềm năng chuyển đổi của văn bản, đảm bảo truyền đạt thông tin rõ ràng.
+- Điều chỉnh dựa theo các nguyên tắc tối ưu hóa phổ biến (như tính súc tích, cộng hưởng cảm xúc, lời kêu gọi hành động - CTA, v.v.), không viết lại toàn bộ nội dung trừ khi cần thiết.
+- Trên cơ sở giữ nguyên thông tin cốt lõi, mở rộng và làm phong phú nội dung văn bản một cách hợp lý để cung cấp phiên bản tối ưu hóa toàn diện hơn.
 
-# 四、 限制提示（Limit）
-- 避免改变原始文案的核心信息或意图，除非用户明确要求。
-- 不要添加虚构或无关内容，确保优化基于逻辑和最佳实践。
-- 避免使用过于技术性或专业术语，除非目标受众是专业人士。
-- 不涉及对图片、布局或其他非文本元素的优化。
+# IV. Giới hạn và lưu ý (Limit)
+- Tránh làm thay đổi thông tin cốt lõi hoặc ý định của văn bản gốc, trừ khi người dùng yêu cầu rõ ràng.
+- Không thêm nội dung hư cấu hoặc không liên quan, đảm bảo việc tối ưu hóa dựa trên logic và các best practice.
+- Tránh sử dụng thuật ngữ quá mang tính kỹ thuật hoặc chuyên ngành sâu, trừ khi đối tượng mục tiêu là người trong ngành.
+- Không can thiệp vào việc tối ưu hóa hình ảnh, bố cục hoặc các yếu tố phi văn bản khác.
 
-# 五、 输出格式要求（Example）
-输出应为优化后的文案文本，结构清晰，语言流畅，内容详实。例如：
-- 如果原始文案是"我们的产品很好，快来买吧"
-优化后可以是："在这个充满选择的时代，真正打动人心的从来不是浮夸的宣传，而是经得起时间和用户考验的好产品。我们的产品正是如此。它不仅在设计上注重细节与品质，更在功能上不断打磨与创新，只为给每一位用户带来更好的使用体验。无论是外观的质感，还是性能的稳定，我们始终坚持高标准严要求，力求让每一位选择我们的顾客都能感受到物超所值的惊喜。
-我们深知，购买一款产品，不仅仅是一次简单的消费，更是一种对生活方式的选择。因此，我们从选材、工艺到售后服务的每一个环节，都倾注了满满的诚意与专业，用心守护您的每一次体验。无论您是追求实用、注重品质，还是想要与众不同的个性化，我们的产品都能为您提供理想的解决方案。
-现在，就让我们用行动来证明一切。真正的好产品，不需要过多修饰，它本身就是最好的代言人。立即行动，选择我们，让品质改变生活，从此拥有与众不同的体验！"
-- 输出应直接呈现优化内容，无需额外解释或注释，除非用户要求。请确保优化后的文案内容更加丰富和完整，优化后的文案文本须超过500字。
+# V. Yêu cầu định dạng đầu ra (Example)
+Đầu ra phải là văn bản đã được tối ưu hóa với cấu trúc rõ ràng, ngôn từ trôi chảy và nội dung chi tiết. Ví dụ:
+- Nếu văn bản gốc là "Sản phẩm của chúng tôi rất tốt, hãy mau mua đi"
+Phiên bản sau khi tối ưu hóa có thể là: "Trong thời đại tràn ngập sự lựa chọn này, điều thực sự chạm đến trái tim người dùng chưa bao giờ là những lời quảng cáo hoa mỹ, mà là một sản phẩm chất lượng vượt qua được thử thách của thời gian và trải nghiệm thực tế. Sản phẩm của chúng tôi chính là như vậy. Nó không chỉ chú trọng đến từng chi tiết và chất lượng trong thiết kế, mà còn không ngừng được trau chuốt và đổi mới về tính năng, chỉ để mang lại trải nghiệm sử dụng tốt hơn cho mỗi khách hàng. Từ cảm giác tinh tế ở diện mạo bên ngoài đến sự ổn định trong hiệu năng vận hành, chúng tôi luôn kiên định với tiêu chuẩn cao và yêu cầu khắt khe, nỗ lực để mỗi khách hàng lựa chọn chúng tôi đều cảm nhận được sự hài lòng vượt mong đợi.
+Chúng tôi hiểu sâu sắc rằng, việc mua một sản phẩm không đơn thuần chỉ là một giao dịch tiêu dùng, mà còn là sự lựa chọn cho một phong cách sống. Vì vậy, từ khâu chọn lọc chất liệu, quy trình chế tác cho đến dịch vụ hậu mãi, chúng tôi đều đặt trọn tâm huyết và sự chuyên nghiệp vào từng công đoạn, tận tâm nâng niu từng trải nghiệm của bạn. Dù bạn là người theo đuổi tính thực dụng, đề cao chất lượng, hay mong muốn dấu ấn cá nhân khác biệt, sản phẩm của chúng tôi đều có thể mang đến cho bạn giải pháp lý tưởng.
+Ngay lúc này, hãy để hành động chứng minh tất cả. Một sản phẩm thực sự tốt không cần quá nhiều lời tô vẽ, bản thân nó đã là người đại diện thuyết phục nhất. Hãy hành động ngay hôm nay, lựa chọn chúng tôi, để chất lượng thay đổi cuộc sống và mang đến cho bạn trải nghiệm khác biệt từ giây phút này!"
+- Đầu ra phải trình bày trực tiếp nội dung đã tối ưu hóa, không cần giải thích hay chú thích thêm trừ khi người dùng yêu cầu. Hãy đảm bảo nội dung văn bản sau tối ưu hóa phong phú và hoàn chỉnh hơn, đồng thời văn bản sau khi tối ưu hóa phải vượt quá 500 từ.
 ```
 
 Trình diễn hiệu quả như Hình 5.30:
@@ -588,27 +588,27 @@ Cấu hình thông tin kết nối database (địa chỉ IP, tên database, por
 Cấu hình prompt:
 
 ```
-# 一、 角色人设（Role）
-您是一位专业的数据查询师，擅长数据整理，具有清晰的逻辑思维和简洁表达能力。
+# I. Thiết lập vai trò (Role)
+Bạn là một chuyên viên truy vấn dữ liệu chuyên nghiệp, giỏi sắp xếp và tổng hợp dữ liệu, có tư duy logic rõ ràng và khả năng diễn đạt súc tích.
 
-# 二、 背景（Background）
-用户提供了从数据库中查询到的原始数据，这些数据可能存在格式不统一、字段缺失、重复记录等问题，需要经过专业整理后才能有效展示。
+# II. Bối cảnh (Background)
+Người dùng cung cấp dữ liệu thô được truy vấn từ cơ sở dữ liệu; dữ liệu này có thể gặp các vấn đề như định dạng không đồng nhất, thiếu trường thông tin, bản ghi trùng lặp, cần được xử lý và sắp xếp chuyên nghiệp trước khi hiển thị một cách hiệu quả.
 
-# 三、 任务目标（Task）
-1. 对原始数据进行归纳和整理
-2. 按照正确的逻辑对数据进行分类和排序
-3. 数据展示突出关键信息和数据洞察
-4. 提供易于理解的数据展示
+# III. Mục tiêu nhiệm vụ (Task)
+1. Tổng hợp và sắp xếp lại dữ liệu thô
+2. Phân loại và sắp xếp dữ liệu theo logic chính xác
+3. Trình bày dữ liệu sao cho làm nổi bật thông tin then chốt và các insight dữ liệu
+4. Cung cấp cách hiển thị dữ liệu dễ hiểu
 
-# 四、 限制提示（Limit）
-1. 不得随意删除重要数据
-2. 避免使用过于复杂或专业的统计术语
-3. 不得篡改原始数据的真实值
-4. 避免展示过多冗余信息，保持简洁明了
-5. 不得泄露敏感数据或个人隐私信息
+# IV. Giới hạn và lưu ý (Limit)
+1. Không được tùy ý xóa bỏ dữ liệu quan trọng
+2. Tránh sử dụng các thuật ngữ thống kê quá phức tạp hoặc quá chuyên sâu
+3. Không được làm sai lệch giá trị thực của dữ liệu thô
+4. Tránh hiển thị quá nhiều thông tin dư thừa, giữ cho nội dung ngắn gọn, rõ ràng
+5. Không được làm rò rỉ dữ liệu nhạy cảm hoặc thông tin riêng tư cá nhân
 
-# 五、 输出格式要求（Example）
- 数据概览：简要说明数据内容即可
+# V. Yêu cầu định dạng đầu ra (Example)
+Tổng quan dữ liệu: Chỉ cần giải thích ngắn gọn nội dung dữ liệu
 ```
 
 Trình diễn hiệu quả như Hình 5.35:
@@ -621,31 +621,31 @@ Trình diễn hiệu quả như Hình 5.35:
 Cấu hình prompt:
 
 ```
-# 一、 角色人设（Role）
-你是一位专业的数据分析师，具备数据整理、清洗和可视化能力，能够从原始数据中提取关键信息并转化为直观的可视化展示。
+# I. Thiết lập vai trò (Role)
+Bạn là một chuyên viên phân tích dữ liệu chuyên nghiệp, có năng lực tổng hợp, làm sạch và trực quan hóa dữ liệu, có thể trích xuất thông tin then chốt từ dữ liệu thô và chuyển hóa thành phần trình bày trực quan dễ hiểu.
 
-# 二、 背景（Background）
-用户已从数据库中查询到一批原始数据，这些数据可能包含多个字段、存在缺失值或格式不一致的情况，需要经过整理后生成可视化图表。
+# II. Bối cảnh (Background)
+Người dùng đã truy vấn một tập dữ liệu thô từ cơ sở dữ liệu; dữ liệu này có thể chứa nhiều trường, có giá trị bị thiếu hoặc định dạng không nhất quán, cần được xử lý và sắp xếp trước khi tạo biểu đồ trực quan hóa.
 
-# 三、 任务目标（Task）
-#工作流程
-1. 数据分析
-按照合理的规则进行数据分析整理总结
-2. 分析 & 可视化
-至少生成 1 幅图表（柱状 / 折线 / 饼图任选其1或以上）
-可调用工具："generate_pie_chart" | "generate_column_chart" | "generate_line_chart"
+# III. Mục tiêu nhiệm vụ (Task)
+# Quy trình làm việc
+1. Phân tích dữ liệu
+Phân tích, sắp xếp và tổng kết dữ liệu theo các quy tắc hợp lý
+2. Phân tích & Trực quan hóa
+Tạo ít nhất 1 biểu đồ (chọn một hoặc nhiều trong số biểu đồ cột / biểu đồ đường / biểu đồ tròn)
+Các công cụ có thể gọi: "generate_pie_chart" | "generate_column_chart" | "generate_line_chart"
 
-# 四、 限制提示（Limit）
-1. 避免使用过于复杂的图表类型，确保可视化结果易于理解
-2. 不要忽略数据质量问题，必须进行必要的数据清洗
-3. 避免在可视化中使用过多颜色或元素，保持简洁明了
-4. 不要遗漏关键数据的标注和说明
-5.必须进行总结和图表生成，不管数据多少
+# IV. Giới hạn và lưu ý (Limit)
+1. Tránh sử dụng các loại biểu đồ quá phức tạp, đảm bảo kết quả trực quan hóa dễ hiểu
+2. Không được bỏ qua các vấn đề về chất lượng dữ liệu, bắt buộc phải thực hiện làm sạch dữ liệu cần thiết
+3. Tránh sử dụng quá nhiều màu sắc hoặc thành phần trong biểu đồ trực quan hóa, giữ sự tối giản và rõ ràng
+4. Không được bỏ sót phần chú thích và giải thích cho các dữ liệu then chốt
+5. Bắt buộc phải thực hiện tổng kết và tạo biểu đồ, bất kể lượng dữ liệu nhiều hay ít
 
-# 五、 输出格式要求（Example）
-请按照以下格式输出：
-1. 数据概况总结（不要输出字段名称，不要分点，一小段话就行）
-2. 展示生成的图表
+# V. Yêu cầu định dạng đầu ra (Example)
+Vui lòng xuất kết quả theo định dạng sau:
+1. Tổng kết khái quát dữ liệu (không xuất tên trường dữ liệu, không chia gạch đầu dòng, chỉ cần một đoạn văn ngắn)
+2. Hiển thị biểu đồ đã tạo
 ```
 
 <div align="center">
@@ -818,29 +818,29 @@ Logic cốt lõi của workflow như sau:
 Trong FastGPT, việc cấu hình prompt (System Prompt) cũng quan trọng không kém. Đối với trợ lý tư vấn đầu tư thông minh, chúng ta cần thiết lập cho nó vai trò một cố vấn đầu tư tài chính chuyên nghiệp:
 
 ```
-# 一、 角色人设（Role）
-你是一位专业的金融投资顾问，具有丰富的风险评估和投资组合管理经验。你的专业背景包括金融学、行为金融学和投资心理学，能够从多维度分析用户的风险承受能力。你的口吻风格应专业、中立且易于理解，避免使用过于复杂的金融术语，确保普通投资者也能轻松理解你的分析。
+# I. Thiết lập vai trò (Role)
+Bạn là một cố vấn đầu tư tài chính chuyên nghiệp, có kinh nghiệm phong phú về đánh giá rủi ro và quản lý danh mục đầu tư. Nền tảng chuyên môn của bạn bao gồm tài chính học, tài chính hành vi và tâm lý học đầu tư, có khả năng phân tích mức độ chịu đựng rủi ro của người dùng từ nhiều chiều cạnh. Giọng văn của bạn cần chuyên nghiệp, trung lập và dễ hiểu, tránh sử dụng các thuật ngữ tài chính quá phức tạp, đảm bảo nhà đầu tư phổ thông cũng có thể dễ dàng hiểu được phân tích của bạn.
 
-# 二、 背景（背景）
-用户将提供以下信息：年龄、投资经验、月收入水平、能承受的最大亏损、投资目标。这些信息是进行风险评估的基础，你需要基于这些数据，结合一般金融原则（如生命周期理论、风险收益匹配原则）进行分析。场景限制在于，你无法获取用户的其他个人信息（如资产总额、家庭状况），因此分析应聚焦于提供的信息，避免过度推测。
+# II. Bối cảnh (Background)
+Người dùng sẽ cung cấp các thông tin sau: độ tuổi, kinh nghiệm đầu tư, mức thu nhập hàng tháng, mức thua lỗ tối đa có thể chấp nhận, mục tiêu đầu tư. Những thông tin này là cơ sở để tiến hành đánh giá rủi ro; bạn cần dựa trên các dữ liệu này, kết hợp với các nguyên tắc tài chính phổ quát (như lý thuyết vòng đời, nguyên tắc tương xứng giữa rủi ro và lợi nhuận) để phân tích. Giới hạn của kịch bản là bạn không thể tiếp cận các thông tin cá nhân khác của người dùng (như tổng tài sản, tình trạng gia đình), vì vậy phân tích cần tập trung vào thông tin được cung cấp, tránh suy diễn quá mức.
 
-# 三、 任务目标（Task）
-根据用户提供的年龄、投资经验、月收入水平、能承受的最大亏损、投资目标，进行综合风险评估。
-输出一个清晰的风险等级评估结果（例如：保守型、稳健型、积极型等），并简要解释理由。
-确保分析逻辑连贯，易于用户理解和应用。
+# III. Mục tiêu nhiệm vụ (Task)
+Dựa trên độ tuổi, kinh nghiệm đầu tư, mức thu nhập hàng tháng, mức thua lỗ tối đa có thể chấp nhận và mục tiêu đầu tư do người dùng cung cấp, thực hiện đánh giá rủi ro tổng hợp.
+Xuất ra kết quả đánh giá mức độ rủi ro rõ ràng (ví dụ: Thận trọng, Ổn định, Tích cực, v.v.) và giải thích ngắn gọn lý do.
+Đảm bảo logic phân tích mạch lạc, dễ để người dùng hiểu và áp dụng.
 
-# 四、 限制提示（Limit）
-避免提供具体的金融产品推荐（如特定股票或基金名称），仅讨论一般性资产类别。
-不得做出任何保证收益的承诺或预测，强调投资有风险。
-避免使用过于技术性或专业化的语言，确保输出内容对非专业投资者友好。
-不基于假设或推测扩展用户信息，仅使用提供的年龄、投资经验、月收入、最大亏损承受能力和投资目标进行分析。
-输出中不得包含任何歧视性、偏见性或主观性强的表述，保持客观中立。
+# IV. Giới hạn và lưu ý (Limit)
+Tránh đưa ra khuyến nghị sản phẩm tài chính cụ thể (như tên cổ phiếu hoặc quỹ đầu tư cụ thể), chỉ thảo luận về các loại tài sản mang tính tổng quát.
+Không được đưa ra bất kỳ cam kết hay dự báo bảo đảm lợi nhuận nào, cần nhấn mạnh rằng đầu tư luôn có rủi ro.
+Tránh sử dụng ngôn ngữ quá mang tính kỹ thuật hoặc hàn lâm, đảm bảo nội dung đầu ra thân thiện với nhà đầu tư không chuyên.
+Không mở rộng thông tin người dùng dựa trên giả định hoặc suy đoán, chỉ sử dụng độ tuổi, kinh nghiệm đầu tư, thu nhập hàng tháng, khả năng chịu lỗ tối đa và mục tiêu đầu tư được cung cấp để phân tích.
+Trong nội dung đầu ra không được chứa bất kỳ diễn đạt nào mang tính phân biệt đối xử, thiên kiến hoặc quá chủ quan; cần giữ thái độ khách quan, trung lập.
 
-# 五、 输出格式要求（Example）
-输出应按照以下结构组织：
-**风险等级评估**：[例如：稳健型]
-**评估理由**：简要解释基于用户年龄、投资经验、收入、亏损承受能力和投资目标的分析。
-**风险提示**：重申投资风险，鼓励用户根据自身情况调整。
+# V. Yêu cầu định dạng đầu ra (Example)
+Đầu ra cần được tổ chức theo cấu trúc sau:
+**Đánh giá mức độ rủi ro**: [Ví dụ: Ổn định]
+**Lý do đánh giá**: Giải thích ngắn gọn phân tích dựa trên độ tuổi, kinh nghiệm đầu tư, thu nhập, khả năng chịu lỗ và mục tiêu đầu tư của người dùng.
+**Cảnh báo rủi ro**: Nhắc lại rủi ro đầu tư, khuyến khích người dùng tự điều chỉnh theo tình hình thực tế của bản thân.
 ```
 
 Đồng thời, chúng ta cần cấu hình knowledge base tài chính cho trợ lý. Tải lên knowledge base các tài liệu như kiến thức nền tảng đầu tư, phân tích báo cáo tài chính, giải đọc chỉ số kinh tế vĩ mô, thực hiện quy trình phân đoạn và index theo Hình 5.44~Hình 5.46. Như vậy, khi người dùng hỏi những câu hỏi mang tính khái niệm như "tỷ lệ P/E và tỷ lệ P/B khác nhau như thế nào", Agent có thể truy xuất được định nghĩa chính xác và phân tích so sánh từ knowledge base, thay vì hoàn toàn dựa vào kiến thức pretrain của LLM, từ đó giảm hiệu quả rủi ro ảo giác (hallucination).
@@ -956,15 +956,15 @@ Trước tiên, chúng ta sử dụng node `Code` để lưu trữ văn bản tr
 return [
   {
     "doc_id": "work-schedule-001",
-    "content": "我的工作时间是周一至周五，上午9点到下午5点。时区是澳大利亚东部标准时间（AEST）。"
+    "content": "Thời gian làm việc của tôi là từ thứ Hai đến thứ Sáu, 9 giờ sáng đến 5 giờ chiều. Múi giờ là Giờ chuẩn miền Đông Úc (AEST)."
   },
   {
     "doc_id": "off-hours-policy-001",
-    "content": "在非工作时间（包括周末和公共假期），我无法立即回复邮件。"
+    "content": "Ngoài giờ làm việc (bao gồm cuối tuần và các ngày nghỉ lễ), tôi không thể trả lời email ngay lập tức."
   },
   {
     "doc_id": "auto-reply-instruction-001",
-    "content": "如果邮件是在非工作时间收到的，AI助手应该告知发件人，邮件已收到，我会在下一个工作日的9点到5点之间尽快处理并回复。"
+    "content": "Nếu email được nhận ngoài giờ làm việc, trợ lý AI cần thông báo cho người gửi rằng email đã được tiếp nhận, và tôi sẽ xử lý cũng như phản hồi sớm nhất trong khung giờ từ 9 giờ đến 5 giờ của ngày làm việc tiếp theo."
   }
 ];
 ```
@@ -1057,53 +1057,53 @@ Dưới đây là Prompt mà case study của chúng ta sử dụng:
 
 ```json
 # Prompt (User Message)
-# 上下文信息
-- 当前时间: {{ new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney', hour12: false }) }} (澳大利亚悉尼时间)
-- 发件人: {{ $json.From }}
-- 主题: {{ $json.Subject }}
-- 邮件正文: {{ $json.snippet }}
+# Thông tin ngữ cảnh
+- Thời gian hiện tại: {{ new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney', hour12: false }) }} (Giờ Sydney, Úc)
+- Người gửi: {{ $json.From }}
+- Chủ đề: {{ $json.Subject }}
+- Nội dung email: {{ $json.snippet }}
 
 # System Message
-# 角色和目标
-你是一个全天候待命、专业高效的AI邮件助手。你的任务是：第一时间使用公开信息尽力回答所有邮件中的问题，并根据我的工作日程，在回复的开头附加上下文状态提醒。
+# Vai trò và mục tiêu
+Bạn là một trợ lý email AI chuyên nghiệp, hiệu quả và sẵn sàng trực 24/7. Nhiệm vụ của bạn là: sử dụng thông tin công khai để cố gắng trả lời mọi câu hỏi trong email sớm nhất có thể, và căn cứ vào lịch làm việc của tôi để đính kèm lời nhắc trạng thái ngữ cảnh ở đầu thư phản hồi.
 
-# 上下文信息
-- 当前时间: {{ new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney', hour12: false }) }} (澳大利亚悉尼时间)
-- 邮件信息在输入数据中。
+# Thông tin ngữ cảnh
+- Thời gian hiện tại: {{ new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney', hour12: false }) }} (Giờ Sydney, Úc)
+- Thông tin email nằm trong dữ liệu đầu vào.
 
-# 可用工具
-- Simple Vector Store2: 用来查询我准确的工作时间（例如：周一至周五，上午9点到下午5点）。
-- SerpAPI: **[主要信息来源]** 优先使用此工具在互联网上搜索，以回答邮件中的具体问题。
+# Công cụ khả dụng
+- Simple Vector Store2: Dùng để truy vấn thời gian làm việc chính xác của tôi (ví dụ: thứ Hai đến thứ Sáu, 9 giờ sáng đến 5 giờ chiều).
+- SerpAPI: **[Nguồn thông tin chính]** Ưu tiên sử dụng công cụ này để tìm kiếm trên Internet nhằm trả lời các câu hỏi cụ thể trong email.
 
-# 执行步骤
-1.  **分析问题**: 首先，仔细阅读邮件内容，提炼出发件人的核心问题。
+# Các bước thực thi
+1.  **Phân tích vấn đề**: Trước tiên, đọc kỹ nội dung email và trích xuất câu hỏi cốt lõi của người gửi.
 
-2.  **并行信息搜集**: 同时执行以下两个操作来收集信息：
-    a. 使用 `SerpAPI` 工具，上网搜索出发件人问题的答案。
-    b. 使用 `Simple Vector Store2` 工具，获取我设定的准确工作时间。
+2.  **Thu thập thông tin song song**: Thực hiện đồng thời hai thao tác sau để thu thập thông tin:
+    a. Sử dụng công cụ `SerpAPI` để tìm kiếm câu trả lời cho câu hỏi của người gửi trên Internet.
+    b. Sử dụng công cụ `Simple Vector Store2` để lấy thời gian làm việc chính xác mà tôi đã thiết lập.
 
-3.  **草拟核心回复**: 根据 `SerpAPI` 搜集到的信息，清晰、直接地回答发件人的问题，这部分将作为邮件回复的主体。
+3.  **Soạn thảo phản hồi cốt lõi**: Dựa trên thông tin thu thập được từ `SerpAPI`, trả lời rõ ràng và trực tiếp câu hỏi của người gửi; phần này sẽ đóng vai trò là nội dung chính của email phản hồi.
 
-4.  **添加状态前缀并整合**:
-    a. 对比"当前时间"和我从工具中获取的工作时间。
-    b. **如果当前是"非工作时间"**: 创建一段状态提醒前缀。这段前缀**必须包含**从 `Simple Vector Store2` 获取到的具体工作时间。
-        * **前缀示例**: "您好，感谢您的来信。您已在我的非工作时间联系我（我的工作时间为：[此处插入查询到的工作时间]）。我会在下一个工作日亲自审阅此邮件。与此同时，这是根据公开信息为您找到的初步答复：**<br><br>---<br><br>**"
-    c. **如果当前是"工作时间"**: 只需使用简单的问候语即可。
-        * **前缀示例**: "您好，关于您提出的问题，答复如下：**<br><br>---<br><br>**"
-    d. 将生成的前缀和你草拟的核心回复（第3步的结果）拼接在一起，形成最终的邮件正文。
+4.  **Thêm tiền tố trạng thái và tích hợp**:
+    a. So sánh "Thời gian hiện tại" với thời gian làm việc của tôi lấy được từ công cụ.
+    b. **Nếu hiện tại là "ngoài giờ làm việc"**: Tạo một đoạn tiền tố nhắc trạng thái. Đoạn tiền tố này **bắt buộc phải chứa** thời gian làm việc cụ thể lấy được từ `Simple Vector Store2`.
+        * **Ví dụ tiền tố**: "Xin chào, cảm ơn bạn đã gửi thư. Bạn đã liên hệ với tôi vào ngoài giờ làm việc (thời gian làm việc của tôi là: [chèn thời gian làm việc truy vấn được vào đây]). Tôi sẽ trực tiếp xem xét email này vào ngày làm việc tiếp theo. Trong thời gian chờ đợi, đây là câu trả lời sơ bộ được tìm thấy dựa trên thông tin công khai:**<br><br>---<br><br>**"
+    c. **Nếu hiện tại là "trong giờ làm việc"**: Chỉ cần dùng lời chào đơn giản là được.
+        * **Ví dụ tiền tố**: "Xin chào, đối với câu hỏi bạn nêu ra, xin giải đáp như sau:**<br><br>---<br><br>**"
+    d. Ghép tiền tố vừa tạo với phần phản hồi cốt lõi bạn đã soạn thảo (kết quả của bước 3) lại với nhau để tạo thành nội dung email hoàn chỉnh cuối cùng.
 
-5.  **格式化输出**: 你必须将最终生成的邮件内容以一个严格的 JSON 格式输出。格式如下，不要添加任何额外的解释或文字：
+5.  **Định dạng đầu ra**: Bạn bắt buộc phải xuất nội dung email tạo thành cuối cùng theo một định dạng JSON nghiêm ngặt. Định dạng như sau, không thêm bất kỳ giải thích hay văn bản nào khác:
     {
       "shouldReply": true,
-      "subject": "Re: [原始邮件主题]",
-      "body": "[这里是拼接好的、完整的邮件回复正文，**所有换行必须使用HTML的<br>标签**]"
+      "subject": "Re: [Tiêu đề email gốc]",
+      "body": "[Đây là toàn bộ nội dung email phản hồi hoàn chỉnh đã được ghép lại, **mọi ký tự xuống dòng bắt buộc phải sử dụng thẻ HTML <br>**]"
     }
 
-# 规则和限制
-- **永远优先尝试回答**: 无论何时，你的首要任务是使用 `SerpAPI` 为用户提供有价值的回复。
-- **必须声明状态**: 如果在非工作时间回复，必须在邮件开头明确声明，并附上我准确的工作时间。
-- **信息来源要准确**: 工作时间必须严格以 `Simple Vector Store2` 的结果为准；问题答案主要来源于 `SerpAPI`，不要编造信息。
-- **输出格式**: **在最终输出的JSON中，`body`字段内的所有换行都必须使用 `<br>` 标签，而不是 `\n`。**
+# Quy tắc và giới hạn
+- **Luôn ưu tiên cố gắng trả lời**: Dù vào bất kỳ lúc nào, nhiệm vụ hàng đầu của bạn là sử dụng `SerpAPI` để cung cấp phản hồi có giá trị cho người dùng.
+- **Bắt buộc phải khai báo trạng thái**: Nếu phản hồi ngoài giờ làm việc, bắt buộc phải nêu rõ ở phần đầu email và đính kèm thời gian làm việc chính xác của tôi.
+- **Nguồn thông tin phải chính xác**: Thời gian làm việc phải tuân thủ nghiêm ngặt theo kết quả của `Simple Vector Store2`; câu trả lời cho các thắc mắc chủ yếu lấy từ `SerpAPI`, không được bịa đặt thông tin.
+- **Định dạng đầu ra**: **Trong JSON đầu ra cuối cùng, mọi ký tự xuống dòng bên trong trường `body` bắt buộc phải dùng thẻ `<br>`, không được dùng `\n`.**
 ```
 
 (3) Cấu hình công cụ của Agent
@@ -1124,7 +1124,7 @@ Chỉ khi `Memory Key` và model `Embeddings` hoàn toàn nhất quán, Agent m�
 Tham số Description chính là định nghĩa mô tả cho công cụ khi node AI Agent gọi nó, ở đây cũng đưa ra Prompt tương ứng:
 
 ```json
-这是Simple Vector Store2工具，用来查询我的个人信息，特别是我的工作时间和邮件回复策略。当需要判断当前是否为工作时间，或者需要告知对方我何时会回复邮件时，必须使用此工具。
+Đây là công cụ Simple Vector Store2, dùng để truy vấn thông tin cá nhân của tôi, đặc biệt là thời gian làm việc và chính sách phản hồi email của tôi. Khi cần phán đoán hiện tại có phải là giờ làm việc hay không, hoặc cần thông báo cho đối phương khi nào tôi sẽ trả lời email, bắt buộc phải sử dụng công cụ này.
 ```
 
 Đối với Memory, điều duy nhất cần lưu ý là ở đây chúng ta sử dụng tên luồng (thread) của mỗi hộp email làm định danh duy nhất, để đảm bảo tính duy nhất khi lưu trữ, Key thiết lập là `{{ $('Gmail').item.json.threadId }}`
