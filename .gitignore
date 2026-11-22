@@ -167,3 +167,7 @@ test_*.py
 !test_tools.py
 .workbuddy/
 memory/
+
+# Project temporary directories (User rules)
+tmp_output/
+tmp_script/
