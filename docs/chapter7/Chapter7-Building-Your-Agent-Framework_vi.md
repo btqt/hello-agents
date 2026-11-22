@@ -449,7 +449,7 @@ So với triển khai cơ bản ở mục 4.1.3, HelloAgentsLLM hiện tại có
 
 <div align="center">
   <p>Bảng 7.1 So sánh tính năng giữa các phiên bản HelloAgentLLM</p>
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/7-figures/table-01.png" alt="" width="90%"/>
+  <img src="../images/7-figures/table-01_vi.png" alt="" width="90%"/>
 </div>
 
 Như Bảng 7.1 ở trên đã thể hiện, sự tiến hóa này thể hiện một nguyên tắc quan trọng trong thiết kế framework: **bắt đầu từ sự đơn giản, dần dần hoàn thiện**. Chúng ta vừa giữ cho interface đơn giản, vừa tăng cường tính đầy đủ của chức năng.
@@ -1276,7 +1276,7 @@ Như Bảng 7.2 đã thể hiện, thông qua việc tái cấu trúc theo hư�
 
 <div align="center">
   <p>Bảng 7.2 So sánh triển khai Agent giữa các chương</p>
-  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/7-figures/table-02.png" alt="" width="90%"/>
+  <img src="../images/7-figures/table-02_vi.png" alt="" width="90%"/>
 </div>
 
 ### 7.4.5 FunctionCallAgent
